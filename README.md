@@ -14,3 +14,7 @@ An introductory overview to native Android development.
 ## Lesson 2
  
   * [Activity Lifecycle](lesson2/Lesson2_ActivityLifecycle.md)
+  
+## Lesson 3
+
+  * [Handy Shortcuts](lesson3/Lesson3_HandyShortcuts.md)
