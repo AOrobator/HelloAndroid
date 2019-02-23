@@ -187,5 +187,43 @@ public class LifecycleActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
+
+    Log.d(TAG, "onPause()");
+  }
+
+  /**
+   * When your activity is no longer visible to the user, it has entered the Stopped state, and the
+   * system invokes the onStop() callback. This may occur, for example, when a newly launched
+   * activity covers the entire screen. The system may also call onStop() when the activity has
+   * finished running, and is about to be terminated.
+   *
+   * In the onStop() method, the app should release or adjust resources that are not needed while
+   * the
+   * app is not visible to the user. For example, your app might pause animations or switch from
+   * fine-grained to coarse-grained location updates. Using onStop() instead of onPause() ensures
+   * that UI-related work continues, even when the user is viewing your activity in multi-window
+   * mode.
+   *
+   * You should also use onStop() to perform relatively CPU-intensive shutdown operations. For
+   * example, if you can't find a more opportune time to save information to a database, you might
+   * do so during onStop().
+   *
+   * When your activity enters the Stopped state, the Activity object is kept resident in memory:
+   * It maintains all state and member information, but is not attached to the window manager. When
+   * the activity resumes, the activity recalls this information. You don’t need to re-initialize
+   * components that were created during any of the callback methods leading up to the Resumed
+   * state. The system also keeps track of the current state for each View object in the layout, so
+   * if the user entered text into an EditText widget, that content is retained so you don't need
+   * to save and restore it.
+   *
+   * From the Stopped state, the activity either comes back to interact with the user, or the
+   * activity is finished running and goes away. If the activity comes back, the system invokes
+   * onRestart(). If the Activity is finished running, the system calls onDestroy().
+   */
+  @Override
+  protected void onStop() {
+    super.onStop();
+
+    Log.d(TAG, "onStop()");
   }
 }
