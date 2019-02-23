@@ -94,4 +94,21 @@ public class LifecycleActivity extends AppCompatActivity {
 
     // If you prefer using the command line, check out https://github.com/JakeWharton/pidcat
   }
+
+  /**
+   * When the activity enters the Started state, the system invokes this callback. The onStart()
+   * call makes the activity visible to the user, as the app prepares for the activity to enter the
+   * foreground and become interactive. For example, this method is where the app initializes the
+   * code that maintains the UI.
+   *
+   * The onStart() method completes very quickly and, as with the Created state, the activity does
+   * not stay in the Started state for long. Once this callback finishes, the activity enters the
+   * Resumed state, and the system invokes the onResume() method.
+   */
+  @Override
+  protected void onStart() {
+    super.onStart();
+
+    Log.d(TAG, "onStart()");
+  }
 }
