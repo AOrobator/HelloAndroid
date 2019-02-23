@@ -1,0 +1,28 @@
+apply plugin: 'com.android.application'
+apply from: rootProject.file("gradle/build-config.gradle")
+apply from: rootProject.file("gradle/dependencies.gradle")
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+  defaultConfig {
+    applicationId "com.orobator.helloandroid.lesson2"
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.compileSdk
+    versionCode buildConfig.version.code
+    versionName buildConfig.version.name
+
+    testInstrumentationRunner deps.androidx.testInstrumentationRunner
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation deps.androidx.appCompat
+  implementation deps.androidx.constraintLayout
+}

@@ -1,0 +1,16 @@
+ext.buildConfig = [
+    "compileSdk": 28,
+    "minSdk": 21,
+    "version": [
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+    ],
+]
+
+ext.buildConfig.version["name"] =
+    "${buildConfig.version.major}.${buildConfig.version.minor}.${buildConfig.version.patch}"
+ext.buildConfig.version["code"] =
+    buildConfig.version.major * 100_000 +
+        buildConfig.version.minor * 100 +
+        buildConfig.version.patch

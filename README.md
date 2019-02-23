@@ -10,3 +10,7 @@ An introductory overview to native Android development.
 ## Lesson 1
 
   * [Anatomy of an app](lesson1/Lesson1_AnatomyOfAnApp.md/)
+  
+## Lesson 2
+ 
+  * [Activity Lifecycle](lesson2/Lesson2_ActivityLifecycle.md)
