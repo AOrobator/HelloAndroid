@@ -77,6 +77,7 @@ public class LifecycleActivity extends AppCompatActivity {
 
     // And just for fun there is
     Log.wtf(TAG, "What a terrible failure!");
+    // which goes to the error level.
 
     // By default the logcat prints every log level as white. This can make it
     // a lot harder to parse through logs, so I'd recommend changing the color
@@ -135,8 +136,8 @@ public class LifecycleActivity extends AppCompatActivity {
    *
    * Be aware of how you want to interact with other apps. A video player may want to setup and
    * teardown in onStart() and onStop() instead of onResume() and onPause() so the video doesn't
-   * stop in multi-window. Regardless of what startup event you use to initialize, it should always
-   * be paired to the corresponding lifecycle event to tear it down.
+   * stop in multi-window mode. Regardless of what startup event you use to initialize, it should
+   * always be paired to the corresponding lifecycle event to tear it down.
    *
    * If you initialize in onStart(), teardown in onStop().
    * If you initialize in onResume(), teardown in onPause().
@@ -146,5 +147,45 @@ public class LifecycleActivity extends AppCompatActivity {
     super.onResume();
 
     Log.d(TAG, "onResume()");
+  }
+
+  /**
+   * The system calls this method as the first indication that the user is leaving your activity
+   * (though it does not always mean the activity is being destroyed); it indicates that the
+   * activity is no longer in the foreground (though it may still be visible if the user is in
+   * multi-window mode). Use the onPause() method to pause or adjust operations that should not
+   * continue (or should continue in moderation) while the Activity is in the Paused state, and
+   * that you expect to resume shortly. There are several reasons why an activity may enter this
+   * state.
+   *
+   * For example:
+   *
+   * - Some event interrupts app execution, as described in the onResume() section. This is the
+   * most common case.
+   *
+   * - In Android 7.0 (API level 24) or higher, multiple apps run in multi-window mode. Because
+   * only one of the apps (windows) has focus at any time, the system pauses all of the other apps.
+   *
+   * - A new, semi-transparent activity (such as a dialog) opens. As long as the activity is still
+   * partially visible but not in focus, it remains paused.
+   *
+   * In this method you should stop any functionality that does not need to run while the component
+   * is not in the foreground, such as stopping a camera preview.
+   *
+   * You can also use the onPause() method to release system resources, handles to sensors (like
+   * GPS), or any resources that may affect battery life while your activity is paused and the user
+   * does not need them. However, as mentioned above in the onResume() section, a Paused activity
+   * may still be fully visible if in multi-window mode. As such, you should consider using
+   * onStop() instead of onPause() to fully release or adjust UI-related resources and operations
+   * to better support multi-window mode.
+   *
+   * onPause() execution is very brief, and does not necessarily afford enough time to perform save
+   * operations. For this reason, you should not use onPause() to save application or user data,
+   * make network calls, or execute database transactions; such work may not complete before the
+   * method completes. Instead, you should perform heavy-load shutdown operations during onStop().
+   */
+  @Override
+  protected void onPause() {
+    super.onPause();
   }
 }
