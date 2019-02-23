@@ -226,4 +226,33 @@ public class LifecycleActivity extends AppCompatActivity {
 
     Log.d(TAG, "onStop()");
   }
+
+  /**
+   * onDestroy() is called before the activity is destroyed. The system invokes this callback
+   * either because:
+   *
+   * 1. the activity is finishing (due to the user completely dismissing the activity or due to
+   * finish() being called on the activity), or
+   *
+   * 2. the system is temporarily destroying the activity due to a configuration change (such as
+   * device rotation or multi-window mode)
+   *
+   * In this method you should clean up anything it needs to before the Activity is destroyed.
+   *
+   * You can distinguish between these two scenarios with the isFinishing() method.
+   *
+   * If the activity is finishing, onDestroy() is the final lifecycle callback the activity
+   * receives. If onDestroy() is called as the result of a configuration change, the system
+   * immediately creates a new activity instance and then calls onCreate() on that new instance in
+   * the new configuration.
+   *
+   * The onDestroy() callback should release all resources that have not yet been released by
+   * earlier callbacks such as onStop().
+   */
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    Log.d(TAG, "onDestroy()");
+  }
 }
