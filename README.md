@@ -9,4 +9,4 @@ An introductory overview to native Android development.
   
 ## Lesson 1
 
-  * Anatomy of an app 
+  * [Anatomy of an app](lesson1/Lesson1_AnatomyOfAnApp.md/)
