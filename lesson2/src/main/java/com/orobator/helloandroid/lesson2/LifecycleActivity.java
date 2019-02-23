@@ -111,4 +111,40 @@ public class LifecycleActivity extends AppCompatActivity {
 
     Log.d(TAG, "onStart()");
   }
+
+  /**
+   * When the activity enters the Resumed state, it comes to the foreground, and then the system
+   * invokes the onResume() callback. This is the state in which the app interacts with the user.
+   * The app stays in this state until something happens to take focus away from the app. Such an
+   * event might be, for instance, receiving a phone call, the user’s navigating to another
+   * activity, or the device screen’s turning off.
+   *
+   * When the activity is Resumed, enable any functionality that is needed to run while visible and
+   * in the foreground, such as starting a camera preview.
+   *
+   * When an interruptive event occurs, the activity enters the Paused state, and the system
+   * invokes the onPause() callback.
+   *
+   * If the activity returns to the Resumed state from the Paused state, the system once again
+   * calls onResume() method. For this reason, you should implement onResume() to initialize
+   * components that you release during onPause(), and perform any other initializations that must
+   * occur each time the activity enters the Resumed state.
+   *
+   * Note that with multi-window, it's possible for your app to be fully visible in the Paused
+   * state.
+   *
+   * Be aware of how you want to interact with other apps. A video player may want to setup and
+   * teardown in onStart() and onStop() instead of onResume() and onPause() so the video doesn't
+   * stop in multi-window. Regardless of what startup event you use to initialize, it should always
+   * be paired to the corresponding lifecycle event to tear it down.
+   *
+   * If you initialize in onStart(), teardown in onStop().
+   * If you initialize in onResume(), teardown in onPause().
+   */
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    Log.d(TAG, "onResume()");
+  }
 }
