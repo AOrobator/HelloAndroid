@@ -17,4 +17,15 @@ to our app modules.
 
 By declaring our external dependencies centrally and bringing them into each module, we guarantee
 that each module is using the same version of a dependency as all other modules.
-  
+
+
+## Understanding the Activity Lifecycle
+
+### Core Lifecyle Events
+
+![Activity Lifecycle][lifecycle-image]
+
+See [LifecycleActivity.java][lifecycle-code] for more.
+
+[lifecycle-code]: src/main/java/com/orobator/helloandroid/lesson2/LifecycleActivity.java
+[lifecycle-image]: activity_lifecycle.png "Activity Lifecycle"
