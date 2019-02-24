@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: rootProject.file("gradle/build-config.gradle")
+apply from: rootProject.file("gradle/dependencies.gradle")
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+
+  defaultConfig {
+    applicationId "com.orobator.helloandroid.lesson4"
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.compileSdk
+    versionCode buildConfig.version.code
+    versionName buildConfig.version.name
+
+    testInstrumentationRunner deps.androidx.testInstrumentationRunner
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation deps.androidx.appCompat
+  implementation deps.androidx.constraintLayout
+  implementation deps.androidx.material
+
+  testImplementation deps.kotlin
+  testImplementation deps.junit
+  testImplementation deps.kluent
+}
