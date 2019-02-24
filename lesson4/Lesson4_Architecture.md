@@ -21,4 +21,7 @@ controller in MVC but with some extra responsibilities that should be part of th
 problem with this standard architecture is that Activities and Fragments can become quite large and
 very difficult to test.
 
+See [MvcTipCalcActivity] for an example.
+
 [model-view-controller]: mvc.png "model-view-controller"
+[MvcTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvc/controller/MvcTipCalcActivity.java

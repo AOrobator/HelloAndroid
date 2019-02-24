@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvc.MvcTipCalcActivity">
+    tools:context=".mvc.controller.MvcTipCalcActivity">
 
   <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/checkAmount_TextInputLayout"
@@ -17,7 +17,7 @@
       app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/checkAmount_EditText"
+        android:id="@+id/check_amount_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_check_amount"
@@ -35,7 +35,7 @@
       app:layout_constraintTop_toBottomOf="@id/checkAmount_TextInputLayout">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tipAmount_EditText"
+        android:id="@+id/tip_amount_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_tip_amount"

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import com.orobator.helloandroid.lesson4.mvc.MvcTipCalcActivity;
+import com.orobator.helloandroid.lesson4.mvc.controller.MvcTipCalcActivity;
 
 public class ArchitectureActivity extends AppCompatActivity {
 

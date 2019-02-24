@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 public class Calculator {
   public TipCalculation calculateTip(double checkAmount, int tipPercent) {
-    double tipAmount = new BigDecimal((checkAmount * 100) / tipPercent)
+    double tipAmount = new BigDecimal(checkAmount * (tipPercent * 1.0 / 100))
         .setScale(2, RoundingMode.HALF_UP)
         .doubleValue();
 
