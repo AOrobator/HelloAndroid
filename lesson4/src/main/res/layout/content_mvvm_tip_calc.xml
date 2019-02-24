@@ -1,111 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".mvvm.MvvmTipCalcActivity"
-    tools:showIn="@layout/activity_mvvm_tip_calc">
+    xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+        name="vm"
+        type="com.orobator.helloandroid.lesson4.mvvm.TipCalcViewModel"/>
+  </data>
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      tools:context=".mvvm.MvvmTipCalcActivity"
+      tools:showIn="@layout/activity_mvvm_tip_calc">
 
-  <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/checkAmount_TextInputLayout"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/default_content_margin"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/check_amount_EditText"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/checkAmount_TextInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_check_amount"
-        android:inputType="numberDecimal"/>
+        android:layout_margin="@dimen/default_content_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-  </com.google.android.material.textfield.TextInputLayout>
+      <!-- Use two way binding so view and ViewModel can update each other -->
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/check_amount_EditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/enter_check_amount"
+          android:inputType="numberDecimal"
+          android:text="@={vm.inputCheckAmount}"/>
 
-  <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/tipAmount_TextInputLayout"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/default_content_margin"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/checkAmount_TextInputLayout">
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tip_amount_EditText"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tipAmount_TextInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_tip_amount"
-        android:inputType="number"/>
+        android:layout_margin="@dimen/default_content_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkAmount_TextInputLayout">
 
-  </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/tip_percent_EditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/enter_tip_amount"
+          android:inputType="number"
+          android:text="@={vm.inputTipPercent}"/>
 
-  <TextView
-      android:id="@+id/check_amount_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/default_content_margin"
-      android:text="@string/check_amount_label"
-      app:layout_constraintEnd_toStartOf="@id/tip_amount_label"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
-      style="@style/TextAppearance.MaterialComponents.Body1"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-  <TextView
-      android:id="@+id/check_amount_TextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="@id/check_amount_label"
-      app:layout_constraintStart_toStartOf="@id/check_amount_label"
-      app:layout_constraintTop_toBottomOf="@id/check_amount_label"
-      tools:text="$100.00"
-      style="@style/TextAppearance.AppCompat.Large"/>
+    <TextView
+        android:id="@+id/check_amount_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_content_margin"
+        android:text="@string/check_amount_label"
+        app:layout_constraintEnd_toStartOf="@id/tip_amount_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-  <TextView
-      android:id="@+id/tip_amount_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/default_content_margin"
-      android:text="@string/tip_amount_label"
-      app:layout_constraintEnd_toStartOf="@id/grand_total_label"
-      app:layout_constraintStart_toEndOf="@id/check_amount_label"
-      app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
-      style="@style/TextAppearance.MaterialComponents.Body1"/>
+    <TextView
+        android:id="@+id/check_amount_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.outputCheckAmount}"
+        app:layout_constraintEnd_toEndOf="@id/check_amount_label"
+        app:layout_constraintStart_toStartOf="@id/check_amount_label"
+        app:layout_constraintTop_toBottomOf="@id/check_amount_label"
+        tools:text="$100.00"
+        style="@style/TextAppearance.AppCompat.Large"/>
 
-  <TextView
-      android:id="@+id/tip_amount_TextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="@id/tip_amount_label"
-      app:layout_constraintStart_toStartOf="@id/tip_amount_label"
-      app:layout_constraintTop_toBottomOf="@id/tip_amount_label"
-      tools:text="$20.00"
-      style="@style/TextAppearance.AppCompat.Large"/>
+    <TextView
+        android:id="@+id/tip_amount_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_content_margin"
+        android:text="@string/tip_amount_label"
+        app:layout_constraintEnd_toStartOf="@id/grand_total_label"
+        app:layout_constraintStart_toEndOf="@id/check_amount_label"
+        app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-  <TextView
-      android:id="@+id/grand_total_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/default_content_margin"
-      android:text="@string/grand_total_label"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/tip_amount_label"
-      app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
-      style="@style/TextAppearance.MaterialComponents.Body1"/>
+    <TextView
+        android:id="@+id/tip_amount_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.outputTipAmount}"
+        app:layout_constraintEnd_toEndOf="@id/tip_amount_label"
+        app:layout_constraintStart_toStartOf="@id/tip_amount_label"
+        app:layout_constraintTop_toBottomOf="@id/tip_amount_label"
+        tools:text="$20.00"
+        style="@style/TextAppearance.AppCompat.Large"/>
 
-  <TextView
-      android:id="@+id/grand_total_TextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="@id/grand_total_label"
-      app:layout_constraintStart_toStartOf="@id/grand_total_label"
-      app:layout_constraintTop_toBottomOf="@id/grand_total_label"
-      tools:text="$120.00"
-      style="@style/TextAppearance.AppCompat.Large"/>
+    <TextView
+        android:id="@+id/grand_total_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_content_margin"
+        android:text="@string/grand_total_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tip_amount_label"
+        app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
+        style="@style/TextAppearance.MaterialComponents.Body1"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/grand_total_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.outputGrandTotal}"
+        app:layout_constraintEnd_toEndOf="@id/grand_total_label"
+        app:layout_constraintStart_toStartOf="@id/grand_total_label"
+        app:layout_constraintTop_toBottomOf="@id/grand_total_label"
+        tools:text="$120.00"
+        style="@style/TextAppearance.AppCompat.Large"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

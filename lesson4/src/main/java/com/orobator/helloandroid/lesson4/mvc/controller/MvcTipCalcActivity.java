@@ -21,7 +21,7 @@ public class MvcTipCalcActivity extends AppCompatActivity {
 
     Button calculateTipButton = findViewById(R.id.calculate_tip_Button);
     final EditText checkAmountEditText = findViewById(R.id.check_amount_EditText);
-    final EditText tipAmountEditText = findViewById(R.id.tip_amount_EditText);
+    final EditText tipPercentEditText = findViewById(R.id.tip_percent_EditText);
     final TextView checkAmountTextView = findViewById(R.id.check_amount_TextView);
     final TextView tipAmountTextView = findViewById(R.id.tip_amount_TextView);
     final TextView grandTotalTextView = findViewById(R.id.grand_total_TextView);
@@ -31,7 +31,7 @@ public class MvcTipCalcActivity extends AppCompatActivity {
         String checkAmountString = checkAmountEditText.getText().toString();
         double checkAmount = Double.parseDouble(checkAmountString);
 
-        String tipPercentString = tipAmountEditText.getText().toString();
+        String tipPercentString = tipPercentEditText.getText().toString();
         int tipPercent = Integer.parseInt(tipPercentString);
 
         if (tipPercent > 100) {

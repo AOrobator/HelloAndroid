@@ -14,7 +14,7 @@ public class MvpTipCalcActivity extends AppCompatActivity
 
   private final TipCalcPresenter presenter = new TipCalcPresenter();
   private EditText checkAmountEditText;
-  private EditText tipAmountEditText;
+  private EditText tipPercentEditText;
   private TextView checkAmountTextView;
   private TextView tipAmountTextView;
   private TextView grandTotalTextView;
@@ -32,7 +32,7 @@ public class MvpTipCalcActivity extends AppCompatActivity
     });
 
     checkAmountEditText = findViewById(R.id.check_amount_EditText);
-    tipAmountEditText = findViewById(R.id.tip_amount_EditText);
+    tipPercentEditText = findViewById(R.id.tip_percent_EditText);
     checkAmountTextView = findViewById(R.id.check_amount_TextView);
     tipAmountTextView = findViewById(R.id.tip_amount_TextView);
     grandTotalTextView = findViewById(R.id.grand_total_TextView);
@@ -57,7 +57,7 @@ public class MvpTipCalcActivity extends AppCompatActivity
   }
 
   @Override public String getTipPercent() {
-    return tipAmountEditText.getText().toString();
+    return tipPercentEditText.getText().toString();
   }
 
   @Override public void showError(String errMsg) {

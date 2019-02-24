@@ -8,6 +8,13 @@ public class TipCalculation {
   public final double tipAmount;
   public final double grandTotal;
 
+  public TipCalculation() {
+    checkAmount = 0;
+    tipPercent = 0;
+    tipAmount = 0;
+    grandTotal = 0;
+  }
+
   public TipCalculation(int tipPercent, double checkAmount, double tipAmount, double grandTotal) {
     this.tipPercent = tipPercent;
     this.checkAmount = checkAmount;
