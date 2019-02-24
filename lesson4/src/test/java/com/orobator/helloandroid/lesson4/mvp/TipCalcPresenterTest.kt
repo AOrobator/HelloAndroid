@@ -1,10 +1,9 @@
-package com.orobator.helloandroid.lesson4
+package com.orobator.helloandroid.lesson4.mvp
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
-import com.orobator.helloandroid.lesson4.mvp.TipCalcPresenter
 import com.orobator.helloandroid.lesson4.mvp.TipCalcPresenter.TipCalcPresentation
 import org.junit.Test
 
@@ -12,6 +11,8 @@ class TipCalcPresenterTest {
   @Test
   fun `When tip greater than 100, error shown`() {
     val presenter = TipCalcPresenter()
+
+    // Mock View interface to test presenter in isolation
     val presentation = mock<TipCalcPresentation> {
       on { checkAmount } doReturn "100"
       on { tipPercent } doReturn "9001"
@@ -20,6 +21,7 @@ class TipCalcPresenterTest {
     presenter.attach(presentation)
     presenter.calculateTip()
 
+    // Assert actions on the view
     verify(presentation).getTipPercent()
     verify(presentation).getCheckAmount()
 
