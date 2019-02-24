@@ -72,12 +72,15 @@ The Views also notify the ViewModel about different actions. Thus, the MVVM patt
 two-way data binding between the View and ViewModel and there is a many-to-one relationship between
 View and ViewModel. View has a reference to ViewModel but ViewModel has no information about the
 View. The consumer of the data should know about the producer, but the producer - the ViewModel -
-doesn’t know, and doesn’t care, who consumes the data. 
+doesn’t know, and doesn’t care, who consumes the data.
+
+See [MvvmTipCalcActivity] for an example. 
 
 [model-view-controller]: mvc.png "model-view-controller"
 [MvcTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvc/controller/MvcTipCalcActivity.java
 
 [model-view-presenter]: mvp.png "model-view-presenter"
-[MvpTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvp/MvpTipCalcActivity.java
+[MvpTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvp/view/MvpTipCalcActivity.java
 
 [model-view-viewmodel]: mvvm.png "model-view-viewmodel"
+[MvvmTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvvm/view/MvvmTipCalcActivity.java

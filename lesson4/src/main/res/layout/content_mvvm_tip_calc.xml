@@ -5,13 +5,13 @@
   <data>
     <variable
         name="vm"
-        type="com.orobator.helloandroid.lesson4.mvvm.TipCalcViewModel"/>
+        type="com.orobator.helloandroid.lesson4.mvvm.viewmodel.TipCalcViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       app:layout_behavior="@string/appbar_scrolling_view_behavior"
-      tools:context=".mvvm.MvvmTipCalcActivity"
+      tools:context=".mvvm.view.MvvmTipCalcActivity"
       tools:showIn="@layout/activity_mvvm_tip_calc">
 
     <com.google.android.material.textfield.TextInputLayout

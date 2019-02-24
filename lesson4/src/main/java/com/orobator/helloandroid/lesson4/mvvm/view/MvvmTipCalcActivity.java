@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson4.mvvm;
+package com.orobator.helloandroid.lesson4.mvvm.view;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import com.orobator.helloandroid.lesson4.R;
 import com.orobator.helloandroid.lesson4.databinding.ActivityMvvmTipCalcBinding;
 import com.orobator.helloandroid.lesson4.mvc.model.Calculator;
+import com.orobator.helloandroid.lesson4.mvvm.viewmodel.TipCalcViewModel;
 
 public class MvvmTipCalcActivity extends AppCompatActivity {
   private ActivityMvvmTipCalcBinding binding;

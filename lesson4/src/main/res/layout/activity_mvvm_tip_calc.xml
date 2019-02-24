@@ -5,12 +5,12 @@
   <data>
     <variable
         name="vm"
-        type="com.orobator.helloandroid.lesson4.mvvm.TipCalcViewModel"/>
+        type="com.orobator.helloandroid.lesson4.mvvm.viewmodel.TipCalcViewModel"/>
   </data>
   <androidx.coordinatorlayout.widget.CoordinatorLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      tools:context=".mvvm.MvvmTipCalcActivity">
+      tools:context=".mvvm.view.MvvmTipCalcActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

@@ -1,10 +1,10 @@
-package com.orobator.helloandroid.lesson4.mvp
+package com.orobator.helloandroid.lesson4.mvp.presenter
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
-import com.orobator.helloandroid.lesson4.mvp.TipCalcPresenter.TipCalcPresentation
+import com.orobator.helloandroid.lesson4.mvp.view.TipCalcPresentation
 import org.junit.Test
 
 class TipCalcPresenterTest {

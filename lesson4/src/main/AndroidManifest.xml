@@ -12,12 +12,12 @@
       android:theme="@style/AppTheme"
       tools:ignore="GoogleAppIndexingWarning">
     <activity
-        android:name=".mvvm.MvvmTipCalcActivity"
+        android:name=".mvvm.view.MvvmTipCalcActivity"
         android:label="@string/title_activity_mvvm_tip_calc"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity
-        android:name=".mvp.MvpTipCalcActivity"
+        android:name=".mvp.view.MvpTipCalcActivity"
         android:label="MVP Tip Calc"/>
     <activity
         android:name=".mvc.controller.MvcTipCalcActivity"

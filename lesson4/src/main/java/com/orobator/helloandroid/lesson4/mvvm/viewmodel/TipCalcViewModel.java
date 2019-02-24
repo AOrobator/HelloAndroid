@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson4.mvvm;
+package com.orobator.helloandroid.lesson4.mvvm.viewmodel;
 
 import android.app.Application;
 import androidx.annotation.Nullable;

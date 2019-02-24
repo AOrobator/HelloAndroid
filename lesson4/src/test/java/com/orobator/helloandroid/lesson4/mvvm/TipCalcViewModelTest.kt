@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.orobator.helloandroid.lesson4.R
 import com.orobator.helloandroid.lesson4.mvc.model.Calculator
 import com.orobator.helloandroid.lesson4.mvc.model.TipCalculation
+import com.orobator.helloandroid.lesson4.mvvm.viewmodel.TipCalcViewModel
 import org.amshove.kluent.`should equal`
 import org.junit.Before
 import org.junit.Test

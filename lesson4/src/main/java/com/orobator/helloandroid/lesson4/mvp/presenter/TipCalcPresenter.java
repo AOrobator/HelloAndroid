@@ -1,7 +1,8 @@
-package com.orobator.helloandroid.lesson4.mvp;
+package com.orobator.helloandroid.lesson4.mvp.presenter;
 
 import com.orobator.helloandroid.lesson4.mvc.model.Calculator;
 import com.orobator.helloandroid.lesson4.mvc.model.TipCalculation;
+import com.orobator.helloandroid.lesson4.mvp.view.TipCalcPresentation;
 
 public class TipCalcPresenter {
   private TipCalcPresentation presentation;
@@ -33,19 +34,5 @@ public class TipCalcPresenter {
         presentation.setGrandTotal(c.grandTotal);
       }
     }
-  }
-
-  public interface TipCalcPresentation {
-    String getCheckAmount();
-
-    String getTipPercent();
-
-    void showError(String errMsg);
-
-    void setCheckAmount(double checkAmount);
-
-    void setTipAmount(double tipAmount);
-
-    void setGrandTotal(double grandTotal);
   }
 }

@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson4.mvp;
+package com.orobator.helloandroid.lesson4.mvp.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.orobator.helloandroid.lesson4.R;
+import com.orobator.helloandroid.lesson4.mvp.presenter.TipCalcPresenter;
 
-public class MvpTipCalcActivity extends AppCompatActivity
-    implements TipCalcPresenter.TipCalcPresentation {
+public class MvpTipCalcActivity extends AppCompatActivity implements TipCalcPresentation {
 
   private final TipCalcPresenter presenter = new TipCalcPresenter();
   private EditText checkAmountEditText;

@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.orobator.helloandroid.lesson4.mvc.controller.MvcTipCalcActivity;
-import com.orobator.helloandroid.lesson4.mvp.MvpTipCalcActivity;
-import com.orobator.helloandroid.lesson4.mvvm.MvvmTipCalcActivity;
+import com.orobator.helloandroid.lesson4.mvp.view.MvpTipCalcActivity;
+import com.orobator.helloandroid.lesson4.mvvm.view.MvvmTipCalcActivity;
 
 public class ArchitectureActivity extends AppCompatActivity {
 
