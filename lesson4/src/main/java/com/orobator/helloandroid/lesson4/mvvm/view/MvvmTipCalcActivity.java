@@ -16,7 +16,7 @@ public class MvvmTipCalcActivity extends AppCompatActivity {
 
     // Automatically generated binding class.
     // Naming: <LayoutName>Binding
-    // Contains references to all views with ids.
+    // Contains references to all views with ids in the specified layout.
     ActivityMvvmTipCalcBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_mvvm_tip_calc);
     setSupportActionBar(binding.toolbar);
