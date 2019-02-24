@@ -61,7 +61,8 @@
       app:layout_constraintEnd_toEndOf="@id/check_amount_label"
       app:layout_constraintStart_toStartOf="@id/check_amount_label"
       app:layout_constraintTop_toBottomOf="@id/check_amount_label"
-      tools:text="$100.00"/>
+      tools:text="$100.00"
+      style="@style/TextAppearance.AppCompat.Large"/>
 
   <TextView
       android:id="@+id/tip_amount_label"
@@ -81,7 +82,8 @@
       app:layout_constraintEnd_toEndOf="@id/tip_amount_label"
       app:layout_constraintStart_toStartOf="@id/tip_amount_label"
       app:layout_constraintTop_toBottomOf="@id/tip_amount_label"
-      tools:text="$20.00"/>
+      tools:text="$20.00"
+      style="@style/TextAppearance.AppCompat.Large"/>
 
   <TextView
       android:id="@+id/grand_total_label"
@@ -101,7 +103,8 @@
       app:layout_constraintEnd_toEndOf="@id/grand_total_label"
       app:layout_constraintStart_toStartOf="@id/grand_total_label"
       app:layout_constraintTop_toBottomOf="@id/grand_total_label"
-      tools:text="$120.00"/>
+      tools:text="$120.00"
+      style="@style/TextAppearance.AppCompat.Large"/>
 
   <Button
       android:id="@+id/calculate_tip_Button"
