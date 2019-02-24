@@ -9,12 +9,16 @@ import com.orobator.helloandroid.lesson4.mvc.model.Calculator;
 import com.orobator.helloandroid.lesson4.mvvm.viewmodel.TipCalcViewModel;
 
 public class MvvmTipCalcActivity extends AppCompatActivity {
-  private ActivityMvvmTipCalcBinding binding;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm_tip_calc);
+
+    // Automatically generated binding class.
+    // Naming: <LayoutName>Binding
+    // Contains references to all views with ids.
+    ActivityMvvmTipCalcBinding binding =
+        DataBindingUtil.setContentView(this, R.layout.activity_mvvm_tip_calc);
     setSupportActionBar(binding.toolbar);
 
     binding.setVm(new TipCalcViewModel(getApplication(), new Calculator()));
