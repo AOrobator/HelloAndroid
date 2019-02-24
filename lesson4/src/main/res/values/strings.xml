@@ -4,8 +4,7 @@
   <string name="enter_tip_amount">Enter tip %</string>
   <string name="check_amount_label">Check Amount</string>
   <string name="tip_amount_label">Tip Amount</string>
-  <string name="tip_percent_label">Tip %</string>
   <string name="grand_total_label">Grand Total</string>
   <string name="money_template">$%.02f</string>
-  <string name="percent_template">%% %1$d</string>
+  <string name="title_activity_mvvm_tip_calc">MVVM Tip Calc</string>
 </resources>

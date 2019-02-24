@@ -16,14 +16,13 @@ public class MvpTipCalcActivity extends AppCompatActivity
   private EditText checkAmountEditText;
   private EditText tipAmountEditText;
   private TextView checkAmountTextView;
-  private TextView tipPercentTextView;
   private TextView tipAmountTextView;
   private TextView grandTotalTextView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_mvp_tip_calc);
+    setContentView(R.layout.activity_mvc_mvp_tip_calc);
 
     Button calculateTipButton = findViewById(R.id.calculate_tip_Button);
     calculateTipButton.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +34,6 @@ public class MvpTipCalcActivity extends AppCompatActivity
     checkAmountEditText = findViewById(R.id.check_amount_EditText);
     tipAmountEditText = findViewById(R.id.tip_amount_EditText);
     checkAmountTextView = findViewById(R.id.check_amount_TextView);
-    tipPercentTextView = findViewById(R.id.tip_percent_TextView);
     tipAmountTextView = findViewById(R.id.tip_amount_TextView);
     grandTotalTextView = findViewById(R.id.grand_total_TextView);
   }
@@ -68,10 +66,6 @@ public class MvpTipCalcActivity extends AppCompatActivity
 
   @Override public void setCheckAmount(double checkAmount) {
     checkAmountTextView.setText(getString(R.string.money_template, checkAmount));
-  }
-
-  @Override public void setTipPercent(int tipPercent) {
-    tipPercentTextView.setText(getString(R.string.percent_template, tipPercent));
   }
 
   @Override public void setTipAmount(double tipAmount) {

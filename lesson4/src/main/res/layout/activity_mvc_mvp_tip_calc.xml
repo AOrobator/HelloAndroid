@@ -49,7 +49,7 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/default_content_margin"
       android:text="@string/check_amount_label"
-      app:layout_constraintEnd_toStartOf="@id/tip_percent_label"
+      app:layout_constraintEnd_toStartOf="@id/tip_amount_label"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
       style="@style/TextAppearance.MaterialComponents.Body1"/>
@@ -64,33 +64,13 @@
       tools:text="$100.00"/>
 
   <TextView
-      android:id="@+id/tip_percent_label"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/default_content_margin"
-      android:text="@string/tip_percent_label"
-      app:layout_constraintEnd_toStartOf="@id/tip_amount_label"
-      app:layout_constraintStart_toEndOf="@id/check_amount_label"
-      app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
-      style="@style/TextAppearance.MaterialComponents.Body1"/>
-
-  <TextView
-      android:id="@+id/tip_percent_TextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="@id/tip_percent_label"
-      app:layout_constraintStart_toStartOf="@id/tip_percent_label"
-      app:layout_constraintTop_toBottomOf="@id/tip_percent_label"
-      tools:text="20%"/>
-
-  <TextView
       android:id="@+id/tip_amount_label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="@dimen/default_content_margin"
       android:text="@string/tip_amount_label"
       app:layout_constraintEnd_toStartOf="@id/grand_total_label"
-      app:layout_constraintStart_toEndOf="@id/tip_percent_label"
+      app:layout_constraintStart_toEndOf="@id/check_amount_label"
       app:layout_constraintTop_toBottomOf="@id/tipAmount_TextInputLayout"
       style="@style/TextAppearance.MaterialComponents.Body1"/>
 

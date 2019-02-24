@@ -16,6 +16,10 @@ android {
     testInstrumentationRunner deps.androidx.testInstrumentationRunner
   }
 
+  dataBinding {
+    enabled = true
+  }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -28,6 +32,8 @@ dependencies {
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
+  implementation deps.androidx.viewModel
+  implementation deps.androidx.lifecycleExtensions
 
   testImplementation deps.kotlin
   testImplementation deps.junit

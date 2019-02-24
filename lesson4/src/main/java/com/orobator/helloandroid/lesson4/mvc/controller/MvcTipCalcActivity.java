@@ -17,13 +17,12 @@ public class MvcTipCalcActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_mvc_tip_calc);
+    setContentView(R.layout.activity_mvc_mvp_tip_calc);
 
     Button calculateTipButton = findViewById(R.id.calculate_tip_Button);
     final EditText checkAmountEditText = findViewById(R.id.check_amount_EditText);
     final EditText tipAmountEditText = findViewById(R.id.tip_amount_EditText);
     final TextView checkAmountTextView = findViewById(R.id.check_amount_TextView);
-    final TextView tipPercentTextView = findViewById(R.id.tip_percent_TextView);
     final TextView tipAmountTextView = findViewById(R.id.tip_amount_TextView);
     final TextView grandTotalTextView = findViewById(R.id.grand_total_TextView);
 
@@ -46,7 +45,6 @@ public class MvcTipCalcActivity extends AppCompatActivity {
           TipCalculation c = calculator.calculateTip(checkAmount, tipPercent);
 
           checkAmountTextView.setText(getString(R.string.money_template, c.checkAmount));
-          tipPercentTextView.setText(getString(R.string.percent_template, c.tipPercent));
           tipAmountTextView.setText(getString(R.string.money_template, c.tipAmount));
           grandTotalTextView.setText(getString(R.string.money_template, c.grandTotal));
         }

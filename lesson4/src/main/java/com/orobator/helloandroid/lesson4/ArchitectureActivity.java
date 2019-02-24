@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.orobator.helloandroid.lesson4.mvc.controller.MvcTipCalcActivity;
 import com.orobator.helloandroid.lesson4.mvp.MvpTipCalcActivity;
+import com.orobator.helloandroid.lesson4.mvvm.MvvmTipCalcActivity;
 
 public class ArchitectureActivity extends AppCompatActivity {
 
@@ -27,6 +28,14 @@ public class ArchitectureActivity extends AppCompatActivity {
     mvpButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), MvpTipCalcActivity.class);
+        startActivity(intent);
+      }
+    });
+
+    Button mvvmButton = findViewById(R.id.mvvm_button);
+    mvvmButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), MvvmTipCalcActivity.class);
         startActivity(intent);
       }
     });

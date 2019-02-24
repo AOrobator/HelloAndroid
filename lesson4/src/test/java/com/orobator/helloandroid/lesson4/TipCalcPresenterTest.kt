@@ -42,7 +42,6 @@ class TipCalcPresenterTest {
     verify(presentation).getCheckAmount()
 
     verify(presentation).setCheckAmount(100.0)
-    verify(presentation).setTipPercent(20)
     verify(presentation).setTipAmount(20.0)
     verify(presentation).setGrandTotal(120.0)
 

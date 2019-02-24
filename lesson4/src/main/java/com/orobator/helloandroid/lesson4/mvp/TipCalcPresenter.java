@@ -29,7 +29,6 @@ public class TipCalcPresenter {
         TipCalculation c = calculator.calculateTip(checkAmount, tipPercent);
 
         presentation.setCheckAmount(c.checkAmount);
-        presentation.setTipPercent(c.tipPercent);
         presentation.setTipAmount(c.tipAmount);
         presentation.setGrandTotal(c.grandTotal);
       }
@@ -44,8 +43,6 @@ public class TipCalcPresenter {
     void showError(String errMsg);
 
     void setCheckAmount(double checkAmount);
-
-    void setTipPercent(int tipPercent);
 
     void setTipAmount(double tipAmount);
 
