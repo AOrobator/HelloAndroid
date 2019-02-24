@@ -50,8 +50,34 @@ The Model-View-Presenter pattern solves both of these issues by breaking the con
 View has with the Model and creating only one class that handles everything related to the
 presentation of the View - the Presenter: a single class that is easy to unit test.
 
+## Model-View-ViewModel (a.k.a MVVM)
+
+![Model View ViewModel][model-view-viewmodel]
+
+ * **View**: informs the ViewModel about the user’s actions
+ * **ViewModel**: exposes streams of data relevant to the View
+ * **DataModel**: abstracts the data source. The ViewModel works with the DataModel to get and save the data.
+ 
+At a first glance, MVVM seems very similar to the Model-View-Presenter pattern, because both of
+them do a great job in abstracting the view’s state and behavior. The Presentation Model abstracts
+a View independent from a specific user-interface platform, whereas the MVVM pattern was created to
+simplify the event driven programming of user interfaces.
+
+If the MVP pattern meant that the Presenter was telling the View directly what to display, in MVVM,
+ViewModel exposes streams of events to which the Views can bind to. Like this, the ViewModel does
+not need to hold a reference to the View anymore, like the Presenter is. This also means that all
+the interfaces that the MVP pattern requires, are now dropped.
+
+The Views also notify the ViewModel about different actions. Thus, the MVVM pattern supports
+two-way data binding between the View and ViewModel and there is a many-to-one relationship between
+View and ViewModel. View has a reference to ViewModel but ViewModel has no information about the
+View. The consumer of the data should know about the producer, but the producer - the ViewModel -
+doesn’t know, and doesn’t care, who consumes the data. 
+
 [model-view-controller]: mvc.png "model-view-controller"
 [MvcTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvc/controller/MvcTipCalcActivity.java
 
 [model-view-presenter]: mvp.png "model-view-presenter"
 [MvpTipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson4/mvp/MvpTipCalcActivity.java
+
+[model-view-viewmodel]: mvvm.png "model-view-viewmodel"
