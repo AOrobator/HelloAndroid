@@ -7,7 +7,7 @@ android {
   compileSdkVersion buildConfig.compileSdk
 
   defaultConfig {
-    applicationId "com.orobator.helloandroid.lesson4"
+    applicationId "com.orobator.helloandroid.lesson5"
     minSdkVersion buildConfig.minSdk
     targetSdkVersion buildConfig.compileSdk
     versionCode buildConfig.version.code
@@ -33,6 +33,7 @@ dependencies {
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
   implementation deps.androidx.viewModel
+  implementation deps.androidx.lifecycleExtensions
 
   testImplementation deps.kotlin
   testImplementation deps.junit
