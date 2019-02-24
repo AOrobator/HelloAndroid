@@ -18,7 +18,6 @@ public class MvcTipCalcActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_mvc_tip_calc);
-    setTitle("MVC Tip Calc");
 
     Button calculateTipButton = findViewById(R.id.calculate_tip_Button);
     final EditText checkAmountEditText = findViewById(R.id.check_amount_EditText);

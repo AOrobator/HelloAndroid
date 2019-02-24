@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">L4: Architecture</string>
   <string name="enter_check_amount">Enter check amount</string>
-  <string name="enter_tip_amount">Enter tip amount</string>
+  <string name="enter_tip_amount">Enter tip %</string>
   <string name="check_amount_label">Check Amount</string>
   <string name="tip_amount_label">Tip Amount</string>
   <string name="tip_percent_label">Tip %</string>

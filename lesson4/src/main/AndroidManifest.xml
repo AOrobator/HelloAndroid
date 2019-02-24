@@ -9,7 +9,12 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-    <activity android:name=".mvc.controller.MvcTipCalcActivity"/>
+    <activity
+        android:name=".mvp.MvpTipCalcActivity"
+        android:label="MVP Tip Calc"/>
+    <activity
+        android:name=".mvc.controller.MvcTipCalcActivity"
+        android:label="MVC Tip Calc"/>
     <activity android:name=".ArchitectureActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
