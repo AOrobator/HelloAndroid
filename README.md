@@ -17,3 +17,5 @@ An introductory overview to native Android development.
  * [Lesson 4: Architecture (MVC, MVP, MVVM)](lesson4/Lesson4_Architecture.md)
  
  * [Lesson 5: Configuration Changes](lesson5/Lesson5_ConfigurationChanges.md)
+ 
+ * [Lesson 6: Instrumentation Tests](lesson6/Lesson6_InstrumentationTests.md)
