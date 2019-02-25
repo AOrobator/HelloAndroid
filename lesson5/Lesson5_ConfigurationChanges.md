@@ -58,3 +58,26 @@ class TipCalcActivity extends Activity {
   }
 }
 ```
+
+Since we're using MVVM, Google provides a library called Architecture Components which include base
+ViewModels to extend from and a mechanism to persist across configuration changes.
+
+First, we'll grab the following dependency and add it to our build.gradle
+
+```groovy
+dependencies {
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+}
+```
+This provides ViewModel and AndroidViewModel. Both can be persisted across configuration changes.
+AndroidViewModel provides access to an Application object.
+
+Then we use ViewModelProviders to obtain our ViewModel.
+
+```java
+TipCalcViewModel vm = ViewModelProviders.of(this).get(TipCalcViewModel.class);
+```
+
+See [TipCalcActivity] for an example.
+
+[TipCalcActivity]: src/main/java/com/orobator/helloandroid/lesson5/view/TipCalcActivity.java 

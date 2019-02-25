@@ -1,16 +1,14 @@
 package com.orobator.helloandroid.lesson5.viewmodel;
 
 import android.app.Application;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.BaseObservable;
-import com.orobator.helloandroid.lesson5.BR;
 import com.orobator.helloandroid.lesson5.R;
 import com.orobator.helloandroid.lesson5.model.Calculator;
 import com.orobator.helloandroid.lesson5.model.TipCalculation;
 
-public class TipCalcViewModel extends BaseObservable {
+public class TipCalcViewModel extends ObservableViewModel {
   private final Calculator calculator;
-  private final Application app;
 
   // Use strings instead of numbers because View expects strings
   public String inputCheckAmount = "";
@@ -23,15 +21,23 @@ public class TipCalcViewModel extends BaseObservable {
   public String outputGrandTotal = "";
 
   public TipCalcViewModel(Application app, Calculator calculator) {
-    this.app = app;
+    super(app);
     this.calculator = calculator;
     updateOutputs(new TipCalculation());
   }
 
+  // Need a constructor that only takes the application because the framework will construct this.
+  // To pass in other values through the constructor, use a ViewModelProvider.Factory
+  public TipCalcViewModel(@NonNull Application app) {
+    super(app);
+    calculator = new Calculator();
+  }
+
   private void updateOutputs(TipCalculation calculation) {
-    outputCheckAmount = app.getString(R.string.money_template, calculation.checkAmount);
-    outputTipAmount = app.getString(R.string.money_template, calculation.tipAmount);
-    outputGrandTotal = app.getString(R.string.money_template, calculation.grandTotal);
+    outputCheckAmount =
+        getApplication().getString(R.string.money_template, calculation.checkAmount);
+    outputTipAmount = getApplication().getString(R.string.money_template, calculation.tipAmount);
+    outputGrandTotal = getApplication().getString(R.string.money_template, calculation.grandTotal);
   }
 
   public void calculateTip() {
@@ -54,7 +60,7 @@ public class TipCalcViewModel extends BaseObservable {
     // so that the view is rebound to the ViewModel.
 
     // This way view only processes 1 notification
-    notifyPropertyChanged(BR._all);
+    notifyChanged();
   }
 
   private @Nullable Double toDoubleOrNull(String s) {
