@@ -41,14 +41,14 @@ for it used. The relationship between the Presenter and its corresponding View i
 Contract interface class, making the code more readable and the connection between the two easier
 to understand.
 
-See [MvpTipCalcActivity] for an example.
-
 The Model-View-Controller pattern has two main disadvantages: firstly, the View has a reference to
 both the Controller and the Model; and secondly, it does not limit the handling of UI logic to a
 single class, this responsibility being shared between the Controller and the View or the Model.
 The Model-View-Presenter pattern solves both of these issues by breaking the connection that the
 View has with the Model and creating only one class that handles everything related to the
 presentation of the View - the Presenter: a single class that is easy to unit test.
+
+See [MvpTipCalcActivity] for an example.
 
 ## Model-View-ViewModel (a.k.a MVVM)
 
