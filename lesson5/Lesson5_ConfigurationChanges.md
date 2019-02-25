@@ -15,3 +15,46 @@ resources for the new configuration.
 
 Now that we have a grasp on what's going on, we can work towards persisting our data across
 configuration changes to prevent a UI reset.
+
+There are a couple different ways we can handle this. If we were using MVP or MVC, we would use 
+`onSaveInstanceState(Bundle)` and `onRestoreInstanceState(Bundle)` to maintain our view state.
+These are 2 additional lifecyle methods that happen in addition to the core 6 mentioned earlier.
+
+```java
+class TipCalcActivity extends Activity {
+  /**
+   * Called to retrieve per-instance state from an activity before being killed
+   * so that the state can be restored in {@link #onCreate} or
+   * {@link #onRestoreInstanceState} (the {@link Bundle} populated by this method
+   * will be passed to both).
+   *
+   * Called after onStop()
+   */
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    outState.putString("KEY_GRAND_TOTAL", grandTotalTextView.getText().toString());
+    // Save other views
+  }
+
+  /**
+   * This method is called after {@link #onStart} when the activity is
+   * being re-initialized from a previously saved state, given here in
+   * <var>savedInstanceState</var>.  Most implementations will simply use {@link #onCreate}
+   * to restore their state, but it is sometimes convenient to do it here
+   * after all of the initialization has been done or to allow subclasses to
+   * decide whether to use your default implementation.  The default
+   * implementation of this method performs a restore of any view state that
+   * had previously been frozen by {@link #onSaveInstanceState}.
+   *
+   * <p>This method is called between {@link #onStart} and
+   * {@link #onPostCreate}.
+   */
+  @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    grandTotalTextView.setText(savedInstanceState.getString("KEY_GRAND_TOTAL"));
+    // Restore other views
+  }
+}
+```
