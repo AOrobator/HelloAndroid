@@ -21,6 +21,8 @@ There are a couple different ways we can handle this. If we were using MVP or MV
 These are 2 additional lifecyle methods that happen in addition to the core 6 mentioned earlier.
 
 ```java
+import androidx.annotation.Nullable;
+
 class TipCalcActivity extends Activity {
   /**
    * Called to retrieve per-instance state from an activity before being killed
@@ -50,11 +52,12 @@ class TipCalcActivity extends Activity {
    * <p>This method is called between {@link #onStart} and
    * {@link #onPostCreate}.
    */
-  @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+  @Override protected void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
 
-    grandTotalTextView.setText(savedInstanceState.getString("KEY_GRAND_TOTAL"));
-    // Restore other views
+    if (savedInstanceState != null) {
+      grandTotalTextView.setText(savedInstanceState.getString("KEY_GRAND_TOTAL"));}
+      // Restore other views
   }
 }
 ```
