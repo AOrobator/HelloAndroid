@@ -24,6 +24,12 @@ to invoke an action (commit, reformat code, etc.) start typing and a list of opt
 Some options have the keyboard shortcut next to them so you can invoke those commands directly
 next time.
 
+## <kbd>⇧ Shift</kbd> <kbd>⇧ Shift</kbd>: Search Everywhere
+
+This command is similar to Invoke Action, but the scope is much wider. In addition to searching for
+actions, double tapping shift will also search for symbols (class names, variable names, resource
+names, files). 
+
 
 ## <kbd>⌘ Command</kbd> + <kbd>O</kbd> : Open Class / <kbd>⌘ Command</kbd> + <kbd>⇧ Shift</kbd> + <kbd>O</kbd> : Open File
 
