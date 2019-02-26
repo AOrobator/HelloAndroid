@@ -77,6 +77,12 @@ dependencies {
 
 See [TipCalcActivityTest] for an example, and the cheat sheet below for more of the Espresso API.
 
+You can run all UI Tests on the command line via
+
+```
+./gradlew connectedCheck
+```
+
 ![Espresso Cheatsheet][espresso-cheatsheet]
 
 ### How Espresso Tests Work
@@ -113,6 +119,18 @@ Keep library size (method count and download size) in mind while creating your a
 
 ![Android JUnit Runner Testing Flow][JUnitTestRunnerFlow]
 
+After the test APK is deployed the ActivityManager creates the Instrumentation. Then the 
+AndroidJUnitRunner collects and executes the test and reports the results to 
+
+```
+lesson5/build/outputs/androidTest-results/connected/
+```
+
+![Life of an Espresso Test][life_of_espresso_test]
+
+During the actual test, whenever `onView(Matcher)` is called, a ViewInteraction is created. It waits
+until all tasks are done/main UI thread is idle, then finds the view. Afterwards, it either performs
+a `ViewAction` or does a `ViewAssertion`.
 
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
@@ -120,3 +138,4 @@ Keep library size (method count and download size) in mind while creating your a
 [instrumentation_testing_flow]: instrumentation_testing_flow.png "instrumentation-testing-flow"
 [test_apk_analysis]: test_apk_analysis.png "test-apk-analysis"
 [JUnitTestRunnerFlow]: AndroidJUnitRunnerTestingFlow.png "AndroidJUnitRunnerTestingFlow"
+[life_of_espresso_test]: life_of_espresso_test.png "life_of_espresso_test"
