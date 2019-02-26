@@ -44,4 +44,30 @@ Now that we've covered the when, let's talk about the how.
 
 ## Espresso Tests
 
+Espresso is a UI testing library built by Google. It has access to your app internals and is aware
+of background tasks and AsyncTasks. This means you'll never have to write Thread.sleep() in an
+Espresso test. When writing tests, it'll generally be of the format
+
+```
+onView(ViewMatcher)
+  .perform(ViewAction)
+  .check(ViewAssertion)
+```
+
+The call to onView takes in a `ViewMatcher` and finds the view that matches the `ViewMatcher`. You can
+match on attributes like `withText(...)` and `hasSibling(Matcher)`. This returns a 
+`ViewInteraction`. 
+
+Once you have a `ViewInteraction`, you can perform `ViewAction`s such as
+`click()` and `scrollTo()`.
+
+When you have your view in your expected state, you can then make assertions on the View, such as
+`check(matches(isDisplayed()))`
+
+See [TipCalcUiTest] for an example, and the cheat sheet below for more of the Espresso API.
+
+![Espresso Cheatsheet][espresso-cheatsheet]
+
 [test-pyramid]: test_pyramid.png "test-pyramid"
+[espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
+[TipCalcUiTest]: path/to/test.kt
