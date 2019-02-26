@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: rootProject.file("gradle/build-config.gradle")
-apply from: rootProject.file("gradle/dependencies.gradle")
 
 android {
   compileSdkVersion buildConfig.compileSdk

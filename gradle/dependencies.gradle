@@ -10,7 +10,10 @@ ext.deps = [
         lifecycleExtensions: 'androidx.lifecycle:lifecycle-extensions:2.0.0',
         testInstrumentationRunner: 'androidx.test.runner.AndroidJUnitRunner'
     ],
+    kotlin: [
+        gradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+        stdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    ],
     junit: 'junit:junit:4.12',
-    kluent: 'org.amshove.kluent:kluent:1.48',
-    kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    kluent: 'org.amshove.kluent:kluent:1.48'
 ]

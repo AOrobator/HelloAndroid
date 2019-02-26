@@ -1,4 +1,5 @@
 include ':lesson1',
     ':lesson2',
     ':lesson4',
-    ':lesson5'
+    ':lesson5',
+    ':tipcalc-model'

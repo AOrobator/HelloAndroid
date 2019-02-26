@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: rootProject.file("gradle/build-config.gradle")
-apply from: rootProject.file("gradle/dependencies.gradle")
 
 android {
   compileSdkVersion buildConfig.compileSdk
@@ -29,12 +28,14 @@ android {
 }
 
 dependencies {
+  implementation project(':tipcalc-model')
+
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
   implementation deps.androidx.lifecycleExtensions
 
-  testImplementation deps.kotlin
+  testImplementation deps.kotlin.stdLib
   testImplementation deps.junit
   testImplementation deps.kluent
 }

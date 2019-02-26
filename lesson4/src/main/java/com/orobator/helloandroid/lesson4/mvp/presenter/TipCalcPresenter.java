@@ -1,8 +1,8 @@
 package com.orobator.helloandroid.lesson4.mvp.presenter;
 
-import com.orobator.helloandroid.lesson4.mvc.model.Calculator;
-import com.orobator.helloandroid.lesson4.mvc.model.TipCalculation;
 import com.orobator.helloandroid.lesson4.mvp.view.TipCalcPresentation;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
+import com.orobator.helloandroid.tipcalc.model.TipCalculation;
 
 public class TipCalcPresenter {
   private TipCalcPresentation presentation;

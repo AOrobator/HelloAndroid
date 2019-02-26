@@ -1,7 +1,5 @@
-package com.orobator.helloandroid.lesson4
+package com.orobator.helloandroid.tipcalc.model
 
-import com.orobator.helloandroid.lesson4.mvc.model.Calculator
-import com.orobator.helloandroid.lesson4.mvc.model.TipCalculation
 import org.amshove.kluent.`should equal`
 import org.junit.Test
 

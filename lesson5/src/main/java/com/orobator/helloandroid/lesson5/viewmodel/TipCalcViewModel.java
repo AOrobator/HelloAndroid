@@ -4,8 +4,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.orobator.helloandroid.lesson5.R;
-import com.orobator.helloandroid.lesson5.model.Calculator;
-import com.orobator.helloandroid.lesson5.model.TipCalculation;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
+import com.orobator.helloandroid.tipcalc.model.TipCalculation;
 
 public class TipCalcViewModel extends ObservableViewModel {
   private final Calculator calculator;

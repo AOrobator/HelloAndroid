@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson5.model;
+package com.orobator.helloandroid.tipcalc.model;
 
 import java.util.Objects;
 

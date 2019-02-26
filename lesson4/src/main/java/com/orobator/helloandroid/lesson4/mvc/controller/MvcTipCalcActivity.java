@@ -8,8 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.orobator.helloandroid.lesson4.R;
-import com.orobator.helloandroid.lesson4.mvc.model.Calculator;
-import com.orobator.helloandroid.lesson4.mvc.model.TipCalculation;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
+import com.orobator.helloandroid.tipcalc.model.TipCalculation;
 
 public class MvcTipCalcActivity extends AppCompatActivity {
   private final Calculator calculator = new Calculator();
