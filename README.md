@@ -19,3 +19,5 @@ An introductory overview to native Android development.
  * [Lesson 5: Configuration Changes](lesson5/Lesson5_ConfigurationChanges.md)
  
  * [Lesson 6: Instrumentation Tests](lesson6/Lesson6_InstrumentationTests.md)
+ 
+ * [Lesson 7: Networking](lesson7/Lesson7_Networking.md)
