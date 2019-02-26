@@ -12,7 +12,7 @@ android {
     versionCode buildConfig.version.code
     versionName buildConfig.version.name
 
-    testInstrumentationRunner deps.androidx.testInstrumentationRunner
+    testInstrumentationRunner deps.androidx.test.instrumentationRunner
   }
 
   dataBinding {
@@ -38,4 +38,8 @@ dependencies {
   testImplementation deps.kotlin.stdLib
   testImplementation deps.junit
   testImplementation deps.kluent
+
+  androidTestImplementation deps.androidx.test.espresso
+  androidTestImplementation deps.androidx.test.runner
+  androidTestImplementation deps.androidx.test.rules
 }

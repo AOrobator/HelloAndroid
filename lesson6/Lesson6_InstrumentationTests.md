@@ -64,10 +64,21 @@ Once you have a `ViewInteraction`, you can perform `ViewAction`s such as
 When you have your view in your expected state, you can then make assertions on the View, such as
 `check(matches(isDisplayed()))`
 
-See [TipCalcUiTest] for an example, and the cheat sheet below for more of the Espresso API.
+Before using Espresso, you'll need to declare the appropriate Gradle dependencies.
+
+```groovy
+dependencies {
+    ...
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+}
+```
+
+See [TipCalcActivityTest] for an example, and the cheat sheet below for more of the Espresso API.
 
 ![Espresso Cheatsheet][espresso-cheatsheet]
 
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
-[TipCalcUiTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcUiTest.kt
+[TipCalcActivityTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityTest.kt

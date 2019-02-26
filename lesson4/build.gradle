@@ -12,7 +12,7 @@ android {
     versionCode buildConfig.version.code
     versionName buildConfig.version.name
 
-    testInstrumentationRunner deps.androidx.testInstrumentationRunner
+    testInstrumentationRunner deps.androidx.test.instrumentationRunner
   }
 
   dataBinding {
