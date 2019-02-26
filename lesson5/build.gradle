@@ -42,4 +42,5 @@ dependencies {
   androidTestImplementation deps.androidx.test.espresso
   androidTestImplementation deps.androidx.test.runner
   androidTestImplementation deps.androidx.test.rules
+  androidTestImplementation deps.kotlin.stdLib
 }
