@@ -54,7 +54,7 @@ onView(ViewMatcher)
   .check(ViewAssertion)
 ```
 
-The call to onView takes in a `ViewMatcher` and finds the view that matches the `ViewMatcher`. You can
+The call to `onView()` takes in a `ViewMatcher` and finds the view that matches the `ViewMatcher`. You can
 match on attributes like `withText(...)` and `hasSibling(Matcher)`. This returns a 
 `ViewInteraction`. 
 
@@ -70,4 +70,4 @@ See [TipCalcUiTest] for an example, and the cheat sheet below for more of the Es
 
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
-[TipCalcUiTest]: path/to/test.kt
+[TipCalcUiTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcUiTest.kt
