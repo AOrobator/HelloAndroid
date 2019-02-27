@@ -1,6 +1,6 @@
 ext.versions = [
     kotlin: '1.3.21',
-    jUnitRunnerRules: '1.1.0'
+    androidxTest: '1.1.0'
 ]
 
 ext.deps = [
@@ -12,8 +12,9 @@ ext.deps = [
         test: [
             espresso: 'androidx.test.espresso:espresso-core:3.1.0',
             instrumentationRunner: 'androidx.test.runner.AndroidJUnitRunner',
-            runner: "androidx.test:runner:${versions.jUnitRunnerRules}",
-            rules: "androidx.test:rules:${versions.jUnitRunnerRules}"
+            orchestrator: "androidx.test:orchestrator:${versions.androidxTest}",
+            runner: "androidx.test:runner:${versions.androidxTest}",
+            rules: "androidx.test:rules:${versions.androidxTest}"
         ],
     ],
     kotlin: [

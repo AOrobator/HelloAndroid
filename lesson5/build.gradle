@@ -13,10 +13,19 @@ android {
     versionName buildConfig.version.name
 
     testInstrumentationRunner deps.androidx.test.instrumentationRunner
+
+    // The following argument makes the Android Test Orchestrator run its
+    // "pm clear" command after each test invocation. This command ensures
+    // that the app's state is completely cleared between tests.
+    testInstrumentationRunnerArguments clearPackageDate: 'true'
   }
 
   dataBinding {
     enabled = true
+  }
+
+  testOptions {
+    execution 'ANDROIDX_TEST_ORCHESTRATOR'
   }
 
   buildTypes {
@@ -43,4 +52,6 @@ dependencies {
   androidTestImplementation deps.androidx.test.runner
   androidTestImplementation deps.androidx.test.rules
   androidTestImplementation deps.kotlin.stdLib
+
+  androidTestUtil deps.androidx.test.orchestrator
 }

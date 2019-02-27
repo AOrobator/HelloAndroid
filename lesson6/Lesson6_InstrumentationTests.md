@@ -148,6 +148,74 @@ test can stay the same.
 See [TipCalcActivityRobotTest] for an example.
 
 ![UI Test Architecture][ui_test_architecture]
+
+## Eliminate Shared State: Android Test Orchestrator
+
+Right now our tests and app are pretty simple and don't contain any shared state. However, more 
+complex applications may store data to persistent storage. If we maintain state from test to test,
+we increase the likelihood of flaky and unreliable tests, due to tests not having the right state 
+when starting. Luckily, Google provides a tool that can help with that.
+
+When using AndroidJUnitRunner version 1.0 or higher, you have access to a tool called Android Test
+Orchestrator, which allows you to run each of your app's tests within its own invocation of 
+`Instrumentation`.
+
+Android Test Orchestrator offers the following benefits for your testing environment:
+
+  * **Minimal shared state.** Each test runs in its own `Instrumentation` instance. Therefore, if 
+      your tests share app state, most of that shared state is removed from your device's CPU or 
+      memory after each test. To remove **all** shared state from your device's CPU and memory after
+      each test, use the `clearPackageData` flag.
+      
+  * **Crases are isolated.** Even if one test crashes, it takes down only its own instance of 
+      `Instrumentation`, so the other tests in your suite still run.
+      
+### Enabling Android Test Orchestrator
+
+To enable Android Test Orchestrator using the Gradle command-line tool, complete these steps. After 
+you're done, it will also be enabled in Android Studio, as it uses your Gradle configurations to 
+build. 
+
+1. Add the following statements to your project's `build.gradle` file:
+
+```groovy
+android {
+  defaultConfig {
+    ...
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    
+    // The following argument makes the Android Test Orchestrator run its
+    // "pm clear" command after each test invocation. This command ensures
+    // that the app's state is completely cleared between tests.
+    testInstrumentationRunnerArguments clearPackageDate: 'true'
+  }
+  
+  testOptions {
+    execution 'ANDROIDX_TEST_ORCHESTRATOR'
+  }
+  
+  dependencies {
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestUtil 'androidx.test:orchestrator:1.1.0'
+  }
+}
+```
+
+2. Run Android Test Orchestrator by executing the following command:
+
+```
+./gradlew connectedCheck
+```
+
+### How Android Test Orchestrator Works
+
+The Orchestrator service APK is stored in a process that's separate from the test APK and the APK of
+the app under test, as shown below:
+
+![Android Test Orchestrator Flow][android_test_orchestrator_flow]
+
+Android Test Orchestrator collects JUnit tests at the beginning of your test suite run, but it then
+executes each test separately, in its own instance of `Instrumentation`.
  
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
@@ -159,3 +227,4 @@ See [TipCalcActivityRobotTest] for an example.
 [TipCalcActivityKotlinDslTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
 [ui_test_architecture]: ui_test_architecture.png "ui-test-architecture"
 [TipCalcActivityRobotTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityRobotTest.kt
+[android_test_orchestrator_flow]: android_test_orchestrator_flow.png "android_test_orchestrator_flow"
