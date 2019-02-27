@@ -132,6 +132,11 @@ During the actual test, whenever `onView(Matcher)` is called, a ViewInteraction 
 until all tasks are done/main UI thread is idle, then finds the view. Afterwards, it either performs
 a `ViewAction` or does a `ViewAssertion`.
 
+Back to our own test, we can create our DSL for Espresso to improve the readability of our tests.
+See [TipCalcActivityKotlinDslTest] for example. This test still has much room for improvement.
+
+## The Robot Pattern
+
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
 [TipCalcActivityTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityTest.kt
@@ -139,3 +144,4 @@ a `ViewAction` or does a `ViewAssertion`.
 [test_apk_analysis]: test_apk_analysis.png "test-apk-analysis"
 [JUnitTestRunnerFlow]: AndroidJUnitRunnerTestingFlow.png "AndroidJUnitRunnerTestingFlow"
 [life_of_espresso_test]: life_of_espresso_test.png "life_of_espresso_test"
+[TipCalcActivityKotlinDslTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
