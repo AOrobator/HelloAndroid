@@ -63,4 +63,27 @@ class TipCalcActivityRobotTest {
       )
     }
   }
+
+  // Fake test where we go to another screen
+  fun whenTipAmountEntered_UserCanPaySuccessfully() {
+    onTipCalculator {
+      // Setup View
+      enterCheckAmount("10.00")
+      enterTipPercent("25")
+      calculateTip()
+    } onPaymentScreen {
+      payBill()
+      hasSuccessfulTransaction()
+    }
+  }
+
+  infix fun TipCalcRobot.onPaymentScreen(func: PaymentScreenRobot.() -> Unit): PaymentScreenRobot {
+    return PaymentScreenRobot().apply(func)
+  }
+
+  // One Robot per screen. Each robot has context specific actions
+  class PaymentScreenRobot {
+    fun payBill() = Unit // Stubbed methods
+    fun hasSuccessfulTransaction() = Unit
+  }
 }
