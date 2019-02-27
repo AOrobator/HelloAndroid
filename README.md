@@ -20,4 +20,6 @@ An introductory overview to native Android development.
  
  * [Lesson 6: Instrumentation Tests](lesson6/Lesson6_InstrumentationTests.md)
  
- * [Lesson 7: Networking](lesson7/Lesson7_Networking.md)
+ * [Lesson 7: Networking with Retrofit](lesson7/Lesson7_NetworkingWithRetrofit.md)
+ 
+ * [Lesson 8: Dependency Injection with Dagger 2](lesson8/Lesson8_DependencyInjectionDagger2.md)
