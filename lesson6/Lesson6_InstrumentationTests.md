@@ -136,7 +136,17 @@ Back to our own test, we can create our DSL for Espresso to improve the readabil
 See [TipCalcActivityKotlinDslTest] for example. This test still has much room for improvement.
 
 ## The Robot Pattern
+ 
+Just like our application has an architecture (whether we know or not) so do our tests. The first 2
+versions of our TipCalcActivity test are currently very tightly coupled to the implementation of our
+UI. If the UI were to change significantly, our tests would have to drastically change. Right now,
+our UI unit tests describe both the What (to test) and the How (to test). Using the Robot pattern,
+we can create an abstraction layer that just deals with how to interact with the view. When we use
+this screen robot in our tests, and the UI changes, only the robot will have to be updated and the 
+test can stay the same.
 
+![UI Test Architecture][ui_test_architecture.png]
+ 
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
 [TipCalcActivityTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityTest.kt
@@ -145,3 +155,4 @@ See [TipCalcActivityKotlinDslTest] for example. This test still has much room fo
 [JUnitTestRunnerFlow]: AndroidJUnitRunnerTestingFlow.png "AndroidJUnitRunnerTestingFlow"
 [life_of_espresso_test]: life_of_espresso_test.png "life_of_espresso_test"
 [TipCalcActivityKotlinDslTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
+[ui_test_architecture]: ui_test_architecture.png "ui-test-architecture"
