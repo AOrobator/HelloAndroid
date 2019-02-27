@@ -145,6 +145,8 @@ we can create an abstraction layer that just deals with how to interact with the
 this screen robot in our tests, and the UI changes, only the robot will have to be updated and the 
 test can stay the same.
 
+See [TipCalcActivityRobotTest] for an example.
+
 ![UI Test Architecture][ui_test_architecture]
  
 [test-pyramid]: test_pyramid.png "test-pyramid"
@@ -156,3 +158,4 @@ test can stay the same.
 [life_of_espresso_test]: life_of_espresso_test.png "life_of_espresso_test"
 [TipCalcActivityKotlinDslTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
 [ui_test_architecture]: ui_test_architecture.png "ui-test-architecture"
+[TipCalcActivityRobotTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityRobotTest.kt

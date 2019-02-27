@@ -1,11 +1,5 @@
 package com.orobator.helloandroid.lesson5
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.orobator.helloandroid.lesson5.view.TipCalcActivity
@@ -15,7 +9,7 @@ import org.junit.runner.RunWith
 
 // Testing with Kotlin syntactic sugar
 @RunWith(AndroidJUnit4ClassRunner::class)
-class TipCalcActivityTest2 {
+class TipCalcActivityKotlinDslTest {
   // When creating UI tests, it's helpful to have the XML layout in split view
 
   // The test rule will automatically start our Activity for us
@@ -46,9 +40,3 @@ class TipCalcActivityTest2 {
     R.id.grand_total_TextView hasText "$12.50"
   }
 }
-
-infix fun Int.typeText(text: String) = onView(withId(this)).perform(replaceText(text))
-
-fun Int.click() = onView(withId(this)).perform(ViewActions.click())
-
-infix fun Int.hasText(text: String) = onView(withId(this)).check(matches(withText(text)))

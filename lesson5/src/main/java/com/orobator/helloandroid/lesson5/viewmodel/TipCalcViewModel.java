@@ -44,9 +44,11 @@ public class TipCalcViewModel extends ObservableViewModel {
     Double checkAmount = toDoubleOrNull(inputCheckAmount);
     Integer tipPct = toIntOrNull(inputTipPercent);
 
-    if (checkAmount != null && tipPct != null) {
+    if (checkAmount != null && tipPct != null && tipPct < 100) {
       TipCalculation calculation = calculator.calculateTip(checkAmount, tipPct);
       updateOutputs(calculation);
+    } else {
+      updateOutputs(new TipCalculation());
     }
 
     clearInputs();
