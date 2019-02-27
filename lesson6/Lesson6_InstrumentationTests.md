@@ -145,7 +145,7 @@ we can create an abstraction layer that just deals with how to interact with the
 this screen robot in our tests, and the UI changes, only the robot will have to be updated and the 
 test can stay the same.
 
-![UI Test Architecture][ui_test_architecture.png]
+![UI Test Architecture][ui_test_architecture]
  
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
