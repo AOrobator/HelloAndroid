@@ -30,4 +30,5 @@ android {
 dependencies {
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
+  implementation deps.androidx.material
 }
