@@ -2,4 +2,5 @@ include ':lesson1',
     ':lesson2',
     ':lesson4',
     ':lesson5',
+    ':lesson7',
     ':tipcalc-model'
