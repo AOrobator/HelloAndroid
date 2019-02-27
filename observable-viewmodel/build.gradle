@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply from: rootProject.file("gradle/build-config.gradle")
 
 android {
   compileSdkVersion buildConfig.compileSdk
 
   defaultConfig {
-    applicationId "com.orobator.helloandroid.lesson7"
     minSdkVersion buildConfig.minSdk
     targetSdkVersion buildConfig.compileSdk
     versionCode buildConfig.version.code
@@ -26,11 +25,6 @@ android {
   }
 }
 
-
 dependencies {
-  implementation project(':observable-viewmodel')
-
-  implementation deps.androidx.appCompat
-  implementation deps.androidx.constraintLayout
-  implementation deps.androidx.material
+  api deps.androidx.lifecycleExtensions
 }

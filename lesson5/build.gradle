@@ -37,12 +37,12 @@ android {
 }
 
 dependencies {
-  implementation project(':tipcalc-model')
+  implementation project(':tipcalc-model'),
+      project(':observable-viewmodel')
 
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
-  implementation deps.androidx.lifecycleExtensions
 
   testImplementation deps.kotlin.stdLib
   testImplementation deps.junit

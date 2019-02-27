@@ -3,7 +3,9 @@ package com.orobator.helloandroid.lesson5.viewmodel;
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.orobator.helloandroid.lesson5.BR;
 import com.orobator.helloandroid.lesson5.R;
+import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
 import com.orobator.helloandroid.tipcalc.model.Calculator;
 import com.orobator.helloandroid.tipcalc.model.TipCalculation;
 
@@ -62,7 +64,7 @@ public class TipCalcViewModel extends ObservableViewModel {
     // so that the view is rebound to the ViewModel.
 
     // This way view only processes 1 notification
-    notifyChanged();
+    notifyPropertyChanged(BR._all);
   }
 
   private @Nullable Double toDoubleOrNull(String s) {

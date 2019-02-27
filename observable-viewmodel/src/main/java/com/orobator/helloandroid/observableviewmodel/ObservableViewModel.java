@@ -1,11 +1,10 @@
-package com.orobator.helloandroid.lesson5.viewmodel;
+package com.orobator.helloandroid.observableviewmodel;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.AndroidViewModel;
-import com.orobator.helloandroid.lesson5.BR;
 
 /**
  * An ObservableViewModel which implements the Observable interface rather
@@ -37,7 +36,7 @@ public class ObservableViewModel extends AndroidViewModel implements Observable 
   }
 
   /** Tell View that it needs to update. */
-  public void notifyChanged() {
-    callbacks.notifyChange(this, BR._all);
+  protected void notifyPropertyChanged(int property) {
+    callbacks.notifyChange(this, property);
   }
 }
