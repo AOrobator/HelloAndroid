@@ -11,6 +11,8 @@ public class NumberFactViewModel extends ObservableViewModel {
 
   public String inputNumber = "";
 
+  public String outputFact = "";
+
   public void getRandomFact() {
 
   }
