@@ -1,16 +1,21 @@
 package com.orobator.helloandroid.observableviewmodel;
 
+import android.app.Application;
+import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
 import androidx.databinding.PropertyChangeRegistry;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.AndroidViewModel;
 
 /**
  * An ObservableViewModel which implements the Observable interface rather
  * than extending BaseObservable.
  */
-public class ObservableViewModel extends ViewModel implements Observable {
+public class AndroidObservableViewModel extends AndroidViewModel implements Observable {
   private transient PropertyChangeRegistry callbacks;
 
+  public AndroidObservableViewModel(@NonNull Application application) {
+    super(application);
+  }
 
   @Override public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
     synchronized (this) {

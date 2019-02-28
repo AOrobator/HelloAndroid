@@ -10,6 +10,7 @@ ext.deps = [
         material: 'com.google.android.material:material:1.0.0',
         lifecycleExtensions: 'androidx.lifecycle:lifecycle-extensions:2.0.0',
         test: [
+            core: 'androidx.arch.core:core-testing:2.0.0',
             espresso: 'androidx.test.espresso:espresso-core:3.1.0',
             instrumentationRunner: 'androidx.test.runner.AndroidJUnitRunner',
             orchestrator: "androidx.test:orchestrator:${versions.androidxTest}",

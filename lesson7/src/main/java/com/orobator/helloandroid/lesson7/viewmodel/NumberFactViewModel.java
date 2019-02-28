@@ -1,19 +1,39 @@
 package com.orobator.helloandroid.lesson7.viewmodel;
 
-import android.app.Application;
-import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import com.orobator.helloandroid.lesson7.model.ConnectionChecker;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
 
-public class NumberFactViewModel extends ObservableViewModel {
-  public NumberFactViewModel(@NonNull Application application) {
-    super(application);
-  }
+import static com.orobator.helloandroid.lesson7.viewmodel.NumberFactViewModel.NetworkState.DISCONNECTED;
 
+public class NumberFactViewModel extends ObservableViewModel {
   public String inputNumber = "";
 
   public String outputFact = "";
 
-  public void getRandomFact() {
+  private final MutableLiveData<ViewEvent<NetworkState>> networkStateMutableLiveData =
+      new MutableLiveData<>();
 
+  private ConnectionChecker connectionChecker = null;
+
+  public void init(ConnectionChecker checker) {
+    connectionChecker = checker;
+  }
+
+  public void getRandomFact() {
+    if (connectionChecker.isConnected()) {
+      // Do network call
+    } else {
+      networkStateMutableLiveData.setValue(new ViewEvent(DISCONNECTED));
+    }
+  }
+
+  public LiveData<ViewEvent<NetworkState>> getNetworkStateLiveData() {
+    return networkStateMutableLiveData;
+  }
+
+  public enum NetworkState {
+    DISCONNECTED
   }
 }

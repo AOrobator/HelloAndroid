@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">L7: Networking</string>
+  <string name="no_internet">No internet connection</string>
 </resources>

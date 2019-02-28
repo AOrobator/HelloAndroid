@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: rootProject.file("gradle/build-config.gradle")
 
 android {
@@ -33,4 +34,9 @@ dependencies {
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
+
+  testImplementation deps.androidx.test.core
+  testImplementation deps.junit
+  testImplementation deps.kluent
+  testImplementation deps.kotlin.stdLib
 }

@@ -8,9 +8,10 @@
         type="com.orobator.helloandroid.lesson7.viewmodel.NumberFactViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/root"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      tools:context=".MainActivity">
+      tools:context=".NetworkingActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
