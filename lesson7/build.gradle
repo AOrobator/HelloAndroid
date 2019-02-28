@@ -5,6 +5,11 @@ apply from: rootProject.file("gradle/build-config.gradle")
 android {
   compileSdkVersion buildConfig.compileSdk
 
+  compileOptions {
+    targetCompatibility = "8"
+    sourceCompatibility = "8"
+  }
+
   defaultConfig {
     applicationId "com.orobator.helloandroid.lesson7"
     minSdkVersion buildConfig.minSdk
@@ -34,6 +39,8 @@ dependencies {
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
+
+  implementation deps.okhttp.core
 
   testImplementation deps.androidx.test.core
   testImplementation deps.junit

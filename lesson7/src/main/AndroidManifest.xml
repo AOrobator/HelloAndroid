@@ -4,6 +4,7 @@
     package="com.orobator.helloandroid.lesson7">
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
 
   <application
       android:allowBackup="true"
@@ -12,7 +13,9 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
-      tools:ignore="GoogleAppIndexingWarning">
+      android:usesCleartextTraffic="true"
+      tools:ignore="GoogleAppIndexingWarning"
+      tools:targetApi="n">
     <activity android:name=".NetworkingActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

@@ -1,6 +1,7 @@
 ext.versions = [
+    androidxTest: '1.1.0',
     kotlin: '1.3.21',
-    androidxTest: '1.1.0'
+    okhttp: '3.13.1'
 ]
 
 ext.deps = [
@@ -23,5 +24,8 @@ ext.deps = [
         stdLib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     ],
     junit: 'junit:junit:4.12',
-    kluent: 'org.amshove.kluent:kluent:1.48'
+    kluent: 'org.amshove.kluent:kluent:1.48',
+    okhttp: [
+        core: "com.squareup.okhttp3:okhttp:${versions.okhttp}"
+    ]
 ]

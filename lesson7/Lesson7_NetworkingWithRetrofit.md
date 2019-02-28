@@ -240,8 +240,62 @@ class NumberFactViewModelUnitTest {
 }
 ```
 
+## Making Network Requests
+
+To make the actual network request, we'll first need to add the internet permission to our manifest.
+
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+Since we're using HTTP and not HTTPS for this demo, we're also going to set the 
+`usesCleartextTraffic` attribute to true. 
+
+```xml
+<application
+      android:usesCleartextTraffic="true">
+```
+
+On Android 9+ (API 28+) cleartext traffic is disabled by default to increase security.
+
+For our networking library, we'll use OkHttp. Add this dependency to the app level build.gradle 
+file.
+
+```groovy
+dependencies {
+  implementation "com.squareup.okhttp3:okhttp:3.13.1"
+}
+```
+
+Here's a snippet of what using OkHttp is like.
+
+```java
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+    .url("http://numbersapi.com/" + inputNumber)
+    .addHeader("Content-Type", "application/json")
+    .build();
+
+client.newCall(request).enqueue(new Callback() {
+  @Override 
+  public void onFailure(Call call, IOException e) {
+    updateFact(e.getMessage());
+  }
+
+  @Override 
+  public void onResponse(Call call, Response response) throws IOException {
+    if (response.isSuccessful() && response.body() != null) {
+      updateFact(response.body().string());
+    }
+  }
+});
+```
+
+See [OkHttpNumberFactViewModel] for the full implementation.
+
 [AndroidConnectionChecker.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/AndroidConnectionChecker.java
 [view_model_scope]: view_model_scope.png "view_model_scope"
 [observer_pattern]: observer_pattern.png "observer_pattern"
 [ViewEvent.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/ViewEvent.java
 [NumberFactViewModelUnitTest]: src/test/java/com/orobator/helloandroid/lesson7/viewmodel/NumberFactViewModelUnitTest.kt
+[OkHttpNumberFactViewModel]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/OkHttpNumberFactViewModel.java

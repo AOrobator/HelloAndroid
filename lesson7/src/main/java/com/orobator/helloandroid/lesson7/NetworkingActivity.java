@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.snackbar.Snackbar;
 import com.orobator.helloandroid.lesson7.databinding.ActivityNetworkingBinding;
 import com.orobator.helloandroid.lesson7.model.AndroidConnectionChecker;
-import com.orobator.helloandroid.lesson7.viewmodel.NumberFactViewModel;
-import com.orobator.helloandroid.lesson7.viewmodel.NumberFactViewModel.NetworkState;
+import com.orobator.helloandroid.lesson7.viewmodel.OkHttpNumberFactViewModel;
+import com.orobator.helloandroid.lesson7.viewmodel.OkHttpNumberFactViewModel.NetworkState;
 import com.orobator.helloandroid.lesson7.viewmodel.ViewEvent;
 
 public class NetworkingActivity extends AppCompatActivity
@@ -21,7 +21,8 @@ public class NetworkingActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
 
     binding = DataBindingUtil.setContentView(this, R.layout.activity_networking);
-    NumberFactViewModel viewModel = ViewModelProviders.of(this).get(NumberFactViewModel.class);
+    OkHttpNumberFactViewModel viewModel =
+        ViewModelProviders.of(this).get(OkHttpNumberFactViewModel.class);
     viewModel.init(new AndroidConnectionChecker(getApplication()));
 
     binding.setVm(viewModel);
