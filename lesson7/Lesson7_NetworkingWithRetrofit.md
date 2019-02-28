@@ -108,6 +108,36 @@ public class NumberFactViewModel extends ObservableViewModel {
 }
 ```
 
+## How LiveData works: Main Thread Intro
+LiveData holds a value, this value may change by calling to one of the following methods setValue or
+postValue, whenever the value changed the LiveData might notify its observers about the change. When
+calling setValue the value is immediately change but you must be in the UI thread otherwise you 
+should use postValue which write the new value asynchronously. In this case, we haven't done any 
+threading, so by default we're on the main thread. This is why we call setValue instead of 
+postValue. It's possible to always call postValue and not think about what thread you're on, but you
+should always be very aware of how you're using threads.
+
+I've mentioned main thread a couple of times, but I haven't actually said what that is. Android's 
+Main thread a.k.a. the UI thread, as you might’ve guessed, is used to process the UI. Any time a 
+user clicks a button or scrolls on their screen, the main thread processes that event and renders a 
+new frame for the app at 60 frames per second (fps). 60 fps equates to a deadline of 16ms per frame.
+
+You can think of the way that Android draws frames as a train that arrives every 16ms. Every time 
+that train comes, you have to finish updating the UI so a new frame can be rendered, otherwise you 
+miss the train that will draw that particular frame to the screen. The longer you take to finish 
+updating the UI, the more trains you miss. More trains missed means more frames not drawn to the 
+screen.
+
+Another way of putting it is that the frame rate drops. A drop in frame rate is perceived by the 
+user as the app being frozen, lagging, or janky. You don’t want a janky app.
+
+Long running tasks on the main thread will result in frame drops, which is why any long running task
+should be done off the main thread. Long running tasks includes any IO such as networking or reading 
+from disk, as well as any long computations.
+
+
+## Observing LiveData
+
 In the View, we'll observe changes to this LiveData. In the observe method we pass in a 
 LifecycleOwner, the current Activity, and an Observer, which also happens to be the current 
 Activity. Then we'll implement the required `onChanged()` method since we're implementing the 
