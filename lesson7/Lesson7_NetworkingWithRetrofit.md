@@ -342,6 +342,8 @@ we'll set the base url, so that Retrofit knows what API to hit. After that we'll
 JSON into model objects. Instead of having to parse the JSON ourselves, this will allow our HTTP API
 interface to return a `Call<NumberFact>` instead of a generic `Call<Response>`. 
 
+Note: If our API was in XML, Retrofit provides a JAXB converter.
+
 To enable this parsing, we'll have to create the NumberFact class, and annotate it appropriately.
 
 [NumberFact.java]
