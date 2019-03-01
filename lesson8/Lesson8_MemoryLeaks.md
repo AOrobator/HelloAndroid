@@ -213,9 +213,9 @@ public class HandlersReferenceLeakActivity extends AppCompatActivity {
      */
     private static class LeakyHandler extends Handler {
       
-    /*
-     * Fix number 3 - Use WeakReferences
-     */      
+        /*
+         * Fix number 3 - Use WeakReferences
+         */      
         private WeakReference<HandlersReferenceLeakActivity> weakReference;
         public LeakyHandler(HandlersReferenceLeakActivity activity) {
             weakReference = new WeakReference<>(activity);
