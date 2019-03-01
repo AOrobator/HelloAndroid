@@ -1,4 +1,4 @@
-# Lesson 8: Memory Leaks with AsyncTask
+# Lesson 8: Memory Leaks
 
 ## What is a memory leak?
 

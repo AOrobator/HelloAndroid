@@ -22,6 +22,6 @@ An introductory overview to native Android development.
  
  * [Lesson 7: Networking with Retrofit](lesson7/Lesson7_NetworkingWithRetrofit.md)
  
- * [Lesson 8: Memory Leaks/Async Task](lesson8/Lesson8_MemoryLeaksAsyncTask.md)
+ * [Lesson 8: Memory Leaks](lesson8/Lesson8_MemoryLeaks.md)
  
  * [Lesson 9: Dependency Injection with Dagger 2](lesson9/Lesson9_DependencyInjectionDagger2.md)
