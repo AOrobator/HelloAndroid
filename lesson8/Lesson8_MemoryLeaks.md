@@ -249,7 +249,7 @@ In summary:
 3. Always use a weakReference of the activity or view when needed.
 
 4. Never reference a class inside the Activity. If we need to, we should declare it as static, 
-   whether it is a thread or a handler or a timer or an asyncTask.
+   whether it is a thread or a handler or a timer or an AsyncTask.
 
 
 [leak_canary]: leak-canary.png "Leak Canary"
