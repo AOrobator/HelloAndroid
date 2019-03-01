@@ -561,6 +561,74 @@ which will allow us to verify the expected parsed response. Afterwards, we'll de
 expectedFact and verify that our TestObserver received the expectedFact. Finally we assert that our 
 mock server received the expected request.
 
+## Inspect network traffic with Network Profiler
+
+Now that we're sending network requests, we'll do a bit of inspection with Android Studio's built in
+Network Profiler.
+
+The Network Profiler displays realtime network activity on a timeline, showing data sent and 
+received, as well as the current number of connections. This lets you examine how and when your app 
+transfers data, and optimize the underlying code appropriately.
+
+To open the Network Profiler, follow these steps:
+
+1. Click **View > Tool Windows > Profiler** (you can also click **Profile** in the toolbar).
+
+2. Select the device and app process you want to profile from the Android Profiler toolbar. If 
+   you've connected a device over USB but don't see it listed, ensure that you have enabled USB 
+   debugging.
+   
+3. Click anywhere in the NETWORK timeline to open the Network Profiler.
+
+To select a portion of the timeline, inspect a list of network requests sent and responses received, 
+or view detailed information about a selected file, you must either be on API 26+ (8.0+) enable 
+advanced profiling.
+
+### Why Profile Network Activity?
+
+When your app makes a request to the network, the device must use the power-hungry mobile or WiFi 
+radios to send and receive packets. The radios not only use power to transfer data, but also use 
+extra power to turn on and to stay awake.
+
+Using the Network Profiler, you can look for frequent, short spikes of network activity, which mean 
+that your app requires the radios to turn on frequently, or to stay awake for long periods to handle 
+many short requests close together. This pattern indicates that you may be able to optimize your app 
+for improved battery performance by batching network requests, thereby reducing the number of times 
+the radios must turn on to send or receive data. This also allows the radios to switch into 
+low-power mode to save battery in the longer gaps between batched requests.
+
+### Network Profiler Overview
+
+At the top of the window, you can see the event timeline and **`1`** radio power state (high/low) vs 
+Wi-Fi. On the timeline, you can **`2`** click and drag to select a portion of the timeline to inspect 
+the traffic.
+
+![Network Profiler][network_profiler]
+
+In the **`3`** pane below the timeline, select one of the following tabs for more detail about the 
+network activity during the selected portion of the timeline:
+
+  * Connection View: Lists files that were sent or received during the selected portion of the 
+    timeline across all of your app's CPU threads. For each request, you can inspect the size, type, 
+    status, and transmission duration. You can sort this list by clicking any of the column headers. 
+    You also see a detailed breakdown of the selected portion of the timeline, showing when each 
+    file was sent or received.
+  
+  * Thread View: Displays network activity of each of your app's CPU threads. As shown in the below,
+    this view allows you to inspect which of your app's threads are responsible for each network 
+    request. 
+    
+![Network Profiler Thread View][network_profiler_thread_view]
+
+From either the Connection View or Thread View, click a request name to inspect **`4`** detailed 
+information about the data sent or received. Click the tabs to view the response header and body, 
+request header and body, or call stack.
+
+On the Response and Request tabs, click the View Parsed link to display formatted text and click the 
+View Source link to display raw text.
+
+![Network Profiler Response][network-profiler-text]
+
 [number_fact]: number_fact.jpg "number_fact" 
 [AndroidConnectionChecker.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/AndroidConnectionChecker.java
 [view_model_scope]: view_model_scope.png "view_model_scope"
@@ -573,3 +641,6 @@ mock server received the expected request.
 [MockWebServerAssertions.kt]: ../mock-web-server-assertions/src/main/java/com/orobator/mockwebserverassertions/MockWebServerAssertions.kt
 [BaseApiTest.kt]: ../mock-web-server-assertions/src/main/java/com/orobator/mockwebserverassertions/BaseApiTest.kt
 [NumberRepositoryUnitTest.kt]: src/test/java/com/orobator/helloandroid/lesson7/model/api/NumberRepositoryUnitTest.kt
+[network_profiler]: networkprofiler.png "Network Profiler"
+[network_profiler_thread_view]: network_profiler_thread_view.png "Thread View"
+[network-profiler-text]: network-profiler-text.png "Network Profiler Response"
