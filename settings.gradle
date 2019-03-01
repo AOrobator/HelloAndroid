@@ -4,6 +4,7 @@ include ':lesson1',
     ':lesson5',
     ':lesson7',
     ':lesson8',
+    ':lesson9',
     ':mock-web-server-assertions',
     ':observable-viewmodel',
     ':tipcalc-model'
