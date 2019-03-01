@@ -1,0 +1,36 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+  implementation deps.kotlin.stdLib
+  testImplementation deps.kluent
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath deps.kotlin.gradlePlugin
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "1.6"
+  }
+}
+
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = "1.6"
+  }
+}

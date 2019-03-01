@@ -1,0 +1,6 @@
+apply from: rootProject.file('gradle/kotlin-library-module.gradle')
+
+dependencies {
+  api deps.okhttp.mockWebServer
+  api deps.kluent
+}

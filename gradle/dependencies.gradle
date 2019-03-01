@@ -27,6 +27,7 @@ ext.deps = [
     okhttp: [
         core: "com.squareup.okhttp3:okhttp:${versions.okhttp}",
         loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
+        mockWebServer: "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
     ],
     retrofit: [
         core: "com.squareup.retrofit2:retrofit:${versions.retrofit}",

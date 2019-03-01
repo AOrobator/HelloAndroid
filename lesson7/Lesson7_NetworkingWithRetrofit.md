@@ -440,6 +440,127 @@ and error handler. The call to subscribe will return a Disposable. When we call 
 Disposable, we will no longer receive updates for this network call. We call dispose in `onCleared`
 when the ViewModel is destroyed to prevent leaking our ViewModel.
 
+## Unit Testing Network Requests
+
+We want to be able to unit test our networking code. At the same time, we also want our tests to be 
+hermetic. We don't want our tests to fail because they're hitting the real API and the API happens 
+to be down. To work around this, we'll use OkHttp's MockWebServer library. As its name suggests, 
+this is a mock web server where we can tell it how to respond to certain requests. 
+
+Whenever I find myself using MockWebServer, I like to write a DSL to make the testing a bit easier 
+and more readable. We'll end up with something like this:
+
+```kotlin
+server `received request` ExpectedRequest(
+    authorization = null,
+    method = GET,
+    contentType = null,
+    path = "/2/trivia?json",
+    body = ""
+)
+``` 
+
+We'll create this in a separate Java library module so that it can be re-used by other modules in 
+this project. Creating this in a separate module provides the benefit of not having to recompile the
+code when a particular test changes. It also greatly improves modularity and re-usability.
+
+After we create the module, we'll write several supporting data structures for our tests. The 
+first is an enum called HttpMethod, which lists all 5 HTTP methods. Next we have a content type enum.
+There are only 2 content types here although there are obviously many more that exist. I've found 
+that the JSON and form-url-encoded are the most common types that I run into, but feel free to add 
+your own as the need arises. Lastly, we'll make an ExpectedRequest data class that holds the 
+attributes of the request we're interested in verifying.
+
+For the actual assertion, we'll create an infix extension function on MockWebServer called 
+`received request`. As you may have guessed, this testing DSL takes inspiration from the fluent 
+assertions library Kluent. It looks like this:
+
+[MockWebServerAssertions.kt]
+
+```kotlin
+infix fun MockWebServer.`received request`(expectedRequest: ExpectedRequest) {
+  val actualRequest: RecordedRequest = takeRequest()
+
+  actualRequest `has authorization` expectedRequest.authorization
+  actualRequest `has method` expectedRequest.method.name
+  actualRequest `has content type` expectedRequest.contentType?.type
+  actualRequest `has path` expectedRequest.path
+  actualRequest `has body` expectedRequest.body
+}
+```
+The first thing we do is call `takeRequest()` which returns the last request received by 
+MockWebServer. Then we assert that various elements of the RecordedRequest are what we expect them 
+to be.
+
+Now that we've declared a nicer way to check that we're sending out the right request, we'll make a 
+base test class called BaseApiTest that will open and close the MockWebServer for us, as well as 
+provide us with the base url of the mock server.
+
+[BaseApiTest.kt] 
+
+```kotlin
+abstract class BaseApiTest {
+  protected lateinit var server: MockWebServer
+    private set
+
+  protected val baseUrl: String
+    get() = server.url("/").toString()
+
+  @Before open fun setup() {
+    server = MockWebServer()
+    server.start()
+  }
+
+  @After open fun teardown() = server.shutdown()
+}
+```
+
+Now we're ready to write our tests! I know this was a lot of setup, but it's only done once per 
+project. You'll soon see that it will pay off.
+
+In our setup() function for NumberRepositoryUnitTest, we initialize our Retrofit instance almost 
+identically to how we did before, with two major differences. The first difference is that we are 
+logging with println instead of the Logcat. On JVM tests we don't have access to the Android 
+framework. The second and arguably bigger difference is that instead of pointing our Retrofit 
+instance to the real Numbers API, we are pointing it to our MockWebServer. This will allow us to 
+verify the requests. Now let's take a look at the actual test:
+
+[NumberRepositoryUnitTest.kt]
+
+```kotlin
+  @Test
+  fun getTriviaFact() {
+    server.enqueue(triviaNumberFactResponse)
+
+    val testObserver: TestObserver<NumberFact> =
+      numbersRepository
+          .getTriviaFact(2)
+          .test()
+
+    val expectedFact = NumberFact(
+        "2 is the first magic number in physics.",
+        2,
+        true,
+        "trivia"
+    )
+
+    testObserver `completed with single value` expectedFact
+    server `received request` ExpectedRequest(
+        authorization = null,
+        method = GET,
+        contentType = null,
+        path = "/2/trivia?json",
+        body = ""
+    )
+  }
+```
+
+The first thing we do in this test is enqueue the proper response. This sets up the server to return
+the given response when it receives any request.  Next, we'll make our API call with a TestObserver 
+which will allow us to verify the expected parsed response. Afterwards, we'll declare our 
+expectedFact and verify that our TestObserver received the expectedFact. Finally we assert that our 
+mock server received the expected request.
+
 [number_fact]: number_fact.jpg "number_fact" 
 [AndroidConnectionChecker.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/AndroidConnectionChecker.java
 [view_model_scope]: view_model_scope.png "view_model_scope"
@@ -449,3 +570,6 @@ when the ViewModel is destroyed to prevent leaking our ViewModel.
 [OkHttpNumberFactViewModel]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/OkHttpNumberFactViewModel.java
 [NumberFact.java]: src/main/java/com/orobator/helloandroid/lesson7/model/api/NumberFact.java
 [NumbersApi.java]: src/main/java/com/orobator/helloandroid/lesson7/model/api/NumbersApi.java
+[MockWebServerAssertions.kt]: ../mock-web-server-assertions/src/main/java/com/orobator/mockwebserverassertions/MockWebServerAssertions.kt
+[BaseApiTest.kt]: ../mock-web-server-assertions/src/main/java/com/orobator/mockwebserverassertions/BaseApiTest.kt
+[NumberRepositoryUnitTest.kt]: src/test/java/com/orobator/helloandroid/lesson7/model/api/NumberRepositoryUnitTest.kt

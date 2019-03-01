@@ -54,4 +54,5 @@ dependencies {
   testImplementation deps.junit
   testImplementation deps.kluent
   testImplementation deps.kotlin.stdLib
+  testImplementation project(':mock-web-server-assertions')
 }
