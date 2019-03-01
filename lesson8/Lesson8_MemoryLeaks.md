@@ -64,10 +64,12 @@ Just know that calling cancel doesn't kill the thread the AsyncTask is running o
 run serially, not in parallel unless a custom executor is specified, so true concurrency with 
 multiple AsyncTasks is difficult to achieve.
 
+See [LeakyAsyncTaskActivity.java] for an example.
+
 ### Static References
 
 Another way to leak memory is with a static reference to an Activity, demo'd in 
-LeakyInnerClassActivity. In general, there is hardly ever a good reason to use inner classes at all.
+[LeakyInnerClassActivity.java]. In general, there is hardly ever a good reason to use inner classes at all.
 Activities should also not be kept in static references as static variables have a longer lifecycle
 than Activities.
 
@@ -138,11 +140,11 @@ public class SingletonSampleClass {
 A Handler allows you to send and process Message and Runnable objects associated with a thread's 
 MessageQueue. Each Handler instance is associated with a single thread and that thread's message 
 queue. When you create a new Handler, it is bound to the thread / message queue of the thread that 
-is creating it -- from that point on, it will deliver messages and runnables to that message queue 
+is creating it -- from that point on, it will deliver messages and Runnables to that message queue 
 and execute them as they come out of the message queue.
 
 There are two main uses for a Handler: 
-1. To schedule messages and runnables to be executed at some point in the future.
+1. To schedule messages and Runnables to be executed at some point in the future.
 2. To enqueue an action to be performed on a different thread than your own.
 
 Now consider the following example — You are using a Handler to redirect to a new screen after 5 
@@ -251,3 +253,5 @@ In summary:
 
 
 [leak_canary]: leak-canary.png "Leak Canary"
+[LeakyAsyncTaskActivity.java]: src/main/java/com/orobator/helloandroid/lesson8/LeakyAsyncTaskActivity.java
+[LeakyInnerClassActivity.java]: src/main/java/com/orobator/helloandroid/lesson8/LeakyInnerClassActivity.java
