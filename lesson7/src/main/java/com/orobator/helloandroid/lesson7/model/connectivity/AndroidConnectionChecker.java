@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson7.model;
+package com.orobator.helloandroid.lesson7.model.connectivity;
 
 import android.app.Application;
 import android.content.Context;

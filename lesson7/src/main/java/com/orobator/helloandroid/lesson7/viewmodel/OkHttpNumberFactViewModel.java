@@ -3,7 +3,8 @@ package com.orobator.helloandroid.lesson7.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.orobator.helloandroid.lesson7.BR;
-import com.orobator.helloandroid.lesson7.model.ConnectionChecker;
+import com.orobator.helloandroid.lesson7.model.connectivity.ConnectionChecker;
+import com.orobator.helloandroid.lesson7.model.connectivity.NetworkState;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
 import java.io.IOException;
 import okhttp3.Call;
@@ -12,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.orobator.helloandroid.lesson7.viewmodel.OkHttpNumberFactViewModel.NetworkState.DISCONNECTED;
+import static com.orobator.helloandroid.lesson7.model.connectivity.NetworkState.DISCONNECTED;
 
 public class OkHttpNumberFactViewModel extends ObservableViewModel {
   public String inputNumber = "";
@@ -61,9 +62,5 @@ public class OkHttpNumberFactViewModel extends ObservableViewModel {
 
   public LiveData<ViewEvent<NetworkState>> getNetworkStateLiveData() {
     return networkStateMutableLiveData;
-  }
-
-  public enum NetworkState {
-    DISCONNECTED
   }
 }

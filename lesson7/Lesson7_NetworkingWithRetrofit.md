@@ -1,5 +1,9 @@
 # Lesson 7: Networking with Retrofit
 
+In this lesson, we'll make an app that fetches random number facts from [numbersapi.com](http://numbersapi.com/).
+
+![Number Fact App][number_fact]
+
 ## Offline First
 
 The first thing to keep in mind while developing network connected applications, is that you should 
@@ -293,9 +297,155 @@ client.newCall(request).enqueue(new Callback() {
 
 See [OkHttpNumberFactViewModel] for the full implementation.
 
+## Using Retrofit
+
+Retrofit is a library that eliminates a lot of boiler plate code by turning your HTTP API into a 
+Java interface. This will be the preferred way of networking going forward. To get started with this
+library, we'll have to add several dependencies to our build.gradle:
+
+```groovy
+dependencies {
+  implementation "com.squareup.okhttp3:logging-interceptor:3.13.1"
+
+  implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+  
+  implementation "com.squareup.retrofit2:retrofit:2.5.0"
+  implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+  implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+}
+```
+The first dependency, logging-interceptor, will help us log all Retrofit calls to the Logcat.
+
+```java
+OkHttpClient client = new OkHttpClient.Builder()
+  .addInterceptor(
+    new HttpLoggingInterceptor(message -> Log.d("Retrofit", message))
+      .setLevel(HttpLoggingInterceptor.Level.BODY)
+  )
+  .build();
+```
+
+Building our Retrofit client consists of several steps.
+
+```java
+Retrofit retrofit = new Retrofit.Builder()
+  .client(client)
+  .baseUrl("http://numbersapi.com")
+  .addConverterFactory(GsonConverterFactory.create())
+  .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+  .build();
+```
+First we set the OkHttpClient, and this makes sure that we'll be logging all API requests. Next, 
+we'll set the base url, so that Retrofit knows what API to hit. After that we'll add a
+`GsonConverterFactory` as a converter factory. This will use a library called Gson to parse received 
+JSON into model objects. Instead of having to parse the JSON ourselves, this will allow our HTTP API
+interface to return a `Call<NumberFact>` instead of a generic `Call<Response>`. 
+
+To enable this parsing, we'll have to create the NumberFact class, and annotate it appropriately.
+
+[NumberFact.java]
+
+```java
+public class NumberFact {
+  @SerializedName("text")
+  public final String text;
+
+  @SerializedName("number")
+  public final int number;
+
+  @SerializedName("found")
+  public final boolean found;
+
+  @SerializedName("type")
+  public final String type;
+
+  NumberFact(String text, int number, boolean found, String type) {
+    this.text = text;
+    this.number = number;
+    this.found = found;
+    this.type = type;
+  }
+}
+```
+
+As you can see, each field is annotated with `@SerializedName`. This lets the converter factory know 
+which JSON attributes should be assigned to what field.
+
+After adding a Converter, we'll add an `RxJava2CallAdapter`. RxJava2 is a library that implements 
+many aspects of the Observer pattern, similar to LiveData. Unlike LiveData, RxJava2 comes with many 
+functions out of the box to help transform your data. By adding this call adapter, our network 
+requests will be returned as Observable streams of data. 
+
+Now that we've set up Retrofit correctly, we can implement our API Interface.
+
+[NumbersApi.java]
+
+```java
+import io.reactivex.Single;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+
+public interface NumbersApi {
+  @GET("{number}/trivia?json")
+  Single<NumberFact> getTriviaFact(@Path("number") int number);
+}
+```
+First we'll define a function called getTriviaFact. This will return a `Single<NumberFact>`. A 
+`Single` is an RxJava concept. It models an observable stream that only emits once. This perfectly 
+represents our network call. After we've defined our method signature, we'll need to annotate the 
+method with the particular path this method will be hitting. We'll use the `@Path` annotation to 
+specify variables in the path. Now that our API interface is complete, we'll instantiate an instance
+of it with Retrofit:
+
+```java
+NumbersApi numbersApi = retrofit.create(NumbersApi.class);
+```
+
+### The Repository Pattern
+
+Instead of passing the NumbersApi directly to our ViewModel, we'll wrap it in an implementation of a
+Repository. It's possible for apps to get their data from all types of sources: a file saved in 
+internal storage, a database, or the network. The repository will figure out how to get that data, 
+and will return it, potentially caching it.
+
+### Schedulers
+
+The next thing that we're passing into our ViewModel is a set of Schedulers. A Scheduler is an 
+RxJava entity that defines what thread an operation should run on. We'll use schedulers to indicate 
+that the network call should be done on a background thread, with the result being delivered on the 
+main thread.
+
+### Making the network call
+
+Our ViewModel is now ready to make a Retrofit networking call.
+
+```
+// Do network call
+Integer number = toIntOrNull(inputNumber);
+
+if (number != null) {
+  disposable = numbersRepo.getTriviaFact(number)
+      .subscribeOn(schedulers.io)
+      .observeOn(schedulers.main)
+      .subscribe(this::onGetFactSuccess, this::onGetFactError);
+}
+```
+
+First we'll call our repository to get an instance of `Single<NumberFact>`. We call subscribeOn with
+the io scheduler to indicate that this work should be done using the IO scheduler/on a background 
+thread. We call observeOn with the main thread scheduler to indicate that the result of this 
+operation should be delivered on the main thread. Next, we'll call subscribe passing in a success 
+and error handler. The call to subscribe will return a Disposable. When we call dispose on the 
+Disposable, we will no longer receive updates for this network call. We call dispose in `onCleared`
+when the ViewModel is destroyed to prevent leaking our ViewModel.
+
+[number_fact]: number_fact.jpg "number_fact" 
 [AndroidConnectionChecker.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/AndroidConnectionChecker.java
 [view_model_scope]: view_model_scope.png "view_model_scope"
 [observer_pattern]: observer_pattern.png "observer_pattern"
 [ViewEvent.java]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/ViewEvent.java
 [NumberFactViewModelUnitTest]: src/test/java/com/orobator/helloandroid/lesson7/viewmodel/NumberFactViewModelUnitTest.kt
 [OkHttpNumberFactViewModel]: src/main/java/com/orobator/helloandroid/lesson7/viewmodel/OkHttpNumberFactViewModel.java
+[NumberFact.java]: src/main/java/com/orobator/helloandroid/lesson7/model/api/NumberFact.java
+[NumbersApi.java]: src/main/java/com/orobator/helloandroid/lesson7/model/api/NumbersApi.java

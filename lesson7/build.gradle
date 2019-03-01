@@ -40,7 +40,15 @@ dependencies {
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
 
+  implementation deps.rx.java
+  implementation deps.rx.android
+
   implementation deps.okhttp.core
+  implementation deps.okhttp.loggingInterceptor
+
+  implementation deps.retrofit.core
+  implementation deps.retrofit.gson
+  implementation deps.retrofit.rxAdapter
 
   testImplementation deps.androidx.test.core
   testImplementation deps.junit

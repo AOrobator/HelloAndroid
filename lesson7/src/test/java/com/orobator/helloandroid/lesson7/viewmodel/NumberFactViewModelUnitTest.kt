@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.orobator.helloandroid.lesson7.model.ConnectionChecker
-import com.orobator.helloandroid.lesson7.viewmodel.OkHttpNumberFactViewModel.NetworkState.DISCONNECTED
+import com.orobator.helloandroid.lesson7.model.connectivity.ConnectionChecker
+import com.orobator.helloandroid.lesson7.model.connectivity.NetworkState.DISCONNECTED
 import org.amshove.kluent.`should equal`
 import org.junit.Rule
 import org.junit.Test
