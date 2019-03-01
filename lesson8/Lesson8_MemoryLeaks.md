@@ -157,7 +157,7 @@ public class HandlersReferenceLeakActivity extends AppCompatActivity {
 
     /*
      * Mistake Number 1
-     * */
+     */
      private Handler leakyHandler = new Handler();
      
     @Override
@@ -167,7 +167,7 @@ public class HandlersReferenceLeakActivity extends AppCompatActivity {
 
         /*
          * Mistake Number 2
-         * */
+         */
         leakyHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -197,7 +197,7 @@ public class HandlersReferenceLeakActivity extends AppCompatActivity {
 
     /*
      * Fix number 1
-     * */
+     */
     private final LeakyHandler leakyHandler = new LeakyHandler(this);
 
     @Override
@@ -210,12 +210,12 @@ public class HandlersReferenceLeakActivity extends AppCompatActivity {
 
     /*
      * Fix number 2 - define as static
-     * */
+     */
     private static class LeakyHandler extends Handler {
       
     /*
      * Fix number 3 - Use WeakReferences
-     * */      
+     */      
         private WeakReference<HandlersReferenceLeakActivity> weakReference;
         public LeakyHandler(HandlersReferenceLeakActivity activity) {
             weakReference = new WeakReference<>(activity);
