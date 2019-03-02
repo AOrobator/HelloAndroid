@@ -1,6 +1,6 @@
 # Lesson 9: Dependency Injection / Dagger 2
 
-## What is a dependency?
+## What is a Dependency?
  
 Let's imagine that we're making chocolate chip pancakes. We'll need pancake batter, and chocolate 
 chips. Since we need these two things to make breakfast, we can say that Chocolate Chip Pancakes has
@@ -79,3 +79,21 @@ out dependencies and focus on testing only one class.
 
 In addition to loose coupling improving testability, it also improves modularity, reusability, and 
 maintainability.
+
+## What is Dependency Injection?
+
+Dependency injection is a technique where one object supplies the dependencies of another object. 
+A dependency is an object that can be used (a service). An injection is the passing of a dependency 
+to a dependent object (a client) that would use it. The service is made part of the client’s state. 
+Passing the service to the client, rather than allowing a client to build or find the service, is 
+the fundamental requirement of the pattern.
+
+In the RetrofitNumberFactViewModel, the Activity passes in the required dependencies via the init 
+method. This is a form of dependency injection. Dependency Injection builds upon the concept of 
+Inversion of Control by letting another object create your dependencies instead of creating them 
+yourself. In simple words, no class should instantiate another class. Instead, it should get the 
+instances from a configuration class.
+
+In an application that relies on dependency injection, the objects never have to hunt around for 
+dependencies or construct them themselves. All the dependencies are provided to them or injected 
+into them so that they are ready to be used.
