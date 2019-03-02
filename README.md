@@ -25,3 +25,5 @@ An introductory overview to native Android development.
  * [Lesson 8: Memory Leaks](lesson8/Lesson8_MemoryLeaks.md)
  
  * [Lesson 9: Dependency Injection with Dagger 2](lesson9/Lesson9_DependencyInjectionDagger2.md)
+ 
+ * [Lesson 10: RecyclerView](lesson10/Lesson10_RecyclerView.md)
