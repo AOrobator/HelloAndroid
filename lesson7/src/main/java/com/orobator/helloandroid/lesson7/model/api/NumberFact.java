@@ -16,7 +16,7 @@ public class NumberFact {
   @SerializedName("type")
   public final String type;
 
-  NumberFact(String text, int number, boolean found, String type) {
+  public NumberFact(String text, int number, boolean found, String type) {
     this.text = text;
     this.number = number;
     this.found = found;

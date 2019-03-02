@@ -28,4 +28,54 @@ public class RetrofitNumberFactViewModel extends ObservableViewModel {
 }
 ``` 
 
-## Potential Dependency Problems
+## Potential Dependency Problems: Tight vs. Loose Coupling
+
+When Class A depends on Class B, we say the 2 classes are coupled. A and B are loosely coupled if an
+instance of B is passed into A's constructor, or a method, or B's implementation is hidden behind an
+interface. A and B are tightly coupled if A directly creates an instance of B itself. If we don't 
+handle the way dependencies are managed well, and have a lot of tightly coupled dependencies, we can 
+run into some sticky situations down the road.
+
+For a concrete example, let's compare the OkHttp and Retrofit NumberFactViewModels. 
+
+```java
+public class OkHttpNumberFactViewModel extends ObservableViewModel {
+  public void getRandomFact() {
+    if (connectionChecker.isConnected()) {
+      // Do network call
+      OkHttpClient client = new OkHttpClient();
+      Request request = new Request.Builder()
+          .url("http://numbersapi.com/" + inputNumber)
+          .addHeader("Content-Type", "application/json")
+          .build();
+    } 
+  }
+}
+```
+
+As we can see, OkHttpNumberFactViewModel has a direct dependency on OkHttpClient, and the real 
+Numbers API. That second dependency is more concerning. Because this ViewModel has a direct 
+dependency on the real API we're using, that means that we can't unit test this class without the 
+ViewModel hitting the real API. This ViewModel is **tightly coupled** to the real Numbers API. 
+
+Compare this to RetrofitNumberFactViewModel, which has a dependency on the NumbersRepository 
+interface, which gets passed in via a method.
+
+```java
+public class RetrofitNumberFactViewModel extends ObservableViewModel {
+
+  private NumbersRepository numbersRepo;
+
+  public void init(NumbersRepository repository) {
+    numbersRepo = repository;
+  }
+}
+```
+
+RetrofitNumberFactViewModel is **loosely coupled** to the Numbers API. In our test for checking that 
+clicking the random fact button will update the UI with a NumberFact, we don't even pass in an 
+implementation of NumbersRepository that connects to the internet! Loose coupling allows us to mock 
+out dependencies and focus on testing only one class.
+
+In addition to loose coupling improving testability, it also improves modularity, reusability, and 
+maintainability.

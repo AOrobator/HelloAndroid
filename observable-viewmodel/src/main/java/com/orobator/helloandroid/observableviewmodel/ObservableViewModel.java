@@ -32,6 +32,12 @@ public class ObservableViewModel extends ViewModel implements Observable {
 
   /** Tell View that it needs to update. */
   protected void notifyPropertyChanged(int property) {
+    synchronized (this) {
+      if (callbacks == null) {
+        return;
+      }
+    }
+
     callbacks.notifyChange(this, property);
   }
 }
