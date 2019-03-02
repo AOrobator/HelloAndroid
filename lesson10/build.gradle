@@ -4,6 +4,11 @@ apply from: rootProject.file("gradle/build-config.gradle")
 android {
   compileSdkVersion buildConfig.compileSdk
 
+  compileOptions {
+    targetCompatibility = "8"
+    sourceCompatibility = "8"
+  }
+
   defaultConfig {
     applicationId "com.orobator.helloandroid.lesson10"
 
@@ -28,12 +33,16 @@ android {
 }
 
 dependencies {
-  implementation project(':observable-viewmodel')
+  implementation project(':observable-viewmodel'),
+      project(':stackoverflow-api'),
+      project(':android-common')
 
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
   implementation deps.androidx.recyclerView
+
+  implementation deps.okhttp.loggingInterceptor
 
   implementation deps.dagger.core
   annotationProcessor deps.dagger.annotationProcessor

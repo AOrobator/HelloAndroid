@@ -26,18 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         style="@style/TextAppearance.MaterialComponents.Headline6"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/questions_error_text"
-        android:textColor="@color/red_500"
-        android:visibility="@{vm.hasError() ? View.VISIBLE : View.GONE}"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/TextAppearance.MaterialComponents.Headline6"/>
-
     <ProgressBar
         android:layout_width="72dp"
         android:layout_height="72dp"
@@ -62,6 +50,23 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item_question"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@{vm.errorText}"
+        android:textColor="@color/red_500"
+        android:visibility="@{vm.hasError() ? View.VISIBLE : View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Permission Denied. You need the internet permission"
+        tools:visibility="visible"
+        style="@style/TextAppearance.MaterialComponents.Headline6"/>
+
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

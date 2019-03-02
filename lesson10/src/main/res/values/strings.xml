@@ -1,5 +1,4 @@
 <resources>
   <string name="app_name">StackOverflow</string>
   <string name="questions_empty_view_text">No questions found</string>
-  <string name="questions_error_text">Error loading questions</string>
 </resources>
