@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson7.viewmodel;
+package com.orobator.helloandroid.lesson9;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -7,7 +7,6 @@ import com.orobator.helloandroid.common.AppSchedulers;
 import com.orobator.helloandroid.common.connectivity.ConnectionChecker;
 import com.orobator.helloandroid.common.connectivity.NetworkState;
 import com.orobator.helloandroid.common.view.ViewEvent;
-import com.orobator.helloandroid.lesson7.BR;
 import com.orobator.helloandroid.numbers.api.NumbersRepository;
 import com.orobator.helloandroid.numbers.model.NumberFact;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
@@ -15,7 +14,7 @@ import io.reactivex.disposables.Disposable;
 
 import static com.orobator.helloandroid.common.connectivity.NetworkState.DISCONNECTED;
 
-public class RetrofitNumberFactViewModel extends ObservableViewModel {
+public class NumberFactViewModel extends ObservableViewModel {
   public String inputNumber = "";
 
   public String outputFact = "";

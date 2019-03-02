@@ -2,9 +2,10 @@ package com.orobator.helloandroid.lesson7.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.orobator.helloandroid.common.connectivity.ConnectionChecker;
+import com.orobator.helloandroid.common.connectivity.NetworkState;
+import com.orobator.helloandroid.common.view.ViewEvent;
 import com.orobator.helloandroid.lesson7.BR;
-import com.orobator.helloandroid.lesson7.model.connectivity.ConnectionChecker;
-import com.orobator.helloandroid.lesson7.model.connectivity.NetworkState;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
 import java.io.IOException;
 import okhttp3.Call;
@@ -13,7 +14,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.orobator.helloandroid.lesson7.model.connectivity.NetworkState.DISCONNECTED;
+import static com.orobator.helloandroid.common.connectivity.NetworkState.DISCONNECTED;
 
 public class OkHttpNumberFactViewModel extends ObservableViewModel {
   public String inputNumber = "";

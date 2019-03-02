@@ -1,16 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply from: rootProject.file("gradle/build-config.gradle")
 
 android {
   compileSdkVersion buildConfig.compileSdk
 
-  compileOptions {
-    targetCompatibility = "8"
-    sourceCompatibility = "8"
-  }
-
   defaultConfig {
-    applicationId "com.orobator.helloandroid.lesson9"
     minSdkVersion buildConfig.minSdk
     targetSdkVersion buildConfig.compileSdk
     versionCode buildConfig.version.code
@@ -25,18 +19,11 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
-
-  dataBinding {
-    enabled = true
-  }
 }
 
 dependencies {
-  implementation project(':android-common'),
-      project(':numbers-api'),
-      project(':observable-viewmodel')
-
   implementation deps.androidx.appCompat
-  implementation deps.androidx.constraintLayout
-  implementation deps.androidx.material
+
+  api deps.rx.java
+  api deps.rx.android
 }

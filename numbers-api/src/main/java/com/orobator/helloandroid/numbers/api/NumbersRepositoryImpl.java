@@ -1,5 +1,6 @@
-package com.orobator.helloandroid.lesson7.model.api;
+package com.orobator.helloandroid.numbers.api;
 
+import com.orobator.helloandroid.numbers.model.NumberFact;
 import io.reactivex.Single;
 
 public class NumbersRepositoryImpl implements NumbersRepository {

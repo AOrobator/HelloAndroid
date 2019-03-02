@@ -34,20 +34,17 @@ android {
 
 
 dependencies {
-  implementation project(':observable-viewmodel')
+  implementation project(':android-common'),
+      project(':numbers-api'),
+      project(':observable-viewmodel')
 
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material
 
-  implementation deps.rx.java
-  implementation deps.rx.android
-
   implementation deps.okhttp.core
   implementation deps.okhttp.loggingInterceptor
 
-  implementation deps.retrofit.core
-  implementation deps.retrofit.gson
   implementation deps.retrofit.rxAdapter
 
   testImplementation deps.androidx.test.core

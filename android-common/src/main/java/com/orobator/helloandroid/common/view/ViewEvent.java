@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson7.viewmodel;
+package com.orobator.helloandroid.common.view;
 
 import androidx.annotation.Nullable;
 import java.util.Objects;

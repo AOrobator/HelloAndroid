@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson7.model.api;
+package com.orobator.helloandroid.numbers.model;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;

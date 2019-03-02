@@ -4,11 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.orobator.helloandroid.lesson7.model.AppSchedulers
-import com.orobator.helloandroid.lesson7.model.api.NumberFact
-import com.orobator.helloandroid.lesson7.model.api.NumbersRepository
-import com.orobator.helloandroid.lesson7.model.connectivity.ConnectionChecker
-import com.orobator.helloandroid.lesson7.model.connectivity.NetworkState.DISCONNECTED
+import com.orobator.helloandroid.common.AppSchedulers
+import com.orobator.helloandroid.common.connectivity.ConnectionChecker
+import com.orobator.helloandroid.common.connectivity.NetworkState.DISCONNECTED
+import com.orobator.helloandroid.common.view.ViewEvent
+import com.orobator.helloandroid.numbers.api.NumbersRepository
+import com.orobator.helloandroid.numbers.model.NumberFact
 import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.amshove.kluent.`should equal`

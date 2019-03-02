@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+        name="vm"
+        type="com.orobator.helloandroid.lesson9.NumberFactViewModel"/>
+  </data>
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/root"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".NetworkingActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/numberEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Enter Number"
+          android:inputType="number"
+          android:text="@={vm.inputNumber}"
+          tools:ignore="HardcodedText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/randomFactButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Random Fact"
+        app:icon="@drawable/ic_casino_24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayout"
+        tools:ignore="HardcodedText"
+        android:onClick="@{() -> vm.getRandomFact()}"
+        style="@style/Widget.MaterialComponents.Button.Icon"/>
+
+    <TextView
+        android:id="@+id/factTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/randomFactButton"
+        android:text="@{vm.outputFact}"
+        tools:text="42 is the answer to Life, The Universe, and Everything."
+        style="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

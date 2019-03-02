@@ -1,5 +1,6 @@
-package com.orobator.helloandroid.lesson7.model.api;
+package com.orobator.helloandroid.numbers.api;
 
+import com.orobator.helloandroid.numbers.model.NumberFact;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
