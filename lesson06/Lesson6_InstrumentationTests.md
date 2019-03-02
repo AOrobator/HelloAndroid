@@ -94,7 +94,7 @@ look at this generated apk using Android's APK analyzer. Using the invoke action
 "Analyze APK" and when it prompts for a path, choose 
 
 ```
-lesson5/build/outputs/apk/androidTest/debug/lesson5-debug-androidTest.apk
+lesson05/build/outputs/apk/androidTest/debug/lesson5-debug-androidTest.apk
 ```
 
 After selecting this apk, you should get something that looks like this:
@@ -123,7 +123,7 @@ After the test APK is deployed the ActivityManager creates the Instrumentation. 
 AndroidJUnitRunner collects and executes the test and reports the results to 
 
 ```
-lesson5/build/outputs/androidTest-results/connected/
+lesson05/build/outputs/androidTest-results/connected/
 ```
 
 ![Life of an Espresso Test][life_of_espresso_test]
@@ -219,12 +219,12 @@ executes each test separately, in its own instance of `Instrumentation`.
  
 [test-pyramid]: test_pyramid.png "test-pyramid"
 [espresso-cheatsheet]: espresso-cheatsheet.png "espresso-cheatsheet"
-[TipCalcActivityTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityTest.kt
+[TipCalcActivityTest]: ../lesson05/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityTest.kt
 [instrumentation_testing_flow]: instrumentation_testing_flow.png "instrumentation-testing-flow"
 [test_apk_analysis]: test_apk_analysis.png "test-apk-analysis"
 [JUnitTestRunnerFlow]: AndroidJUnitRunnerTestingFlow.png "AndroidJUnitRunnerTestingFlow"
 [life_of_espresso_test]: life_of_espresso_test.png "life_of_espresso_test"
-[TipCalcActivityKotlinDslTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
+[TipCalcActivityKotlinDslTest]: ../lesson05/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityKotlinDslTest.kt
 [ui_test_architecture]: ui_test_architecture.png "ui-test-architecture"
-[TipCalcActivityRobotTest]: ../lesson5/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityRobotTest.kt
+[TipCalcActivityRobotTest]: ../lesson05/src/androidTest/java/com/orobator/helloandroid/lesson5/TipCalcActivityRobotTest.kt
 [android_test_orchestrator_flow]: android_test_orchestrator_flow.png "android_test_orchestrator_flow"
