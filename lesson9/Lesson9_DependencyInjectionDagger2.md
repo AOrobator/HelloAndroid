@@ -97,3 +97,20 @@ instances from a configuration class.
 In an application that relies on dependency injection, the objects never have to hunt around for 
 dependencies or construct them themselves. All the dependencies are provided to them or injected 
 into them so that they are ready to be used.
+
+## Dagger 2
+
+The app we made in Lesson 7 works, and NetworkingActivity passes in all dependencies to our 
+ViewModel. But what if we had several Activities that all needed an instance of either Retrofit or 
+the NumbersApi? We wouldn't want to create a new instance every time, and we'd need some way of 
+storing all those dependencies. Our dependency graph (what depends on what) is also very simple, but
+it has the potential to become very complex as our application grows. We don't want to manage our 
+dependency graph by hand manually, as that will be quite error prone. Luckily, Dagger 2 can solve 
+these problems for us.
+
+Dagger is a fully static, compile-time dependency injection framework for both Java and Android. It 
+is the only DI framework which generates fully traceable source code in Java which mimics the code 
+that a developer may write by hand.
+
+To get started with Dagger 2, we'll have to add the appropriate dependencies (ha) to our 
+build.gradle:  
