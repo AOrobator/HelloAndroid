@@ -28,6 +28,15 @@ android {
 }
 
 dependencies {
+  implementation project(':observable-viewmodel')
+
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
+  implementation deps.androidx.material
+  implementation deps.androidx.recyclerView
+
+  implementation deps.dagger.core
+  annotationProcessor deps.dagger.annotationProcessor
+  implementation deps.dagger.android
+  annotationProcessor deps.dagger.androidAnnotationProcessor
 }

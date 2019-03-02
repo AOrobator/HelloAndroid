@@ -1,12 +1,12 @@
 package com.orobator.helloandroid.lesson7.model.api
 
-import com.orobator.helloandroid.lesson7.`completed with single value`
 import com.orobator.helloandroid.numbers.api.NumbersApi
 import com.orobator.helloandroid.numbers.api.NumbersRepositoryImpl
 import com.orobator.helloandroid.numbers.model.NumberFact
 import com.orobator.mockwebserverassertions.BaseApiTest
 import com.orobator.mockwebserverassertions.ExpectedRequest
 import com.orobator.mockwebserverassertions.HttpMethod.GET
+import com.orobator.mockwebserverassertions.`completed with single value`
 import com.orobator.mockwebserverassertions.`received request`
 import io.reactivex.observers.TestObserver
 import okhttp3.OkHttpClient

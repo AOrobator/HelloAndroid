@@ -1,0 +1,19 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    api deps.rx.java
+
+    api deps.retrofit.core
+    api deps.retrofit.gson
+    api deps.retrofit.rxAdapter
+
+    implementation deps.okhttp.core
+    implementation deps.okhttp.loggingInterceptor
+
+    testImplementation deps.kotlin.stdLib
+    testImplementation project(':mock-web-server-assertions')
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

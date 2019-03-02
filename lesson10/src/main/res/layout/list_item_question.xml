@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="132dp"
+    android:paddingBottom="4dp"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
+    android:paddingTop="4dp"
+    tools:background="@color/grey_300">
+
+  <com.google.android.material.card.MaterialCardView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <ImageButton
+          android:id="@+id/upvote_button"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+          app:layout_constraintBottom_toTopOf="@+id/vote_count"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          style="@style/Widget.AppCompat.Button.Borderless"/>
+
+      <TextView
+          android:id="@+id/vote_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{vm.voteCount}"
+          app:layout_constraintBottom_toTopOf="@id/upvote_button"
+          app:layout_constraintEnd_toEndOf="@id/upvote_button"
+          app:layout_constraintStart_toStartOf="@id/upvote_button"
+          app:layout_constraintTop_toBottomOf="@id/upvote_button"
+          tools:text="26"
+          style="@style/TextAppearance.MaterialComponents.Body2"/>
+
+      <ImageButton
+          android:id="@+id/downvote_button"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/vote_count"
+          style="@style/Widget.AppCompat.Button.Borderless"/>
+
+      <TextView
+          android:id="@+id/title"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
+          android:layout_marginEnd="16dp"
+          android:layout_marginStart="16dp"
+          android:text="@{vm.title}"
+          app:layout_constraintBottom_toTopOf="@id/chip_scroll_view"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/vote_count"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_chainStyle="packed"
+          tools:text="My code broke, pls help"
+          style="@style/TextAppearance.MaterialComponents.Body1"/>
+
+      <HorizontalScrollView
+          android:id="@+id/chip_scroll_view"
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:clipToPadding="false"
+          android:paddingEnd="8dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/downvote_button"
+          app:layout_constraintTop_toBottomOf="@id/title">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            app:singleLine="true"
+            tools:background="@color/orange_100"/>
+      </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

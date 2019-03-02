@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson7
+package com.orobator.mockwebserverassertions
 
 import io.reactivex.observers.TestObserver
 import java.util.concurrent.TimeUnit
