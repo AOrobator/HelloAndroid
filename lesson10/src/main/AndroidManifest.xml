@@ -14,7 +14,7 @@
       android:name=".StackOverflowApplication"
       android:theme="@style/AppTheme"
       tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".QuestionsActivity">
+    <activity android:name=".view.QuestionsActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

@@ -12,7 +12,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:background="@color/grey_300"
-      tools:context=".QuestionsActivity">
+      tools:context=".view.QuestionsActivity">
 
     <TextView
         android:layout_width="wrap_content"
