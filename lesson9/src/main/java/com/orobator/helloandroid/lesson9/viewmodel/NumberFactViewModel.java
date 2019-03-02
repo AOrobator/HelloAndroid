@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson9;
+package com.orobator.helloandroid.lesson9.viewmodel;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -7,6 +7,7 @@ import com.orobator.helloandroid.common.AppSchedulers;
 import com.orobator.helloandroid.common.connectivity.ConnectionChecker;
 import com.orobator.helloandroid.common.connectivity.NetworkState;
 import com.orobator.helloandroid.common.view.ViewEvent;
+import com.orobator.helloandroid.lesson9.BR;
 import com.orobator.helloandroid.numbers.api.NumbersRepository;
 import com.orobator.helloandroid.numbers.model.NumberFact;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
@@ -22,17 +23,17 @@ public class NumberFactViewModel extends ObservableViewModel {
   private final MutableLiveData<ViewEvent<NetworkState>> networkStateMutableLiveData =
       new MutableLiveData<>();
 
-  private ConnectionChecker connectionChecker;
-  private NumbersRepository numbersRepo;
-  private AppSchedulers schedulers;
+  private final ConnectionChecker connectionChecker;
+  private final NumbersRepository numbersRepo;
+  private final AppSchedulers schedulers;
   private Disposable disposable;
 
-  public void init(
-      ConnectionChecker checker,
-      NumbersRepository repository,
+  public NumberFactViewModel(
+      ConnectionChecker connectionChecker,
+      NumbersRepository numbersRepo,
       AppSchedulers schedulers) {
-    connectionChecker = checker;
-    numbersRepo = repository;
+    this.connectionChecker = connectionChecker;
+    this.numbersRepo = numbersRepo;
     this.schedulers = schedulers;
   }
 

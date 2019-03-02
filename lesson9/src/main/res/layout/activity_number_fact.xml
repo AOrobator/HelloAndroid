@@ -5,7 +5,7 @@
   <data>
     <variable
         name="vm"
-        type="com.orobator.helloandroid.lesson9.NumberFactViewModel"/>
+        type="com.orobator.helloandroid.lesson9.viewmodel.NumberFactViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/root"

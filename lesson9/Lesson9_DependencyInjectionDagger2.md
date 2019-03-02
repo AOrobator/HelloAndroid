@@ -113,4 +113,211 @@ is the only DI framework which generates fully traceable source code in Java whi
 that a developer may write by hand.
 
 To get started with Dagger 2, we'll have to add the appropriate dependencies (ha) to our 
-build.gradle:  
+build.gradle: 
+
+```groovy
+dependencies {
+  implementation 'com.google.dagger:dagger:2.x'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.x'
+  implementation 'com.google.dagger:dagger-android-support:2.x' // if you use the support libraries
+  annotationProcessor 'com.google.dagger:dagger-android-processor:2.x'
+}
+```
+
+Next, we'll want to do some refactoring. Instead of passing our dependencies for NumberFactViewModel
+through a method, we'll get them through the constructor.
+
+```java
+public NumberFactViewModel(
+    ConnectionChecker connectionChecker,
+    NumbersRepository numbersRepo,
+    AppSchedulers schedulers) {
+  this.connectionChecker = connectionChecker;
+  this.numbersRepo = numbersRepo;
+  this.schedulers = schedulers;
+}
+```
+
+After that, we'll tell Android how to create our ViewModel by creating NumberFactViewModelFactory.
+
+```java
+public class NumberFactViewModelFactory implements ViewModelProvider.Factory {
+  private final ConnectionChecker connectionChecker;
+  private final NumbersRepository numbersRepo;
+  private final AppSchedulers schedulers;
+
+  public NumberFactViewModelFactory(
+      ConnectionChecker connectionChecker,
+      NumbersRepository numbersRepo, AppSchedulers schedulers) {
+    this.connectionChecker = connectionChecker;
+    this.numbersRepo = numbersRepo;
+    this.schedulers = schedulers;
+  }
+
+  @NonNull @Override public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+    return (T) new NumberFactViewModel(connectionChecker, numbersRepo, schedulers);
+  }
+}
+```
+
+Now this is where the actual usage of Dagger will start. We declare a member variable for 
+NumberFactViewModelFactory, but instead of instantiating it ourselves, we annotate it with 
+`@Inject`. This tells Dagger that it should provide this dependency for us. In `onCreate()`, we do 
+the actual injection of dependencies by calling `AndroidInjection.inject(this)`. Now our 
+viewModelFactory has been instantiated. The last thing we'll change in the Activity is how our 
+ViewModel is created. We'll want to pass in an instance of our ViewModelFactory so Android knows how
+to instantiate it. 
+
+```java
+public class NumberFactActivity extends AppCompatActivity {
+
+  @Inject NumberFactViewModelFactory viewModelFactory;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    AndroidInjection.inject(this);
+
+    NumberFactViewModel viewModel =
+        ViewModelProviders
+            .of(this, viewModelFactory)
+            .get(NumberFactViewModel.class);
+  }
+}
+```
+
+So how does Dagger know how to create our ViewModelFactory? We'll have to make a Module called 
+NumberFactActivityModule. 
+
+```java
+@Module
+public class NumberFactActivityModule {
+  @Provides
+  public NumberFactViewModelFactory provideNumberFactViewModelFactory(
+      NumbersRepository repository,
+      ConnectionChecker checker,
+      AppSchedulers schedulers
+  ) {
+    return new NumberFactViewModelFactory(checker, repository, schedulers);
+  }
+}
+```
+
+In Dagger, a Module is a class that contributes to the object graph. We 
+indicate that a class is a module by annotating it with `@Module`. Each method that provides an 
+object in the graph should be annotated with `@Provides`. The name of the method doesn't really 
+matter. By convention, we use `provideObjectToProvide()`. What's most important is the method's 
+return type, as this is what Dagger uses to create the object graph. Now that we've created 
+NumberFactActivityModule, we'll need to associate it with the right Activity. We'll do this by 
+creating ActivityBindingModule, which will bind modules to their appropriate Activity.
+
+```java
+@Module
+public abstract class ActivityBindingModule {
+  @ContributesAndroidInjector(modules = { NumberFactActivityModule.class })
+  abstract NumberFactActivity bindNumberFactActivity();
+}
+``` 
+
+Here we're defining an abstract method bindNumberFactActivity() that returns NumberFactActivity. We 
+associate it with the appropriate module by using the annotation `@ContributesAndroidInjector` and 
+passing in the class of our module.
+
+Now you may have been wondering about `NumberFactActivityModule`'s provide method. Where do the 
+method parameters come from? They'll come from another module we'll create, `AppModule`. When 
+constructing our object graph, we'll want to keep each module small and focused to increase 
+modularity and maintain low coupling between dependencies. In `AppModule` we'll want to create 
+objects that are relevant to the entire app.
+
+Here's a snippet of `AppModule.java`:
+
+```java
+@Module
+public class AppModule {
+  @Provides
+  @Singleton
+  public NumbersApi provideNumbersApi(Retrofit retrofit) {
+    return retrofit.create(NumbersApi.class);
+  }
+}
+``` 
+
+We're already familiar with the `@Module` and `@Provides` annotations. The `@Singleton` annotation 
+specifies what's known as the scope for this dependency. You can think of the scope as the lifecycle
+for a particular dependency. A scope of Singleton tells Dagger to only create one instance of 
+this object, and to keep it around for the lifetime of the app.
+
+Now that we've declared all of our dependencies, it's time to put everything together. We'll start 
+by creating `AppComponent`. A Component in Dagger allows for a fully-formed, dependency-injected 
+implementation to be generated from a set of modules. The generated class will have the name of the 
+type annotated with `@Component` prepended with `Dagger`. For example, 
+`@Component interface MyComponent {...}` will produce an implementation named `DaggerMyComponent`.
+
+[AppComponent.java](src/main/java/com/orobator/helloandroid/lesson9/di/AppComponent.java)
+
+```java
+@Singleton
+@Component(modules = {
+    AndroidSupportInjectionModule.class,
+    AppModule.class,
+    ActivityBindingModule.class
+})
+public interface AppComponent {
+  void inject(NumberFactApplication app);
+
+  @Component.Builder
+  interface Builder {
+    @BindsInstance 
+    Builder application(NumberFactApplication application);
+
+    AppComponent build();
+  }
+}
+``` 
+
+As you can see, `AppComponent` is annotated with `@Component` and the modules it depends on are 
+passed into the annotation. `AndroidSupportInjectModule` allows us to use dagger.android classes 
+like AndroidInjection.
+
+Our component has a single method which injects our Application class. This is a way of letting 
+Dagger know that it will have to provide dependencies to `NumberFactApplication`.
+
+We also have an inner interface called Builder and annotated with `@Component.Builder`. This 
+provides a builder for our component. The application method lets the builder know that our 
+component requires a `NumberFactApplication`. The `@BindsInstance` annotation gives our underlying 
+modules access to `NumberFactApplication` without having to specify a dependency in the constructor 
+of the module.
+
+The last thing we'll need to do to get Dagger working is to update our Application class and 
+actually create the object graph.
+
+```java
+public class NumberFactApplication extends Application implements HasActivityInjector {
+  @Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+  @Override public void onCreate() {
+    super.onCreate();
+
+    DaggerAppComponent
+        .builder()
+        .application(this)
+        .build()
+        .inject(this);
+  }
+
+  @Override public AndroidInjector<Activity> activityInjector() {
+    return dispatchingAndroidInjector;
+  }
+}
+```
+
+In `onCreate()`, we get an instance of AppComponent.Builder via the generated class 
+`DaggerAppComponent`. In the builder, we pass in the application, build it, then inject our 
+application. By injecting our application, we receive an instance of `DispatchingAndroidInjector`.
+
+`DispatchingAndroidInjector` performs members-injection on instances of core Android types 
+(e.g. Activity). 
+
+Finally, we need to implement the `HasActivityInjector` interface. This will return the 
+`DispatchingAndroidInjector` that gets injected in `onCreate()`. Now we're using Dagger to inject 
+dependencies into our Activities instead of creating them ourselves.

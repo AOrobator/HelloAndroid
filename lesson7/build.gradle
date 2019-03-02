@@ -45,8 +45,6 @@ dependencies {
   implementation deps.okhttp.core
   implementation deps.okhttp.loggingInterceptor
 
-  implementation deps.retrofit.rxAdapter
-
   testImplementation deps.androidx.test.core
   testImplementation deps.junit
   testImplementation deps.kluent

@@ -1,9 +1,11 @@
 apply plugin: 'java-library'
 
 dependencies {
-    api deps.retrofit.core
     api deps.rx.java
+
+    api deps.retrofit.core
     api deps.retrofit.gson
+    api deps.retrofit.rxAdapter
 }
 
 sourceCompatibility = "8"
