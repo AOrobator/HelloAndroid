@@ -74,13 +74,48 @@ Questions we get in the response to `List<QuestionViewModel>` so we'll easily be
 each question to our layout. Once we have this list, we'll call `setValue` on an instance of 
 `MutableLiveData<List<QuestionViewModel>>`. After exposing this as a 
 `LiveData<List<QuestionViewModel>>`, our `QuestionsActivity` will observe it and pass on the result
-to the RecyclerView.
+to the RecyclerView's adapter.
 
 A `RecyclerView` gets its views from a `RecylerView.Adapter`. The adapter lets the `RecyclerView` 
 know how many views it has and how each list item should be rendered. It's also responsible for 
 notifying the `RecyclerView` when the underlying data has changed. `RecyclerView.Adapter` has a type
 parameter for `RecyclerView.ViewHolder`. You can think of a `ViewHolder` as an individual list item.
 It holds a reference to the list item view, as well as metadata about its position in the `Adapter`.
+
+We'll implement `QuestionViewHolder` first as it's rather straightforward.
+
+```java
+static public class QuestionViewHolder extends RecyclerView.ViewHolder {
+    private final ListItemQuestionBinding binding;
+
+    public QuestionViewHolder(@NonNull ListItemQuestionBinding binding) {
+      super(binding.getRoot());
+
+      this.binding = binding;
+    }
+
+    public void bind(QuestionViewModel viewModel) {
+      binding.setVm(viewModel);
+
+      binding.chipGroup.removeAllViews();
+      for (String tag : viewModel.tags) {
+        Chip chip = new Chip(itemView.getContext());
+        chip.setText(tag);
+        chip.setChipBackgroundColorResource(R.color.orange_100);
+        binding.chipGroup.addView(chip);
+      }
+    }
+  }
+```
+
+The super class's constructor takes in a View, so when we get our binding, we'll pass the root 
+along. We'll declare a bind method that takes in a `QuestionViewModel` and sets it on 
+`ListItemQuestionBinding`. The first thing that we should do after we set the ViewModel is remove
+all views from the ChipGroup which holds the tags for the questions. It might seem a little strange 
+that we're removing views when nothing has seemingly been added to it. We have to keep in mind that 
+it's possible that this view has already been displayed in the `RecyclerView`, and as a result the 
+View is populated with data from another list item. Therefore, we must reset the view to an initial 
+state. Then we'll add a `Chip` for each tag the question has. 
 
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs
