@@ -1,11 +1,7 @@
-package com.orobator.helloandroid.stackoverflow
+package com.orobator.helloandroid.stackoverflow.questions
 
-import com.orobator.helloandroid.stackoverflow.questions.Question
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi.Order
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi.Sort
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsDownloader
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsResponse
+import com.orobator.helloandroid.stackoverflow.ApiConstants.Order
+import com.orobator.helloandroid.stackoverflow.ApiConstants.Sort
 import com.orobator.helloandroid.stackoverflow.user.User
 import com.orobator.mockwebserverassertions.BaseApiTest
 import com.orobator.mockwebserverassertions.ExpectedRequest

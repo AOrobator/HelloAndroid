@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.stackoverflow
+package com.orobator.helloandroid.stackoverflow.questions
 
 import okhttp3.mockwebserver.MockResponse
 import org.intellij.lang.annotations.Language

@@ -1,5 +1,6 @@
 package com.orobator.helloandroid.stackoverflow.questions;
 
+import com.orobator.helloandroid.stackoverflow.ApiConstants;
 import io.reactivex.Single;
 
 public interface QuestionsRepository {
@@ -7,7 +8,7 @@ public interface QuestionsRepository {
   Single<QuestionsResponse> getQuestions(
       int page,
       int pageSize,
-      QuestionsApi.Order order,
-      QuestionsApi.Sort sort
+      ApiConstants.Order order,
+      ApiConstants.Sort sort
   );
 }
