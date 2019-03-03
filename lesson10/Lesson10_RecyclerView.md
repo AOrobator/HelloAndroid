@@ -115,7 +115,27 @@ all views from the ChipGroup which holds the tags for the questions. It might se
 that we're removing views when nothing has seemingly been added to it. We have to keep in mind that 
 it's possible that this view has already been displayed in the `RecyclerView`, and as a result the 
 View is populated with data from another list item. Therefore, we must reset the view to an initial 
-state. Then we'll add a `Chip` for each tag the question has. 
+state. Then we'll add a `Chip` for each tag the question has.
+
+`QuestionsRecyclerAdapter` has 3 key methods which makes everything work. There are other methods 
+you can override/implement to provide or receive additional information such as the view type of an 
+item if there are multiple view types, or when a view has been recycled, but they are non-essential. 
+
+The first essential method is `getItemCount`. This method tells the RecyclerView how many items in 
+total it has. For this adapter, we have a list of `QuestionViewModel`s, so we just return the size 
+of the list. It's possible for this list to change via `updateList` and when it does, we call 
+`notifyDataSetChanged`, so the RecylerView can rebind all of its views. There are also more granular
+change notification methods such as `notifyItemRemoved` or `notifyItemInserted` which provide 
+support for better animations.
+
+The second essential method is `onCreateViewHolder`, which as its name suggests, creates a 
+ViewHolder for a given viewType. Since we only have 1 viewType here, we ignore this parameter. If we
+had more than one viewType, in addition to using this parameter, we'd also have to override 
+`getItemViewType`.
+
+The third essential method is `onBindViewHolder`. Once a ViewHolder is created, we need to populate 
+it with the relevant information. This method allows us to do just that by passing the position in 
+the list of the ViewHolder. 
 
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs

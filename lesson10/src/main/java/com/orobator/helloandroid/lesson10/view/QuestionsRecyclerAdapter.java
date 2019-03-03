@@ -16,6 +16,10 @@ import java.util.List;
 public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
   private List<QuestionViewModel> questionViewModels = Collections.emptyList();
 
+  @Override public int getItemCount() {
+    return questionViewModels.size();
+  }
+
   @NonNull @Override
   public QuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -26,10 +30,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewH
 
   @Override public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
     holder.bind(questionViewModels.get(position));
-  }
-
-  @Override public int getItemCount() {
-    return questionViewModels.size();
   }
 
   public void updateList(List<QuestionViewModel> questions) {
