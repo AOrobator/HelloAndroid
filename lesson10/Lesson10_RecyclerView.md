@@ -61,7 +61,20 @@ specify a `LinearLayoutManager` so that our items are laid out vertically from t
 is the most common LayoutManager you'll use, but there is also, `StaggeredGridLayoutManager` and 
 `GridLayoutManager`. Finally we'll use `tools:listitem` to specify which layout to use as a list 
 item for our layout preview. Note that since this is in the tools namespace, it doesn't affect our 
-final app at all.   
+final app at all.
+
+`QuestionsViewModel` will take in a `QuestionsRepository` defined in `stackoverflow-api` as well as 
+an instance of `AppSchedulers` so that we can make our network call on a background thread. These 
+should be passed into the constructor and we'll use a combination of `ViewModelProvider.Factory` and
+dependency injection with Dagger to achieve this. Feel free to use Lesson 9 as a reference.
+
+`QuestionsViewModel` will have a `loadQuestions()` method that will grab questions from the 
+repository. In the success case, we'll get back a `QuestionsResponse`. We'll convert the list of 
+Questions we get in the response to `List<QuestionViewModel>` so we'll easily be able to databind 
+each question to our layout. Once we have this list, we'll call `setValue` on an instance of 
+`MutableLiveData<List<QuestionViewModel>>`. After exposing this as a 
+`LiveData<List<QuestionViewModel>>`, our `QuestionsActivity` will observe it and pass on the result
+to the RecyclerView.
 
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs
