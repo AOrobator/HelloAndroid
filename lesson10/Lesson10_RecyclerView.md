@@ -76,5 +76,11 @@ each question to our layout. Once we have this list, we'll call `setValue` on an
 `LiveData<List<QuestionViewModel>>`, our `QuestionsActivity` will observe it and pass on the result
 to the RecyclerView.
 
+A `RecyclerView` gets its views from a `RecylerView.Adapter`. The adapter lets the `RecyclerView` 
+know how many views it has and how each list item should be rendered. It's also responsible for 
+notifying the `RecyclerView` when the underlying data has changed. `RecyclerView.Adapter` has a type
+parameter for `RecyclerView.ViewHolder`. You can think of a `ViewHolder` as an individual list item.
+It holds a reference to the list item view, as well as metadata about its position in the `Adapter`.
+
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs
