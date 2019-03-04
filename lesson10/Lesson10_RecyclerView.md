@@ -6,9 +6,11 @@ client. We'll end up with something that looks like this:
 ![Stack Overflow][StackOverflow]
 
 First we'll have to make a separate module called `stackoverflow-api` that does all our networking 
-calls. To start off, we'll want a function that gets the 20 hottest questions in descending order. 
-Here's the [StackOverflow API] to get you started. Make sure to unit test your networking code to 
-verify proper functionality.
+calls. To start off, we'll want a function that gets the 20 hottest questions in descending order.
+You'll also want a separate function to get the answers to a specific question. Make sure these 2 
+methods are in separate API interfaces with separate repositories. Here's the [StackOverflow API] to
+get you started. You'll want to use `filter=withbody` in order to get the actual text of the 
+questions and answers. Make sure to unit test your networking code to verify proper functionality.
 
 After we finish the networking part of the code, we'll want to add the `RecyclerView` dependency to 
 our build.gradle file.
@@ -266,6 +268,120 @@ Your end product should look something like this:
 
 ![Answers View][answers_view]
 
+## Image Loading & BindingAdapters
+
+Most apps display some imagery to the user instead of displaying walls of text. To remedy this, 
+we'll load in the profile images for the users in the `AnswersActivity`. There are many image 
+loading libraries for Android and their APIs are all very similar. The main ones to check out are 
+[Glide] and [Picasso]. For this lesson, we'll be using Glide. First we'll have to add the relevant
+dependencies to our build.gradle file:
+
+```groovy
+dependencies {
+  implementation "com.github.bumptech.glide:glide:4.9.0"
+  annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+}
+```
+
+Loading images with Glide requires only 1 line of code!
+
+```java
+Glide
+  .with(itemView)
+  .load(questionViewModel.profilePicUrl)
+  .into(binding.profileImageView);
+```
+
+Glide handles a lot of stuff behind the scenes for you, such as recognizing when an ImageView is 
+being used in a RecyclerView and the load needs to be cancelled due to the view being recycled. 
+Glide also allows users to specify three different placeholders that are used under different 
+circumstances: placeholder, error, and fallback. 
+
+Placeholders are Drawables that are shown while a request is in progress. When a request completes 
+successfully, the placeholder is replaced with the requested resource.
+
+```java
+Glide.with(fragment)
+  .load(url)
+  .placeholder(R.drawable.placeholder)
+  .into(view);
+```
+
+Error Drawables are shown when a request permanently fails. Error Drawables are also shown if the 
+requested url/model is null and no fallback Drawable is set.
+
+```java
+Glide.with(activity)
+  .load(url)
+  .error(new ColorDrawable(Color.RED))
+  .into(view);
+```
+
+Fallback Drawables are shown when the requested url/model is null. The primary purpose of fallback 
+Drawables is to allow users to indicate whether or not null is expected. For example, a null profile 
+url may indicate that the user has not set a profile photo and that a default should be used. 
+However, null may also indicate that meta-data is invalid or couldn't be retrieved. By default Glide 
+treats null urls/models as errors, so users who expect null should set a fallback Drawable.
+
+```java
+Glide.with(view)
+  .load(url)
+  .fallback(R.drawable.fallback)
+  .into(view);
+```
+
+Note that placeholders are loaded from Android resources on the main thread. Glide expects 
+placeholders to be small and easily cache-able by the system resource cache.
+
+When loading images, you should always be aware of the size of the image vs the size that you 
+display it at. Not doing so can cause some really [nasty bugs]. Thankfully, Glide automatically 
+scales down images to fit in the ImageView, but if you'd like to customize that behavior, you can 
+always specify a `Transformation`.
+
+```java
+import static com.bumptech.glide.request.RequestOptions.fitCenterTransform;
+
+Glide.with(fragment)
+  .load(url)
+  .apply(fitCenterTransform())
+  .into(imageView);
+```
+
+Transformations in Glide take a resource, mutate it, and return the mutated resource. Typically 
+transformations are used to crop, or apply filters to Bitmaps, but they can also be used to 
+transform animated GIFs, or even custom resource types.
+
+It's possible to use databinding to specify the url in the XML layout instead of manually loading 
+the image in your adapter. To do this requires the use of a `BindingAdapter`. 
+
+```java
+public class BindingAdapters {
+  @BindingAdapter({ "imgUrl" })
+  public static void loadImage(ImageView imageView, String url) {
+    Glide.with(imageView).load(url).into(imageView);
+  }
+}
+```
+
+To make a BindingAdapter, you'll need to annotate a method with `@BindingAdapter` and specify the 
+name of the attribute you'd like to use. The method should take in the type of View you're binding, 
+as well as the data to be bound. Once this is defined, you can use it in your layouts like so:
+
+```xml
+<ImageView
+    android:id="@+id/profile_ImageView"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    app:imgUrl="@{vm.profilePicUrl}"/>
+```
+
+To try BindingAdapters out for yourself, refactor the `QuestionsActivity` to use `BindingAdapters` 
+to toggle visibility. You should be able to specify the attribute like so: 
+`app:isVisible="@{vm.isVisible}`. 
+
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs
 [answers_view]: answers_view.jpg "Answers View"
+[Glide]: https://bumptech.github.io/glide/
+[Picasso]: https://square.github.io/picasso/
+[nasty bugs]: https://www.youtube.com/watch?v=_MI7-xMNEDY

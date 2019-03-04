@@ -14,6 +14,7 @@ public class QuestionViewModel {
   public final List<String> tags;
   public final Spanned body;
   public final String userName;
+  public final String profilePicUrl;
 
   public QuestionViewModel(Question question) {
     this.title = question.getTitle();
@@ -21,6 +22,7 @@ public class QuestionViewModel {
     this.tags = question.getTags();
     this.body = HtmlCompat.fromHtml(question.getBody(), FROM_HTML_MODE_LEGACY);
     this.userName = question.getOwner().getDisplayName();
+    profilePicUrl = question.getOwner().getProfileImageUrl();
   }
 
   @Override public boolean equals(Object o) {

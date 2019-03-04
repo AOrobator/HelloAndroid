@@ -48,4 +48,7 @@ dependencies {
   annotationProcessor deps.dagger.annotationProcessor
   implementation deps.dagger.android
   annotationProcessor deps.dagger.androidAnnotationProcessor
+
+  implementation deps.glide.core
+  annotationProcessor deps.glide.annotationProcessor
 }

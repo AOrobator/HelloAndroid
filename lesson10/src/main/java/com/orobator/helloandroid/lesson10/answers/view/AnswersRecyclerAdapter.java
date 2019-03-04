@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.orobator.helloandroid.lesson10.R;
 import com.orobator.helloandroid.lesson10.answers.view.AnswersRecyclerAdapter.QuestionDetailViewHolder;
 import com.orobator.helloandroid.lesson10.answers.viewmodel.AnswerViewModel;
@@ -91,6 +92,11 @@ public class AnswersRecyclerAdapter extends RecyclerView.Adapter<QuestionDetailV
 
     public void bind(QuestionViewModel questionViewModel) {
       binding.setVm(questionViewModel);
+
+      Glide
+          .with(itemView)
+          .load(questionViewModel.profilePicUrl)
+          .into(binding.profileImageView);
     }
   }
 

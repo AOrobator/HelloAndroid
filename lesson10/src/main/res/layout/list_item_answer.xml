@@ -78,6 +78,7 @@ The hack was arguably OK some 30-35 years ago when computers didn't really do mu
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/username_TextView"
         app:layout_constraintTop_toBottomOf="@id/answer_body_TextView"
+        app:imgUrl="@{vm.profilePicUrl}"
         tools:background="#000"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
