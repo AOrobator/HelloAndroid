@@ -202,9 +202,19 @@ our ViewModel, we'll want to actually react to those changes. In `QuestionsActiv
 }
 ```
 
-The implementation for getIntent is pretty simple, but there's a little something going on behind 
+The implementation for `getIntent()` is pretty simple, but there's a little something going on behind 
 the scenes. We want to add our `Question` to the `Intent` as an extra so it can be retrieved by 
-`AnswersActivity`. There are many types that `Intent#putExtra` accepts, but `Question` is currently 
+`AnswersActivity`. 
+
+```java
+public static Intent getIntent(Context context, Question question) {
+  Intent intent = new Intent(context, AnswersActivity.class);
+  intent.putExtra(KEY_QUESTION, question);
+  return intent;
+}
+```
+
+There are many types that `Intent#putExtra` accepts, but `Question` is currently 
 not one of them. We'll fix this by making both `Question` and `User` implement the `Parcelable` 
 interface. Implementing the `Parcelable` interface allows us to easily and quickly serialize 
 objects. This will be much faster than having our model classes implement the`Serializable` 
