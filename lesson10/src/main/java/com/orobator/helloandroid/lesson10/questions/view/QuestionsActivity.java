@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.orobator.helloandroid.lesson10.R;
-import com.orobator.helloandroid.lesson10.answers.AnswersActivity;
+import com.orobator.helloandroid.lesson10.answers.view.AnswersActivity;
 import com.orobator.helloandroid.lesson10.databinding.ActivityQuestionsBinding;
 import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModel;
 import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModelFactory;

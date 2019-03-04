@@ -6,16 +6,16 @@ import java.util.Objects;
 
 public class AnswersResponse {
   @SerializedName("items")
-  private final List<Answer> answers;
+  public final List<Answer> answers;
 
   @SerializedName("has_more")
-  private final boolean hasMore;
+  public final boolean hasMore;
 
   @SerializedName("quota_max")
-  private final int quotaMax;
+  public final int quotaMax;
 
   @SerializedName("quota_remaining")
-  private final int quotaRemaining;
+  public final int quotaRemaining;
 
   public AnswersResponse(
       List<Answer> answers, boolean hasMore, int quotaMax, int quotaRemaining) {

@@ -1,7 +1,7 @@
 package com.orobator.helloandroid.lesson10.di;
 
-import com.orobator.helloandroid.lesson10.answers.AnswersActivity;
 import com.orobator.helloandroid.lesson10.answers.di.AnswersActivityModule;
+import com.orobator.helloandroid.lesson10.answers.view.AnswersActivity;
 import com.orobator.helloandroid.lesson10.questions.di.QuestionsActivityModule;
 import com.orobator.helloandroid.lesson10.questions.view.QuestionsActivity;
 import dagger.Module;

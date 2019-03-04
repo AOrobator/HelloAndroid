@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+        name="vm"
+        type="com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionViewModel"/>
+  </data>
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title_TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@{vm.title}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Code broke, pls help"
+        style="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+    <ImageButton
+        android:id="@+id/upvote_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/vote_count"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_TextView"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <TextView
+        android:id="@+id/vote_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.voteCount}"
+        app:layout_constraintBottom_toTopOf="@id/upvote_button"
+        app:layout_constraintEnd_toEndOf="@id/upvote_button"
+        app:layout_constraintStart_toStartOf="@id/upvote_button"
+        app:layout_constraintTop_toBottomOf="@id/upvote_button"
+        tools:text="26"
+        style="@style/TextAppearance.MaterialComponents.Body2"/>
+
+    <ImageButton
+        android:id="@+id/downvote_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vote_count"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
+    <TextView
+        android:id="@+id/question_body_TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@{vm.body}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/downvote_button"
+        app:layout_constraintTop_toBottomOf="@id/title_TextView"
+        tools:text="I was solving some problem on codeforces. Normally I first check if the character is upper or lower English letter then subtract or add 32 to convert it to the corresponding letter. But I found someone do ^= 32 to do the same thing. "/>
+
+    <TextView
+        android:id="@+id/username_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@{vm.userName}"
+        app:layout_constraintBottom_toBottomOf="@id/profile_ImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profile_ImageView"
+        tools:text="Devon"/>
+
+    <ImageView
+        android:id="@+id/profile_ImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/username_TextView"
+        app:layout_constraintTop_toBottomOf="@id/question_body_TextView"
+        tools:background="#000"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,5 +1,7 @@
 package com.orobator.helloandroid.lesson10.answers.di;
 
+import com.orobator.helloandroid.common.AppSchedulers;
+import com.orobator.helloandroid.lesson10.answers.viewmodel.AnswersViewModelFactory;
 import com.orobator.helloandroid.stackoverflow.answers.AnswersApi;
 import com.orobator.helloandroid.stackoverflow.answers.AnswersRepository;
 import com.orobator.helloandroid.stackoverflow.answers.AnswersRepositoryImpl;
@@ -17,5 +19,12 @@ public class AnswersActivityModule {
   @Provides
   public AnswersRepository provideAnswersRepository(AnswersApi answersApi) {
     return new AnswersRepositoryImpl(answersApi);
+  }
+
+  @Provides
+  public AnswersViewModelFactory provideAnswersViewModelFactory(
+      AnswersRepository answersRepository,
+      AppSchedulers schedulers) {
+    return new AnswersViewModelFactory(answersRepository, schedulers);
   }
 }

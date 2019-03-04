@@ -6,28 +6,28 @@ import java.util.Objects;
 
 public class Answer {
   @SerializedName("owner")
-  private final User owner;
+  public final User owner;
 
   @SerializedName("is_accepted")
-  private final boolean isAccepted;
+  public final boolean isAccepted;
 
   @SerializedName("score")
-  private final int score;
+  public final int score;
 
   @SerializedName("last_activity_date")
-  private final long lastActivityDate;
+  public final long lastActivityDate;
 
   @SerializedName("creation_date")
-  private final long creationDate;
+  public final long creationDate;
 
   @SerializedName("answer_id")
-  private final long answerId;
+  public final long answerId;
 
   @SerializedName("question_id")
-  private final long questionId;
+  public final long questionId;
 
   @SerializedName("body")
-  private final String body;
+  public final String body;
 
   public Answer(User owner, boolean isAccepted, int score, long lastActivityDate, long creationDate,
       long answerId, long questionId, String body) {

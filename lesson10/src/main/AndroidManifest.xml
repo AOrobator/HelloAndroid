@@ -14,7 +14,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="GoogleAppIndexingWarning">
-    <activity android:name=".answers.AnswersActivity"/>
+    <activity android:name=".answers.view.AnswersActivity"/>
     <activity android:name=".questions.view.QuestionsActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
