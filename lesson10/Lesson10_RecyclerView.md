@@ -253,9 +253,10 @@ protected void onCreate(Bundle savedInstanceState) {
 ## Handling multiple view types
 
 In the `AnswersActivity`, create a RecyclerView where the adapter has 2 view types, a `Question` and 
-an `Answer`. You'll have to override `getItemViewType` in your adapter. The first item should be the
-`Question` and the remaining items should be the `Answer`s. I'd also recommend making an abstract 
-`ViewHolder` that the 2 view types extend from. That way you can declare your adapter like:
+an `Answer`. You'll have to override `getItemViewType` in your adapter. You should return a unique 
+constant for each view type. The first item should be the `Question` and the remaining items should 
+be the `Answer`s. I'd also recommend making an abstract `ViewHolder` that the 2 view types extend 
+from. That way you can declare your adapter like:
 
 ```java
 public class AnswersRecyclerAdapter extends RecyclerView.ViewHolder<YourAbstractViewHolderClass> { ... }
