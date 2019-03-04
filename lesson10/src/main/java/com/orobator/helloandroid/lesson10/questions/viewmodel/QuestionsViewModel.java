@@ -1,13 +1,13 @@
-package com.orobator.helloandroid.lesson10.viewmodel;
+package com.orobator.helloandroid.lesson10.questions.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.orobator.helloandroid.common.AppSchedulers;
 import com.orobator.helloandroid.lesson10.BR;
 import com.orobator.helloandroid.observableviewmodel.ObservableViewModel;
+import com.orobator.helloandroid.stackoverflow.ApiConstants.Order;
+import com.orobator.helloandroid.stackoverflow.ApiConstants.Sort;
 import com.orobator.helloandroid.stackoverflow.questions.Question;
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi.Order;
-import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi.Sort;
 import com.orobator.helloandroid.stackoverflow.questions.QuestionsRepository;
 import com.orobator.helloandroid.stackoverflow.questions.QuestionsResponse;
 import io.reactivex.disposables.Disposable;
@@ -23,8 +23,10 @@ public class QuestionsViewModel extends ObservableViewModel {
   private boolean isEmpty = false;
   private boolean hasError = false;
   private String errorText = "";
+  private QuestionsResponse questionsResponse = null;
   private final MutableLiveData<List<QuestionViewModel>> questionsLiveData =
       new MutableLiveData<>();
+  private final MutableLiveData<Question> questionLiveData = new MutableLiveData<>();
 
   public QuestionsViewModel(
       QuestionsRepository questionsRepository,
@@ -49,8 +51,12 @@ public class QuestionsViewModel extends ObservableViewModel {
     return errorText;
   }
 
-  public LiveData<List<QuestionViewModel>> questionViewModelLiveData() {
+  public LiveData<List<QuestionViewModel>> questionViewModelsLiveData() {
     return questionsLiveData;
+  }
+
+  public LiveData<Question> questionLiveData() {
+    return questionLiveData;
   }
 
   private void updateViewState(boolean isLoading, boolean isEmpty, boolean hasError) {
@@ -72,6 +78,7 @@ public class QuestionsViewModel extends ObservableViewModel {
   }
 
   private void onGetQuestionsSuccess(QuestionsResponse response) {
+    this.questionsResponse = response;
     List<QuestionViewModel> list = new ArrayList<>();
 
     for (Question question : response.getItems()) {
@@ -86,6 +93,13 @@ public class QuestionsViewModel extends ObservableViewModel {
   private void onGetQuestionsError(Throwable throwable) {
     errorText = throwable.getMessage();
     updateViewState(false, false, true);
+  }
+
+  public void onQuestionClicked(int position) {
+    if (questionsResponse != null) {
+      Question question = questionsResponse.getItems().get(position);
+      questionLiveData.setValue(question);
+    }
   }
 
   @Override protected void onCleared() {

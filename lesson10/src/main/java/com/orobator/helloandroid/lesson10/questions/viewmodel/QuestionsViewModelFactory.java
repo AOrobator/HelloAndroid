@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson10.viewmodel;
+package com.orobator.helloandroid.lesson10.questions.viewmodel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

@@ -1,12 +1,14 @@
 package com.orobator.helloandroid.stackoverflow.questions;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import com.orobator.helloandroid.stackoverflow.user.User;
 import io.reactivex.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class Question {
+public class Question implements Parcelable {
   @SerializedName("tags")
   private List<String> tags;
 
@@ -66,6 +68,74 @@ public class Question {
     this.link = link;
     this.title = title;
   }
+
+  protected Question(Parcel in) {
+    tags = in.createStringArrayList();
+    owner = in.readParcelable(User.class.getClassLoader());
+    isAnswered = in.readByte() != 0;
+    viewCount = in.readInt();
+    answerCount = in.readInt();
+    if (in.readByte() == 0) {
+      acceptedAnswerId = null;
+    } else {
+      acceptedAnswerId = in.readLong();
+    }
+    score = in.readInt();
+    lastActivityDate = in.readLong();
+    creationDate = in.readLong();
+    if (in.readByte() == 0) {
+      lastEditDate = null;
+    } else {
+      lastEditDate = in.readLong();
+    }
+    questionId = in.readLong();
+    link = in.readString();
+    title = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeStringList(tags);
+    dest.writeParcelable(owner, flags);
+    dest.writeByte((byte) (isAnswered ? 1 : 0));
+    dest.writeInt(viewCount);
+    dest.writeInt(answerCount);
+    if (acceptedAnswerId == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeLong(acceptedAnswerId);
+    }
+    dest.writeInt(score);
+    dest.writeLong(lastActivityDate);
+    dest.writeLong(creationDate);
+    if (lastEditDate == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeLong(lastEditDate);
+    }
+    dest.writeLong(questionId);
+    dest.writeString(link);
+    dest.writeString(title);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<Question> CREATOR = new Creator<Question>() {
+    @Override
+    public Question createFromParcel(Parcel in) {
+      return new Question(in);
+    }
+
+    @Override
+    public Question[] newArray(int size) {
+      return new Question[size];
+    }
+  };
 
   public List<String> getTags() {
     return tags;

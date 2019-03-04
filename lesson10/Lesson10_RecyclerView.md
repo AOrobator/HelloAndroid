@@ -19,6 +19,8 @@ dependencies {
 }
 ```
 
+## RecyclerView Layout
+
 Now we'll work on our layouts. We'll start off with `list_item_question.xml`, which will be the 
 layout for each individual list item. You'll want to use a combination of `MaterialCardView`, 
 `ConstraintLayout`, and a `ChipGroup` inside a `HorizontalScrollView`. Don't worry about making the 
@@ -63,6 +65,8 @@ is the most common LayoutManager you'll use, but there is also, `StaggeredGridLa
 item for our layout preview. Note that since this is in the tools namespace, it doesn't affect our 
 final app at all.
 
+## Loading RecyclerView Data
+
 `QuestionsViewModel` will take in a `QuestionsRepository` defined in `stackoverflow-api` as well as 
 an instance of `AppSchedulers` so that we can make our network call on a background thread. These 
 should be passed into the constructor and we'll use a combination of `ViewModelProvider.Factory` and
@@ -75,6 +79,8 @@ each question to our layout. Once we have this list, we'll call `setValue` on an
 `MutableLiveData<List<QuestionViewModel>>`. After exposing this as a 
 `LiveData<List<QuestionViewModel>>`, our `QuestionsActivity` will observe it and pass on the result
 to the RecyclerView's adapter.
+
+## Using Adapters
 
 A `RecyclerView` gets its views from a `RecylerView.Adapter`. The adapter lets the `RecyclerView` 
 know how many views it has and how each list item should be rendered. It's also responsible for 
@@ -136,6 +142,104 @@ had more than one viewType, in addition to using this parameter, we'd also have 
 The third essential method is `onBindViewHolder`. Once a ViewHolder is created, we need to populate 
 it with the relevant information. This method allows us to do just that by passing the position in 
 the list of the ViewHolder. 
+
+## Handling Click Events
+
+It would be rather boring if all you could do was look at the items in a RecyclerView, so let's make 
+them clickable! In this app, clicking on a question should take you to AnswersActivity where the 
+answers for that particular question are shown. To start off, we'll modify our list_item so it 
+responds to touch events. Make the following modifications to the ConstraintLayout directly inside 
+the MaterialCardView:
+
+```xml
+<androidx.constraintlayout.widget.ConstraintLayout
+          android:id="@+id/clickTarget"
+          android:background="?selectableItemBackground"
+          android:clickable="true"
+          android:focusable="true">
+```
+
+We'll give it an id of clickTarget. As an aside, whenever we are referencing an id for the first 
+time, we need to use `@+id/yourId` instead of `@id/yourId`. For subsequent references, you can use
+`@id/yourId`. We then set this view's background to `?selectableItemBackground`. This, in 
+combination with setting the view as clickable and focusable, will show a touch ripple whenever this 
+view is touched or clicked.
+
+In QuestionsViewModel, we'll save a reference to the `QuestionsResponse`, and use it in the 
+following method:
+
+```java
+public void onQuestionClicked(int position) {
+  if (questionsResponse != null) {
+    Question question = questionsResponse.getItems().get(position);
+    questionLiveData.setValue(question);
+  }
+}
+```  
+
+We'll also declare a `MutableLiveData<Question>` and expose it as a `LiveData` so 
+`QuestionsActivity` can observe which `Question` is clicked. Then we'll pass `QuestionsViewModel` to
+our Adapter so each list item/`ViewHolder` can forward click events to it. In `QuestionViewHolder` 
+add the following statement to the bind method:
+
+```java
+binding
+  .clickTarget
+  .setOnClickListener(v -> 
+      this.viewModel.onQuestionClicked(getAdapterPosition()));
+```
+
+Notice how we never store the adapter position for `QuestionViewHolder`. This is because it is 
+subject to change when `QuestionViewHolder` gets recycled. Now that we're forwarding click events to
+our ViewModel, we'll want to actually react to those changes. In `QuestionsActivity`, observe 
+`QuestionsViewModel`'s `LiveData<Question>`. When this updates, we'll get an `Intent` with the 
+`Question` for `AnswersActivity`, then fire the `Intent`:
+
+```java
+@Override public void onChanged(Question question) {
+  Intent intent = AnswersActivity.getIntent(this, question);
+  startActivity(intent);
+}
+```
+
+The implementation for getIntent is pretty simple, but there's a little something going on behind 
+the scenes. We want to add our `Question` to the `Intent` as an extra so it can be retrieved by 
+`AnswersActivity`. There are many types that `Intent#putExtra` accepts, but `Question` is currently 
+not one of them. We'll fix this by making both `Question` and `User` implement the `Parcelable` 
+interface. Implementing the `Parcelable` interface allows us to easily and quickly serialize 
+objects. This will be much faster than having our model classes implement the`Serializable` 
+interface. We don't want to write out the implementation by hand, so pressing Option + Enter, after 
+declaring that you implement the `Parcelable` interface will add the `Parcelable` implementation for
+you. This gives us a couple things.
+
+First there is a new constructor that takes in a `Parcel`. When we said `Question` was a 
+`Parcelable` that means it can be written to a `Parcel`. `Parcel`s generally contain the ability to 
+read and write primitives as well as other `Parcelable`s. We also get a method 
+`writeToParcel(Parcel, int)` which does what you think it does. Notice that the data is written and 
+read from the `Parcel` in the exact same order. This is required for proper functionality.
+
+The next method we see is `describeContents`. This method should always return 0 unless you need to 
+put a FileDescriptor object into Parcelable. Then you should/must specify CONTENTS_FILE_DESCRIPTOR 
+as the return value of describeContents()
+
+The last thing we see for the `Parcelable` implementation is a static field 
+`Creator<Question> CREATOR` that can create a Question from a parcel, as well as create an array of 
+`Question`s. We'll have to make `User` implement the `Parcelable` interface as well, and we'll 
+probably want to do that before making `Question` implement the `Parcelable` interface.
+
+Once our model classes implement the `Parcelable` interface, we can retrieve the `Question` in 
+`onCreate` like so:
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.activity_answers);
+  
+  Question question = getIntent().getParcelableExtra(KEY_QUESTION);
+}
+```
+
 
 [StackOverflow]: StackOverflow.jpg "StackOverflow"
 [StackOverflow API]: https://api.stackexchange.com/docs

@@ -6,13 +6,13 @@
     <import type="android.view.View"/>
     <variable
         name="vm"
-        type="com.orobator.helloandroid.lesson10.viewmodel.QuestionsViewModel"/>
+        type="com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:background="@color/grey_300"
-      tools:context=".view.QuestionsActivity">
+      tools:context=".questions.view.QuestionsActivity">
 
     <TextView
         android:layout_width="wrap_content"

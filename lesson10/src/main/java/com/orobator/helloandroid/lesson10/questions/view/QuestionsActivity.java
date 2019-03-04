@@ -1,17 +1,21 @@
-package com.orobator.helloandroid.lesson10.view;
+package com.orobator.helloandroid.lesson10.questions.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.orobator.helloandroid.lesson10.R;
+import com.orobator.helloandroid.lesson10.answers.AnswersActivity;
 import com.orobator.helloandroid.lesson10.databinding.ActivityQuestionsBinding;
-import com.orobator.helloandroid.lesson10.viewmodel.QuestionsViewModel;
-import com.orobator.helloandroid.lesson10.viewmodel.QuestionsViewModelFactory;
+import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModel;
+import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModelFactory;
+import com.orobator.helloandroid.stackoverflow.questions.Question;
 import dagger.android.AndroidInjection;
 import javax.inject.Inject;
 
-public class QuestionsActivity extends AppCompatActivity {
+public class QuestionsActivity extends AppCompatActivity implements Observer<Question> {
 
   @Inject QuestionsViewModelFactory viewModelFactory;
 
@@ -29,11 +33,17 @@ public class QuestionsActivity extends AppCompatActivity {
 
     binding.setVm(viewModel);
 
-    QuestionsRecyclerAdapter adapter = new QuestionsRecyclerAdapter();
+    QuestionsRecyclerAdapter adapter = new QuestionsRecyclerAdapter(viewModel);
     binding.questionsRecyclerView.setAdapter(adapter);
 
-    viewModel.questionViewModelLiveData().observe(this, adapter::updateList);
+    viewModel.questionViewModelsLiveData().observe(this, adapter::updateList);
+    viewModel.questionLiveData().observe(this, this);
 
     viewModel.loadQuestions();
+  }
+
+  @Override public void onChanged(Question question) {
+    Intent intent = AnswersActivity.getIntent(this, question);
+    startActivity(intent);
   }
 }

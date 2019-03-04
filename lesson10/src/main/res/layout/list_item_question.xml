@@ -5,7 +5,7 @@
   <data>
     <variable
         name="vm"
-        type="com.orobator.helloandroid.lesson10.viewmodel.QuestionViewModel"/>
+        type="com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionViewModel"/>
   </data>
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
       <androidx.constraintlayout.widget.ConstraintLayout
+          android:id="@+id/clickTarget"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:background="?selectableItemBackground"

@@ -1,7 +1,7 @@
-package com.orobator.helloandroid.lesson10.di;
+package com.orobator.helloandroid.lesson10.questions.di;
 
 import com.orobator.helloandroid.common.AppSchedulers;
-import com.orobator.helloandroid.lesson10.viewmodel.QuestionsViewModelFactory;
+import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModelFactory;
 import com.orobator.helloandroid.stackoverflow.questions.QuestionsApi;
 import com.orobator.helloandroid.stackoverflow.questions.QuestionsDownloader;
 import com.orobator.helloandroid.stackoverflow.questions.QuestionsRepository;

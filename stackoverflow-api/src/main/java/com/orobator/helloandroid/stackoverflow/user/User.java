@@ -1,10 +1,12 @@
 package com.orobator.helloandroid.stackoverflow.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import io.reactivex.annotations.Nullable;
 import java.util.Objects;
 
-public class User {
+public class User implements Parcelable {
   @SerializedName("reputation")
   private int reputation;
 
@@ -37,6 +39,53 @@ public class User {
     this.displayName = displayName;
     this.profileUrl = profileUrl;
   }
+
+  protected User(Parcel in) {
+    reputation = in.readInt();
+    userId = in.readInt();
+    userType = in.readString();
+    if (in.readByte() == 0) {
+      acceptRate = null;
+    } else {
+      acceptRate = in.readInt();
+    }
+    profileImageUrl = in.readString();
+    displayName = in.readString();
+    profileUrl = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(reputation);
+    dest.writeInt(userId);
+    dest.writeString(userType);
+    if (acceptRate == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(acceptRate);
+    }
+    dest.writeString(profileImageUrl);
+    dest.writeString(displayName);
+    dest.writeString(profileUrl);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<User> CREATOR = new Creator<User>() {
+    @Override
+    public User createFromParcel(Parcel in) {
+      return new User(in);
+    }
+
+    @Override
+    public User[] newArray(int size) {
+      return new User[size];
+    }
+  };
 
   public int getReputation() {
     return reputation;

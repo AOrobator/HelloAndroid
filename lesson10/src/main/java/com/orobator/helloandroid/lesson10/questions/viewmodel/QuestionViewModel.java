@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson10.viewmodel;
+package com.orobator.helloandroid.lesson10.questions.viewmodel;
 
 import com.orobator.helloandroid.stackoverflow.questions.Question;
 import java.util.List;

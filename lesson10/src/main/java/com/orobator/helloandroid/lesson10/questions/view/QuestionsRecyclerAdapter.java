@@ -1,4 +1,4 @@
-package com.orobator.helloandroid.lesson10.view;
+package com.orobator.helloandroid.lesson10.questions.view;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,13 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.orobator.helloandroid.lesson10.R;
 import com.orobator.helloandroid.lesson10.databinding.ListItemQuestionBinding;
-import com.orobator.helloandroid.lesson10.view.QuestionsRecyclerAdapter.QuestionViewHolder;
-import com.orobator.helloandroid.lesson10.viewmodel.QuestionViewModel;
+import com.orobator.helloandroid.lesson10.questions.view.QuestionsRecyclerAdapter.QuestionViewHolder;
+import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionViewModel;
+import com.orobator.helloandroid.lesson10.questions.viewmodel.QuestionsViewModel;
 import java.util.Collections;
 import java.util.List;
 
 public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
   private List<QuestionViewModel> questionViewModels = Collections.emptyList();
+  private QuestionsViewModel viewModel;
+
+  public QuestionsRecyclerAdapter(QuestionsViewModel viewModel) {
+    this.viewModel = viewModel;
+  }
 
   @Override public int getItemCount() {
     return questionViewModels.size();
@@ -25,7 +31,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewH
     LayoutInflater inflater = LayoutInflater.from(parent.getContext());
     ListItemQuestionBinding binding =
         DataBindingUtil.inflate(inflater, R.layout.list_item_question, parent, false);
-    return new QuestionViewHolder(binding);
+    return new QuestionViewHolder(binding, viewModel);
   }
 
   @Override public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
@@ -39,11 +45,15 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewH
 
   static public class QuestionViewHolder extends RecyclerView.ViewHolder {
     private final ListItemQuestionBinding binding;
+    private final QuestionsViewModel viewModel;
 
-    public QuestionViewHolder(@NonNull ListItemQuestionBinding binding) {
+    public QuestionViewHolder(
+        @NonNull ListItemQuestionBinding binding,
+        QuestionsViewModel viewModel) {
       super(binding.getRoot());
 
       this.binding = binding;
+      this.viewModel = viewModel;
     }
 
     public void bind(QuestionViewModel viewModel) {
@@ -56,6 +66,11 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionViewH
         chip.setChipBackgroundColorResource(R.color.orange_100);
         binding.chipGroup.addView(chip);
       }
+
+      binding
+          .clickTarget
+          .setOnClickListener(v ->
+              this.viewModel.onQuestionClicked(getAdapterPosition()));
     }
   }
 }
