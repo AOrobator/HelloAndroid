@@ -73,7 +73,8 @@ class QuestionsApiUnitTest : BaseApiTest() {
                 1550364803,
                 54729015,
                 "https://stackoverflow.com/questions/54729015/is-it-bad-practice-to-store-a-struct-member-value-in-local-var-with-a-shorter-na",
-                "Is it bad practice to store a struct member value in local var with a shorter name?"
+                "Is it bad practice to store a struct member value in local var with a shorter name?",
+                "Question Body"
             ),
             Question(
                 listOf("mysql", "sql", "count", "where-clause"),
@@ -96,7 +97,8 @@ class QuestionsApiUnitTest : BaseApiTest() {
                 1550363263,
                 54728880,
                 "https://stackoverflow.com/questions/54728880/how-to-select-rows-with-where-statement-and-count-1",
-                "How to select rows with WHERE statement and COUNT(*) = 1"
+                "How to select rows with WHERE statement and COUNT(*) = 1",
+                "Question Body"
             ),
             Question(
                 listOf("java"),
@@ -119,7 +121,8 @@ class QuestionsApiUnitTest : BaseApiTest() {
                 null,
                 54729052,
                 "https://stackoverflow.com/questions/54729052/how-to-check-if-time-in-millis-is-yesterday",
-                "How to check if time in millis is yesterday"
+                "How to check if time in millis is yesterday",
+                "Question Body"
             )
         ),
         true,
@@ -131,7 +134,7 @@ class QuestionsApiUnitTest : BaseApiTest() {
         authorization = null,
         method = GET,
         contentType = null,
-        path = "/2.2/questions?page=1&pagesize=3&order=desc&sort=hot&site=stackoverflow",
+        path = "/2.2/questions?page=1&pagesize=3&order=desc&sort=hot&site=stackoverflow&filter=withbody",
         body = ""
     )
   }

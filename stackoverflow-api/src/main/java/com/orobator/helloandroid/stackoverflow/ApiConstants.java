@@ -2,6 +2,7 @@ package com.orobator.helloandroid.stackoverflow;
 
 public class ApiConstants {
   public static final String STACK_OVERFLOW_SITE = "stackoverflow";
+  public static final String BODY_FILTER = "withbody";
 
   public enum Order {
     ASC("asc"),

@@ -13,6 +13,6 @@ public interface AnswersApi {
       @Query("order") String order,
       @Query("sort") String sort,
       @Query("site") String site,
-      @Query(value = "filter", encoded = true) String filter
+      @Query("filter") String filter
   );
 }

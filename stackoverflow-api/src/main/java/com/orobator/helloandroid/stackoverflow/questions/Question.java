@@ -10,50 +10,52 @@ import java.util.Objects;
 
 public class Question implements Parcelable {
   @SerializedName("tags")
-  private List<String> tags;
+  private final List<String> tags;
 
   @SerializedName("owner")
-  private User owner;
+  private final User owner;
 
   @SerializedName("is_answered")
-  private boolean isAnswered;
+  private final boolean isAnswered;
 
   @SerializedName("view_count")
-  private int viewCount;
+  private final int viewCount;
 
   @SerializedName("answer_count")
-  private int answerCount;
+  private final int answerCount;
 
   @SerializedName("accepted_answer_id")
   @Nullable
-  private Long acceptedAnswerId;
+  private final Long acceptedAnswerId;
 
   @SerializedName("score")
-  private int score;
+  private final int score;
 
   @SerializedName("last_activity_date")
-  private long lastActivityDate;
+  private final long lastActivityDate;
 
   @SerializedName("creation_date")
-  private long creationDate;
+  private final long creationDate;
 
   @SerializedName("last_edit_date")
   @Nullable
-  private Long lastEditDate;
+  private final Long lastEditDate;
 
   @SerializedName("question_id")
-  private long questionId;
+  private final long questionId;
 
   @SerializedName("link")
-  private String link;
+  private final String link;
 
   @SerializedName("title")
-  private String title;
+  private final String title;
 
-  public Question(List<String> tags, User owner, boolean isAnswered, int viewCount,
-      int answerCount,
+  @SerializedName("body")
+  private final String body;
+
+  public Question(List<String> tags, User owner, boolean isAnswered, int viewCount, int answerCount,
       Long acceptedAnswerId, int score, long lastActivityDate, long creationDate,
-      Long lastEditDate, long questionId, String link, String title) {
+      Long lastEditDate, long questionId, String link, String title, String body) {
     this.tags = tags;
     this.owner = owner;
     this.isAnswered = isAnswered;
@@ -67,6 +69,7 @@ public class Question implements Parcelable {
     this.questionId = questionId;
     this.link = link;
     this.title = title;
+    this.body = body;
   }
 
   protected Question(Parcel in) {
@@ -91,6 +94,7 @@ public class Question implements Parcelable {
     questionId = in.readLong();
     link = in.readString();
     title = in.readString();
+    body = in.readString();
   }
 
   @Override
@@ -118,6 +122,7 @@ public class Question implements Parcelable {
     dest.writeLong(questionId);
     dest.writeString(link);
     dest.writeString(title);
+    dest.writeString(body);
   }
 
   @Override
@@ -189,8 +194,7 @@ public class Question implements Parcelable {
     return title;
   }
 
-  @Override
-  public boolean equals(Object o) {
+  @Override public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Question question = (Question) o;
@@ -206,13 +210,12 @@ public class Question implements Parcelable {
         Objects.equals(acceptedAnswerId, question.acceptedAnswerId) &&
         Objects.equals(lastEditDate, question.lastEditDate) &&
         Objects.equals(link, question.link) &&
-        Objects.equals(title, question.title);
+        Objects.equals(title, question.title) &&
+        Objects.equals(body, question.body);
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(tags, owner, isAnswered, viewCount, answerCount, acceptedAnswerId,
-        score,
-        lastActivityDate, creationDate, lastEditDate, questionId, link, title);
+  @Override public int hashCode() {
+    return Objects.hash(tags, owner, isAnswered, viewCount, answerCount, acceptedAnswerId, score,
+        lastActivityDate, creationDate, lastEditDate, questionId, link, title, body);
   }
 }

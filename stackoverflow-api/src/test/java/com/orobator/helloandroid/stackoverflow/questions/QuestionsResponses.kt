@@ -32,7 +32,8 @@ const val successfulGetQuestionsJson =
       "last_edit_date": 1550364803,
       "question_id": 54729015,
       "link": "https://stackoverflow.com/questions/54729015/is-it-bad-practice-to-store-a-struct-member-value-in-local-var-with-a-shorter-na",
-      "title": "Is it bad practice to store a struct member value in local var with a shorter name?"
+      "title": "Is it bad practice to store a struct member value in local var with a shorter name?",
+      "body": "Question Body"
     },
     {
       "tags": [
@@ -59,7 +60,8 @@ const val successfulGetQuestionsJson =
       "last_edit_date": 1550363263,
       "question_id": 54728880,
       "link": "https://stackoverflow.com/questions/54728880/how-to-select-rows-with-where-statement-and-count-1",
-      "title": "How to select rows with WHERE statement and COUNT(*) = 1"
+      "title": "How to select rows with WHERE statement and COUNT(*) = 1",
+      "body": "Question Body"
     },
     {
       "tags": [
@@ -81,7 +83,8 @@ const val successfulGetQuestionsJson =
       "creation_date": 1550363841,
       "question_id": 54729052,
       "link": "https://stackoverflow.com/questions/54729052/how-to-check-if-time-in-millis-is-yesterday",
-      "title": "How to check if time in millis is yesterday"
+      "title": "How to check if time in millis is yesterday",
+      "body": "Question Body"
     }
   ],
   "has_more": true,

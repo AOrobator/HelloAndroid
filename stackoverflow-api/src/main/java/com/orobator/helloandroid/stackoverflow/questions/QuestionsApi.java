@@ -12,6 +12,7 @@ public interface QuestionsApi {
       @Query("pagesize") int pageSize,
       @Query("order") String order,
       @Query("sort") String sort,
-      @Query("site") String site
+      @Query("site") String site,
+      @Query("filter") String filter
   );
 }

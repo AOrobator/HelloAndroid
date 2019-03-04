@@ -93,7 +93,7 @@ class AnswersApiUnitTest : BaseApiTest() {
         authorization = null,
         method = GET,
         contentType = null,
-        path = "/2.2/questions/42/answers?order=desc&sort=activity&site=stackoverflow&filter=!9Z(-wzu0T",
+        path = "/2.2/questions/42/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody",
         body = ""
     )
   }
