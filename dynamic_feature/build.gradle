@@ -1,38 +1,32 @@
 apply plugin: 'com.android.dynamic-feature'
+apply from: rootProject.file('gradle/build-config.gradle')
 
 android {
-    compileSdkVersion 28
-    
+  compileSdkVersion buildConfig.compileSdk
 
+  defaultConfig {
+    minSdkVersion 26
+    targetSdkVersion buildConfig.compileSdk
+    versionCode buildConfig.version.code
+    versionName buildConfig.version.name
+  }
 
-    defaultConfig {
-        minSdkVersion 26
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
-
+  buildTypes {
+    release {
     }
+  }
 
-    buildTypes {
-        release {
-        }
+  flavorDimensions "taste"
+  productFlavors {
+    chocolate {
+      dimension "taste"
     }
-
-    flavorDimensions "taste"
-    productFlavors {
-        chocolate {
-            dimension "taste"
-        }
-        vanilla {
-            dimension "taste"
-        }
+    vanilla {
+      dimension "taste"
     }
-
-
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':gradleflavors')
+  implementation project(':gradleflavors')
 }
