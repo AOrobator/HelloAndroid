@@ -1,4 +1,4 @@
-include ':android-common', ':gradleflavors', ':dynamic_feature',
+include ':android-common', ':gradleflavors', ':dynamic_feature', ':jobscheduler',
     ':lesson01',
     ':lesson02',
     ':lesson04',
