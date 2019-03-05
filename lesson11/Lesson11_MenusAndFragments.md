@@ -77,6 +77,137 @@ To respond to menu item clicks, override `onOptionsItemSelected`:
   }
 ```
 
-For this menu item click, launch an Intent that starts a new Activity, FragmentActivity. 
+For this menu item click, launch an Intent that starts a new Activity, FragmentActivity.
+
+## Fragments
+
+A Fragment represents a behavior or a portion of user interface in an Activity. You can combine 
+multiple fragments in a single activity to build a multi-pane UI and reuse a fragment in multiple 
+activities. You can think of a fragment as a modular section of an activity, which has its own 
+lifecycle, receives its own input events, and which you can add or remove while the activity is 
+running (sort of like a "sub activity" that you can reuse in different activities).
+
+A fragment must always be hosted in an activity and the fragment's lifecycle is directly affected by 
+the host activity's lifecycle. For example, when the activity is paused, so are all fragments in it, 
+and when the activity is destroyed, so are all fragments. However, while an activity is running (it 
+is in the resumed lifecycle state), you can manipulate each fragment independently, such as add or 
+remove them. When you perform such a fragment transaction, you can also add it to a back stack 
+that's managed by the activity—each back stack entry in the activity is a record of the fragment 
+transaction that occurred. The back stack allows the user to reverse a fragment transaction 
+(navigate backwards), by pressing the Back button.
+
+![Activity Fragment Lifecycle][activity_fragment_lifecycle]
+
+We don't want FragmentActivity to have a Toolbar, as we'll provide it ourselves via the Fragment. To 
+prevent `FragmentActivity` from creating a Toolbar, we'll set the theme in the AndroidManifest to 
+AppTheme.NoActionBar.
+
+__AndroidManifest.xml__
+
+```xml
+<activity
+        android:name=".FragmentActivity"
+        android:theme="@style/AppTheme.NoActionBar"/>
+```
+
+This theme is defined in styles.xml:
+
+```xml
+<style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+</style>
+```
+
+Our layout for FragmentActivity will consist of only a FrameLayout. FrameLayout is designed to block
+out an area on the screen to display a single item. In this case, the single item will be a 
+Fragment.
+
+__activity_fragment.xml__
+
+```xml
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentActivity"/>
+```
+
+Now that we've made our layout for FragmentActivity, let's implement the code for showing a 
+fragment.
+
+__FragmentActivity.java__
+
+```java
+public class FragmentActivity extends AppCompatActivity {
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_fragment);
+
+    QuestionsFragment fragment = new QuestionsFragment();
+    FragmentManager fm = getSupportFragmentManager();
+    fm.beginTransaction()
+        .replace(R.id.fragment_container, fragment)
+        .commit();
+  }
+}
+```
+First we create a new instance of QuestionsFragment, which we'll define later. Then we get a 
+reference to the FragmentManager. This class allows us to add Fragments to our UI while also 
+managing the back stack.
+
+Every time we manipulate how Fragments are displayed, we must do so using a FragmentTransaction. We 
+get an instance of FragmentTransaction by calling FragmentManager#beginTransaction. Afterwards, we 
+replace whatever is in our fragment container (the FrameLayout) with our QuestionsFragment. When 
+we're done, we call commit to execute this FragmentTransaction.
+
+Now we're ready to create our Fragment. Create a new class called QuestionsFragment and have it 
+extend androidx.fragment.app.Fragment. This fragment will essentially be a re-implementation of 
+QuestionsActivity, so we can reuse the QuestionsViewModel. This Fragment will need to be injected 
+with an instance of QuestionsViewModelFactory, so we'll set up dependency injection for our Fragment 
+with Dagger.
+
+Let StackOverflowApplication implement the `HasSupportFragmentInjector` interface. The fragment 
+injector will be injected by Dagger in onCreate of our Application. Then we'll implement the 
+supportFragmentInjector() method from the `HasSupportFragmentInjector` interface, and return the 
+fragment injector.
+
+__StackOverflowApplication.java__
+
+```java
+public class StackOverflowApplication extends Application implements
+    HasSupportFragmentInjector {
+
+  @Inject DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+  @Override public void onCreate() {
+    super.onCreate();
+
+    DaggerAppComponent
+        .builder()
+        .application(this)
+        .build()
+        .inject(this);
+  }
+
+  @Override
+  public AndroidInjector<Fragment> supportFragmentInjector() {
+    return fragmentInjector;
+  }
+}
+```
+
+
+```
+@ContributesAndroidInjector(modules = QuestionsActivityModule.class)
+abstract QuestionsFragment bindQuestionsFragment();
+```
+  
+__QuestionsFragment.java__
 
 [options_menu]: options_menu.jpg "Options Menu"
+[activity_fragment_lifecycle]: activity_fragment_lifecycle.png "Activity Fragment Lifecycle"
