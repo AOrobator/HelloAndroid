@@ -61,9 +61,22 @@ To associate a menu with a given Activity, you'll have to override `onCreateOpti
 @Override public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.questions_menu, menu);
-    return true;
+    return true; // return true so menu will show
   }
 ```
- 
+
+To respond to menu item clicks, override `onOptionsItemSelected`:
+
+```java
+@Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.launchFragmentActivity) {
+      // handle menu click
+    }
+    
+    return true; // return true to indicate click was consumed
+  }
+```
+
+For this menu item click, launch an Intent that starts a new Activity, FragmentActivity. 
 
 [options_menu]: options_menu.jpg "Options Menu"

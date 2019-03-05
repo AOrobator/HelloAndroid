@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.orobator.helloandroid.lesson10.FragmentActivity;
 import com.orobator.helloandroid.lesson10.R;
 import com.orobator.helloandroid.lesson10.answers.view.AnswersActivity;
 import com.orobator.helloandroid.lesson10.databinding.ActivityQuestionsBinding;
@@ -48,11 +49,17 @@ public class QuestionsActivity extends AppCompatActivity implements Observer<Que
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.questions_menu, menu);
-    return true;
+    return true; // return true so menu will show
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    return super.onOptionsItemSelected(item);
+    if (item.getItemId() == R.id.launchFragmentActivity) {
+      // handle menu click
+      Intent intent = new Intent(QuestionsActivity.this, FragmentActivity.class);
+      startActivity(intent);
+    }
+
+    return true; // return true to indicate click was consumed
   }
 
   @Override public void onChanged(Question question) {

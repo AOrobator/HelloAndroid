@@ -14,6 +14,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="GoogleAppIndexingWarning">
+    <activity android:name=".FragmentActivity"/>
     <activity android:name=".answers.view.AnswersActivity"/>
     <activity android:name=".questions.view.QuestionsActivity">
       <intent-filter>
