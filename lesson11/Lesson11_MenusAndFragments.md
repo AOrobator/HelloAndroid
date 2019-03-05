@@ -35,4 +35,35 @@ with the following elements:
  * `<item>` - Creates a MenuItem, which represents a single item in a menu. This element may contain
    a nested `<menu>` element in order to create a submenu.
 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/launchFragmentActivity"
+      android:orderInCategory="20"
+      android:title="Fragment Activity"
+      app:showAsAction="never"/>
+</menu>
+```
+
+ * `android:id` - specifies id of the menu item
+ * `android:orderInCategory` - specifies order of menu item
+ * `app:showAsAction` - Indicates when to put this item in the main toolbar with an icon, or show in
+   the overflow menu.
+ * `android:title` - Title for Menu Item. If showing as an action, this will appear when long 
+   pressed.
+ * `android:icon` - Icon for menu item. Only appears if showing as an action.
+
+To associate a menu with a given Activity, you'll have to override `onCreateOptionsMenu`:
+
+```java
+@Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.questions_menu, menu);
+    return true;
+  }
+```
+ 
+
 [options_menu]: options_menu.jpg "Options Menu"

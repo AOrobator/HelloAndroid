@@ -2,6 +2,9 @@ package com.orobator.helloandroid.lesson10.questions.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -40,6 +43,16 @@ public class QuestionsActivity extends AppCompatActivity implements Observer<Que
     viewModel.questionLiveData().observe(this, this);
 
     viewModel.loadQuestions();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.questions_menu, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    return super.onOptionsItemSelected(item);
   }
 
   @Override public void onChanged(Question question) {
