@@ -6,4 +6,9 @@
       android:orderInCategory="20"
       android:title="Fragment Activity"
       app:showAsAction="never"/>
+  <item
+      android:id="@+id/masterDetailView"
+      android:orderInCategory="21"
+      android:title="Master Detail"
+      app:showAsAction="never"/>
 </menu>
