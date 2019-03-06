@@ -248,7 +248,28 @@ public View onCreateView(
 ```
 
 After that we'll implement onViewCreated, and we'll use it to initialize our ViewModel and adapters.
-This method will be very similar to QuestionActivity's `onCreate`. 
+This method will be very similar to QuestionActivity's `onCreate`.
+
+We'll come to understand the usefulness of Fragments once we implement a master-detail view and a 
+ViewPager. In order to solidify your understanding of fragments, clicking on a question in 
+`QuestionsFragment` should show the answer in a new `AnswersFragment`.
+
+It's a best practice to not rely on the constructor of Fragments for instantiation. Android might 
+recreate your fragment if a user leaves the app and comes back after a period of time, so set the 
+arguments using a Bundle.
+
+```java
+public static AnswersFragment newInstance(Question question) {
+  Bundle args = new Bundle();
+  args.putParcelable(KEY_QUESTION, question);
+  AnswersFragment fragment = new AnswersFragment();
+  fragment.setArguments(args);
+  return fragment;
+}
+``` 
+
+For another hint, you'll want to handle navigation through the Activity. Don't forget to add 
+`AnswersFragment` to the back stack!
 
 [options_menu]: options_menu.jpg "Options Menu"
 [activity_fragment_lifecycle]: activity_fragment_lifecycle.png "Activity Fragment Lifecycle"

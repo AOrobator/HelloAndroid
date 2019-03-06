@@ -17,7 +17,9 @@
     <activity
         android:name=".FragmentActivity"
         android:theme="@style/AppTheme.NoActionBar"/>
-    <activity android:name=".answers.view.AnswersActivity"/>
+    <activity
+        android:name=".answers.view.AnswersActivity"
+        android:parentActivityName=".questions.view.QuestionsActivity"/>
     <activity android:name=".questions.view.QuestionsActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

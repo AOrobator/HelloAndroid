@@ -252,6 +252,22 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 
+## Navigation
+
+A quick note about Navigation. In order to include an Up button for the Toolbar, you can add the
+`parentActivityName` to your AndroidManifest.xml. The Up button should always take a user Up in the 
+navigation hierarchy of your app, but should never exit your app. This is different from the back 
+button which should always take the user to the previous location. Often these two navigation 
+constructs will lead to the same place, but not always. The major difference is that back takes you 
+exactly where you were (within the current task stack), while Up takes you to a fixed place, no 
+matter where you came from. See [here][up_vs_back] for more info.
+
+```xml
+<activity
+    android:name=".answers.view.AnswersActivity"
+    android:parentActivityName=".questions.view.QuestionsActivity"/>
+```
+
 ## Handling multiple view types
 
 In the `AnswersActivity`, create a RecyclerView where the adapter has 2 view types, a `Question` and 
@@ -385,3 +401,4 @@ to toggle visibility. You should be able to specify the attribute like so:
 [Glide]: https://bumptech.github.io/glide/
 [Picasso]: https://square.github.io/picasso/
 [nasty bugs]: https://www.youtube.com/watch?v=_MI7-xMNEDY
+[up_vs_back]: https://medium.com/@ianhlake/up-vs-back-5fae17a84a5f
