@@ -409,7 +409,36 @@ NumbersApi numbersApi = retrofit.create(NumbersApi.class);
 Instead of passing the NumbersApi directly to our ViewModel, we'll wrap it in an implementation of a
 Repository. It's possible for apps to get their data from all types of sources: a file saved in 
 internal storage, a database, or the network. The repository will figure out how to get that data, 
-and will return it, potentially caching it.
+and will return it, potentially caching it. Here's an example of NumbersRepository that uses an 
+in-memory cache to store NumberFacts.
+
+```java
+/** An implementation of NumbersRepository that uses an in-memory cache */
+public class CachingNumbersRepository implements NumbersRepository {
+  private Map<Integer, NumberFact> cache = new HashMap<>();
+  private final NumbersApi numbersApi;
+
+  public CachingNumbersRepository(NumbersApi numbersApi) {
+    this.numbersApi = numbersApi;
+  }
+
+  @Override public Single<NumberFact> getTriviaFact(int number) {
+    // Before we do the network call, first check if the result is cached.
+    NumberFact cachedValue = cache.get(number);
+
+    // If the value is in the cache, we can just return it.
+    if (cachedValue != null) {
+      // We can't return just the NumberFact, so we'll wrap it in a Single
+      return Single.fromCallable(() -> cachedValue);
+    }
+
+    // The value isn't in the cache, so we'll have to do the network call
+    return numbersApi.getTriviaFact(number)
+        // When we get the result from the network, put it in the cache
+        .doOnSuccess(numberFact -> cache.put(number, numberFact));
+  }
+}
+```
 
 ### Schedulers
 
