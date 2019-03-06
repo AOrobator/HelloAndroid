@@ -106,8 +106,8 @@ __AndroidManifest.xml__
 
 ```xml
 <activity
-        android:name=".FragmentActivity"
-        android:theme="@style/AppTheme.NoActionBar"/>
+    android:name=".FragmentActivity"
+    android:theme="@style/AppTheme.NoActionBar"/>
 ```
 
 This theme is defined in styles.xml:
@@ -201,13 +201,54 @@ public class StackOverflowApplication extends Application implements
 }
 ```
 
+After providing the fragment injector, we'll update our ActivityBindingModule to let Dagger know 
+which module provides the dependencies for QuestionsFragment.
 
 ```
 @ContributesAndroidInjector(modules = QuestionsActivityModule.class)
 abstract QuestionsFragment bindQuestionsFragment();
 ```
+
+Finally, we're ready to implement QuestionsFragment. The first lifecycle method that will get called
+in this case is `onAttach`. This is the callback that lets us know that our Fragment is attached to 
+our Activity. In this method, we'll inject our fragment to get our dependency on 
+QuestionsViewModelFactory. 
+
+```java
+@Override public void onAttach(Context context) {
+  super.onAttach(context);
+  AndroidSupportInjection.inject(this);
+}
+```
+
+Notice how we're using `AndroidSupportInjection` instead of `AndroidInjection`. This is because the 
+fragment we're injecting is not the Framework version (which is deprecated), but the AndroidX 
+version.
+
+Next in onCreateView, we use the DatabindingUtil to inflate our view and get our binding. Then we 
+return the root of our binding.
+
+```java
+private FragmentQuestionsBinding binding;
+
+@Nullable @Override
+public View onCreateView(
+    @NonNull LayoutInflater inflater, 
+    @Nullable ViewGroup container,
+    @Nullable Bundle savedInstanceState) {
+
+  binding = DataBindingUtil.inflate(
+      inflater, 
+      R.layout.fragment_questions, 
+      container, 
+      false);
   
-__QuestionsFragment.java__
+  return binding.getRoot();
+}
+```
+
+After that we'll implement onViewCreated, and we'll use it to initialize our ViewModel and adapters.
+This method will be very similar to QuestionActivity's `onCreate`. 
 
 [options_menu]: options_menu.jpg "Options Menu"
 [activity_fragment_lifecycle]: activity_fragment_lifecycle.png "Activity Fragment Lifecycle"

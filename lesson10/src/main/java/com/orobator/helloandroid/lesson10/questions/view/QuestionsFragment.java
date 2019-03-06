@@ -31,10 +31,17 @@ public class QuestionsFragment extends Fragment implements Observer<Question> {
   }
 
   @Nullable @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+  public View onCreateView(
+      @NonNull LayoutInflater inflater,
+      @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
 
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_questions, container, false);
+    binding = DataBindingUtil.inflate(
+        inflater,
+        R.layout.fragment_questions,
+        container,
+        false);
+
     return binding.getRoot();
   }
 
