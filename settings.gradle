@@ -1,4 +1,4 @@
-include ':android-common', ':contentprovider',
+include ':android-common', ':contentprovider', ':broadcastreceiver',
     ':dynamic_feature',
     ':gradleflavors',
     ':jobscheduler',
