@@ -102,6 +102,9 @@
     * -xhdpi, -mdpi
   * Screen size
     * -sw800
+  * Screen ratio
+    * long: Long screens, such as WQVGA, WVGA, FWVGA
+    * notlong: Not long screens, such as QVGA, HVGA, and VGA
   * Language
     * -en, -es
     
