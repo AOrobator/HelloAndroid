@@ -30,7 +30,7 @@ class QuestionsApiUnitTest : BaseApiTest() {
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(baseUrl) // pass in baseUrl of mockWebServer
         .client(client)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
