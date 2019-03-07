@@ -1,32 +1,34 @@
 # ContentProviders
 
 - Content providers are a means for IPC (Interprocess communication) on Android.
-- The system has several content providers for built-in apps. Also, app authors can provide their own custom content providers as an API
-- In reality, custom content providers are not used frequently because it is often easier and more reliable to share data through a cloud service (like AWS AppSync) etc. Using custom content providers produces runtime dependencies that most users down't want to deal with.
+- The system has several content providers for built-in apps. App authors can also provide their own
+  custom content providers as an API.
+- In reality, custom content providers are not used frequently because it is often easier and more 
+  reliable to share data through a cloud service (like AWS AppSync) etc. Using custom content 
+  providers produces runtime dependencies that most users down't want to deal with.
 
 ## Using ContentProviders
 
-1. Set the proper permission in the AndroidManifest.xml and Request the permission using `ContextCompat.checkSelfPermission` see: <https://developer.android.com/reference/android/Manifest.permission> and <https://developer.android.com/training/permissions/requesting>
+1. Set the proper permission in the AndroidManifest.xml and request the permission using 
+   `ContextCompat.checkSelfPermission` see: <https://developer.android.com/reference/android/Manifest.permission> and <https://developer.android.com/training/permissions/requesting>
 
    `<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>`
 
    ```java
-   if (ContextCompat.checkSelfPermission(this,
-                   PERMISSION)
-                   != PackageManager.PERMISSION_GRANTED) {
+   if (ContextCompat.checkSelfPermission(this, PERMISSION) != PackageManager.PERMISSION_GRANTED) {
    
                // Permission is not granted
                // Should we show an explanation?
-               if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                       PERMISSION)) {
+               if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION)) {
                    // Show an explanation to the user *asynchronously* -- don't block
                    // this thread waiting for the user's response! After the user
                    // sees the explanation, try again to request the permission.
                } else {
                    // No explanation needed; request the permission
-                   ActivityCompat.requestPermissions(this,
-                           new String[]{PERMISSION},
-                           MY_PERMISSIONS_REQUEST_ACCESS_MEDIA);
+                   ActivityCompat.requestPermissions(
+                       this,
+                       new String[]{PERMISSION},
+                       MY_PERMISSIONS_REQUEST_ACCESS_MEDIA);
    
                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                    // app-defined int constant. The callback method gets the
@@ -40,8 +42,11 @@
 
    ```java
    @Override
-   public void onRequestPermissionsResult(int requestCode,
-                                          String permissions[], int[] grantResults) {
+   public void onRequestPermissionsResult(
+       int requestCode, 
+       String permissions[], 
+       int[] grantResults) {
+  
        switch (requestCode) {
            case MY_PERMISSIONS_REQUEST_ACCESS_MEDIA: {
                // If request is cancelled, the result arrays are empty.
@@ -70,7 +75,7 @@
 
 3. Get a `Cursor` object using `getContentResolver().query` with the proper URL and Projection.
 
-4. Iterate of the cursor using `moveToNext()` etc. or use a CursorAdapter in a RecyclerView
+4. Iterate over the cursor using `moveToNext()` etc. or use a CursorAdapter in a RecyclerView
 
    ```java
    private void readMedia() {
@@ -94,18 +99,9 @@
 
 ## Custom Content Providers
 
-![contentprovider](/Users/geoff/Projects/DevelopIntelligence/AndroidClass/HelloAndroid-1/contentprovider/contentprovider.png)
+![contentprovider](contentprovider.png)
 
 ```java
-package com.example.android.lifecycle;
-
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
-import android.util.Log;
-import android.provider.Settings.System;
-
 public class ProviderDemo extends ContentProvider {
   static final String TAG = "ProviderDemo";
 
@@ -116,12 +112,21 @@ public class ProviderDemo extends ContentProvider {
 
   @Override
   public boolean onCreate() {
+    // Used to initialize this content provider. This method runs on UI 
+    // thread, so should be quick. Good place to instantiate database 
+    // helper, if using database.
     Log.d(TAG, "onCreate");
     return true;
   }
 
   @Override
   public String getType(Uri uri) {
+    // Returns the mime time for the given uri. Typically, this MIME 
+    // type will either be something like 
+    // vnd.android.cursor.item/vnd.example.android.lifecycle.status for 
+    // a single item or
+    // vnd.android.cursor.dir/vnd.example.android.lifecycle.status for 
+    // multiple items.
     String ret = getContext().getContentResolver().getType(System.CONTENT_URI);
     Log.d(TAG, "getType returning: " + ret);
     return ret;
@@ -129,6 +134,8 @@ public class ProviderDemo extends ContentProvider {
 
   @Override
   public Uri insert(Uri uri, ContentValues values) {
+    // Inserts the values into the provider returning uri that points to
+    // the newly inserted record.
     Log.d(TAG, "insert uri: " + uri.toString());
     return null;
   }
@@ -136,12 +143,16 @@ public class ProviderDemo extends ContentProvider {
   @Override
   public int update(Uri uri, ContentValues values, String selection,
       String[] selectionArgs) {
+    //  Updates records(s) specified by either the uri or selection/
+    //  selectionArgs combo. Returns number of records affected.
     Log.d(TAG, "update uri: " + uri.toString());
     return 0;
   }
 
   @Override
   public int delete(Uri uri, String selection, String[] selectionArgs) {
+    // Deletes records(s) specified by either the uri or selection/
+    // selectionArgs combo. Returns number of records affected.
     Log.d(TAG, "delete uri: " + uri.toString());
     return 0;
   }
@@ -149,6 +160,8 @@ public class ProviderDemo extends ContentProvider {
   @Override
   public Cursor query(Uri uri, String[] projection, String selection,
       String[] selectionArgs, String sortOrder) {
+    // Queries the provider for the record(s) specified by either uri or
+    // selection/selectionArgs/grouping/having combo.
     Log.d(TAG, "query with uri: " + uri.toString());
     return null;
   }
@@ -156,18 +169,6 @@ public class ProviderDemo extends ContentProvider {
 }
 
 ```
-
-`onCreate()` Used to initialize this content provider. This method runs on UI thread, so should be quick. Good place to instantiate database helper, if using database.
-
-`getType()`Returns the mime time for the given uri. Typically, this MIME type will either be something like vnd.android.cursor.item/vnd.example.android.lifecycle.status for a single item or vnd.android.cursor.dir/vnd.example.android.lifecycle.status for multiple items.
-
-`insert()`Inserts the values into the provider returning uri that points to the newly inserted record.
-
-`update()` Updates records(s) specified by either the uri or selection/selectionArgs combo. Returns number of records affected.
-
-`delete()` Deletes records(s) specified by either the uri or selection/selectionArgs combo. Returns number of records affected.
-
-`query()` Queries the provider for the record(s) specified by either uri or selection/selectionArgs/grouping/having combo.
 
 ### Register in AndroidManifest.xml
 
@@ -195,15 +196,17 @@ content://user_dictionary/words
 - user_dictionary — the authority of the system user dictionary provider
 - words — the path corresponding to the “words” table
 
-The ContentResolver uses the authority to identify the content provider to contact.
+The ContentResolver uses the authority to identify the ContentProvider to contact.
 
-- An application implementing a ContentProvider specifies the provider’s authority in the application manifest.
+- An application implementing a ContentProvider specifies the provider’s authority in the 
+  application manifest.
 
 The ContentProvider uses the path to choose the table to access.
 
 - A provider usually has a path for each table it exposes.
 
-- Many providers allow you to access a single row in a table by appending an ID value to the end of the URI.
+- Many providers allow you to access a single row in a table by appending an ID value to the end of 
+  the URI.
 
 - For example, to retrieve a row whose _ID is 4 from user dictionary, you can use this content URI:
 
@@ -211,4 +214,9 @@ The ContentProvider uses the path to choose the table to access.
   Uri singleUri = ContentUri.withAppendedId(UserDictionary.Words.CONTENT_URI,4);
   ```
 
-  **Note**: The [Uri](http://developer.android.com/reference/android/net/Uri.html) and [Uri.Builder](http://developer.android.com/reference/android/net/Uri.Builder.html) classes contain convenience methods for constructing well-formed Uri objects from strings. The [ContentUris](http://developer.android.com/reference/android/content/ContentUris.html) class contains convenience methods for appending id values to a URI. The previous snippet uses withAppendedId() to append an id to the UserDictionary content URI.
+  **Note**: The [Uri](http://developer.android.com/reference/android/net/Uri.html) and 
+  [Uri.Builder](http://developer.android.com/reference/android/net/Uri.Builder.html) classes contain
+  convenience methods for constructing well-formed Uri objects from strings. The 
+  [ContentUris](http://developer.android.com/reference/android/content/ContentUris.html) class 
+  contains convenience methods for appending id values to a URI. The previous snippet uses 
+  withAppendedId() to append an id to the UserDictionary content URI.
