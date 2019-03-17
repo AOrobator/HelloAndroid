@@ -30,6 +30,11 @@ dependencies {
   implementation project(':tipcalc-model'),
       project(':observable-viewmodel')
 
+  implementation deps.dagger.core
+  annotationProcessor deps.dagger.annotationProcessor
+  implementation deps.dagger.android
+  annotationProcessor deps.dagger.androidAnnotationProcessor    
+
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
   implementation deps.androidx.material

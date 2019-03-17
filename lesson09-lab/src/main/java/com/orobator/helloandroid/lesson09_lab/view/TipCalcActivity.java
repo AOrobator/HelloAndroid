@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.orobator.helloandroid.lesson09_lab.R;
 import com.orobator.helloandroid.lesson09_lab.databinding.ActivityTipCalcBinding;
 import com.orobator.helloandroid.lesson09_lab.viewmodel.TipCalcViewModel;
+import com.orobator.helloandroid.lesson09_lab.viewmodel.TipCalcViewModelFactory;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
 
 public class TipCalcActivity extends AppCompatActivity {
 
@@ -18,10 +20,9 @@ public class TipCalcActivity extends AppCompatActivity {
         DataBindingUtil.setContentView(this, R.layout.activity_tip_calc);
     setSupportActionBar(binding.toolbar);
 
-    // Creates new instance of vm when first launched
-    // Returns same instance across configuration changes
-    // Will get same instance until Activity finishes.
-    TipCalcViewModel vm = ViewModelProviders.of(this).get(TipCalcViewModel.class);
+    TipCalcViewModelFactory factory =
+        new TipCalcViewModelFactory(getApplication(), new Calculator());
+    TipCalcViewModel vm = ViewModelProviders.of(this, factory).get(TipCalcViewModel.class);
     binding.setVm(vm);
   }
 }

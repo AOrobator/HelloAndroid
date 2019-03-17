@@ -23,17 +23,10 @@ public class TipCalcViewModel extends AndroidObservableViewModel {
   public String outputTipAmount = "";
   public String outputGrandTotal = "";
 
-  public TipCalcViewModel(Application app, Calculator calculator) {
+  public TipCalcViewModel(@NonNull Application app, Calculator calculator) {
     super(app);
     this.calculator = calculator;
     updateOutputs(new TipCalculation());
-  }
-
-  // Need a constructor that only takes the application because the framework will construct this.
-  // To pass in other values through the constructor, use a ViewModelProvider.Factory
-  public TipCalcViewModel(@NonNull Application app) {
-    super(app);
-    calculator = new Calculator();
   }
 
   private void updateOutputs(TipCalculation calculation) {

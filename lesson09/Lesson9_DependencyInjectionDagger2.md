@@ -374,4 +374,67 @@ method of `DaggerAppComponent` we can see the dependency of dispatchingAndroidIn
 
 ## Dagger Lab
 
-In this lab, we'll refactor our TipCalculator app from lesson 5 to use dependency injection. 
+In this lab, we'll refactor our TipCalculator app from lesson 5 to use dependency injection.
+
+First thing we'll want to do is to add the relevant dependencies to our build.gradle:
+
+```groovy
+dependencies {
+  implementation 'com.google.dagger:dagger:2.x'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.x'
+  implementation 'com.google.dagger:dagger-android-support:2.x' // if you use the support libraries
+  annotationProcessor 'com.google.dagger:dagger-android-processor:2.x'
+}
+```
+
+Next, we'll refactor `TipCalcViewModel` to only have 1 constructor that takes in an `Application` 
+and a `Calculator`. This is the basis for dependency injection. Instead of instantiating something 
+ourselves, it will get created created by an external entity, then passed to us.
+
+```java
+public TipCalcViewModel(@NonNull Application app, Calculator calculator) {
+  super(app);
+  this.calculator = calculator;
+  updateOutputs(new TipCalculation());
+}
+```
+
+Now that we have additional arguments in the ViewModel's constructor, Android no longer knows how to
+construct a `TipCalcViewModel` for us. Where will it get the `Calculator` instance from? To solve 
+this problem, we'll create a `ViewModelProvider.Factory` that tells Android how to create an 
+instance of `TipCalcViewModel`. Android will use this factory whenever it needs to create a new 
+instance. Implement `TipCalcViewModelFactory` like so:
+
+```java
+package com.orobator.helloandroid.lesson09_lab.viewmodel;
+
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
+
+public class TipCalcViewModelFactory implements ViewModelProvider.Factory {
+  private final Application app;
+  private final Calculator calculator;
+
+  public TipCalcViewModelFactory(Application app, Calculator calculator) {
+    this.app = app;
+    this.calculator = calculator;
+  }
+
+  @NonNull @Override public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+    return (T) new TipCalcViewModel(app, calculator);
+  }
+}
+```
+
+In our `TipCalcActivity` we'll have to tell the `ViewModelsProviders` to use our factory when 
+creating an instance of `TipCalcViewModel`. For now, we'll instantiate an instance of our factory
+directly in the Activity, but after that, we'll use Dagger to inject our Factory into our Activity.
+
+```java
+TipCalcViewModelFactory factory =
+  new TipCalcViewModelFactory(getApplication(), new Calculator());
+TipCalcViewModel vm = ViewModelProviders.of(this, factory).get(TipCalcViewModel.class);
+```
