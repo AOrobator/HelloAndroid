@@ -593,6 +593,8 @@ application and inject our dependencies into our activity.
 
 After calling inject(), we now have an instance of `TipCalcViewModelFactory` to use.
 
+### Code Cleanup Part 1: @BindsInstance
+
 Technically, we have now implemented dependency injection with Dagger, but we can still clean this 
 code up using some more features of Dagger.
 
@@ -612,14 +614,17 @@ public class TipCalcModule {
 ```
 
 Next, we'll give `TipCalcComponent` an instance of `Application` to use by adding a method to our 
-Builder and annotating it with `@BindsInstance` so it is included in our object graph. 
+Builder and annotating it with `@BindsInstance` so it is included in our object graph. Since the 
+`TipCalcModule` no longer has a constructor dependency, we can eliminate it from our Builder as 
+Dagger will know how to construct it.
 
 ```java
 public interface TipCalcComponent {
-  
   interface Builder {
+    
     @BindsInstance
     Builder application(Application app);
+    
   }
 }
 ```
@@ -631,9 +636,113 @@ new builder method.
 component = DaggerTipCalcComponent
     .builder()
     .application(this)
-    .tipCalcModule(new TipCalcModule())
     .build();
 ```
 
 This way, all new modules will now have access to an `Application` object without explicitly 
 requiring one in the constructor.
+
+### Code Cleanup Part 2: AndroidInjection
+
+Now for the second way we'll clean up this code. If you look at `TipCalcActivity` you'll find that
+it's very tightly coupled to the implementation of its injection. It knows exactly who is injecting 
+it (the Application class) and how it is done (via the `TipCalcComponent`).
+
+```java
+@Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    ((TipCalcApplication) getApplication())
+        .getComponent()
+        .inject(this);
+  }
+```
+
+Such tight coupling would prevent us from using an alternate injection method via tests and 
+decreases modularity as well. With Dagger's `AndroidInjection` we can abstract away how Activities 
+are injected. We will essentially inject an injector using `AndroidInjection`.
+
+![yo dawg]
+
+To get started with `AndroidInjection`, we'll create another `Module` that specifies how 
+`TipCalcActivity` will get injected. Create a new module that's an abstract class, name it 
+`ActivityBindingModule`, and use the following implementation:
+
+```java
+@Module
+public abstract class ActivityBindingModule {
+  @ContributesAndroidInjector(modules = { TipCalcModule.class })
+  abstract TipCalcActivity bindTipCalcActivity();
+}
+``` 
+
+The `@ContributesAndroidInjector` will specify what modules are needed to inject a particular 
+Activity. All the methods are abstract because the concrete implementation will be created by 
+Dagger. The method name isn't important, just the return type to specify the Activity. However, for 
+readability, it's recommended to name the methods as `bind<ThingYouAreBinding>()`.
+
+Next we'll modify `TipCalcComponent` to include this `Module` as well as the 
+`AndroidSupportInjectionModule` which will provide injectors for all Activities. We'll also inject 
+our Application instead of our Activity. You'll see why soon enough.  
+
+```
+@Component(modules = {
+    TipCalcModule.class,
+    ActivityBindingModule.class,
+    AndroidSupportInjectionModule.class
+})
+public interface TipCalcComponent {
+  void inject(TipCalcApplication target);
+}
+```
+
+Now we'll have to update the TipCalcApplication class so it doesn't leak implementation details 
+about how it achieves dependency injection. First we'll eliminate the component field and getter and
+add the injected field `@Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;`. 
+As its name suggests, this Dagger provided dependency will inject our Activities. Next we'll build 
+our `TipCalcComponent` and immediately inject ourselves so we can get an instance of a 
+`DispatchingAndroidInjector`. After that, we need our Application to implement the 
+`HasActivityInjector` interface, and when we implement the single method `activityInjector()`, we'll
+return the `DispatchingAndroidInjector` that was injected.  
+
+```
+public class TipCalcApplication extends Application implements HasActivityInjector {
+  @Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+  @Override public void onCreate() {
+    super.onCreate();
+
+    DaggerTipCalcComponent
+        .builder()
+        .application(this)
+        .build()
+        .inject(this);
+  }
+
+  @Override public AndroidInjector<Activity> activityInjector() {
+    return dispatchingAndroidInjector;
+  }
+}
+```
+
+Finally in `TipCalcActivity`, instead of referencing our Application class directly, we can simply 
+call `AndroidInjection.inject(this)`
+
+```java
+public class TipCalcActivity extends AppCompatActivity {
+
+  @Inject TipCalcViewModelFactory factory;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    AndroidInjection.inject(this);
+    
+    // Use Dependencies
+  }
+}
+```
+
+[yo dawg]: yo_dawg.png "Yo Dawg, I heard you like dependency injection"

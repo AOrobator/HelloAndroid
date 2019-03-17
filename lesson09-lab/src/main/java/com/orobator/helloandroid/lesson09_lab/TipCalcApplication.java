@@ -1,24 +1,27 @@
 package com.orobator.helloandroid.lesson09_lab;
 
+import android.app.Activity;
 import android.app.Application;
 import com.orobator.helloandroid.lesson09_lab.di.DaggerTipCalcComponent;
-import com.orobator.helloandroid.lesson09_lab.di.TipCalcComponent;
-import com.orobator.helloandroid.lesson09_lab.di.TipCalcModule;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import javax.inject.Inject;
 
-public class TipCalcApplication extends Application {
-  private TipCalcComponent component;
+public class TipCalcApplication extends Application implements HasActivityInjector {
+  @Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
   @Override public void onCreate() {
     super.onCreate();
 
-    component = DaggerTipCalcComponent
+    DaggerTipCalcComponent
         .builder()
         .application(this)
-        .tipCalcModule(new TipCalcModule())
-        .build();
+        .build()
+        .inject(this);
   }
 
-  public TipCalcComponent getComponent() {
-    return component;
+  @Override public AndroidInjector<Activity> activityInjector() {
+    return dispatchingAndroidInjector;
   }
 }

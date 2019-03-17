@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import com.orobator.helloandroid.lesson09_lab.R;
-import com.orobator.helloandroid.lesson09_lab.TipCalcApplication;
 import com.orobator.helloandroid.lesson09_lab.databinding.ActivityTipCalcBinding;
 import com.orobator.helloandroid.lesson09_lab.viewmodel.TipCalcViewModel;
 import com.orobator.helloandroid.lesson09_lab.viewmodel.TipCalcViewModelFactory;
+import dagger.android.AndroidInjection;
 import javax.inject.Inject;
 
 public class TipCalcActivity extends AppCompatActivity {
@@ -19,9 +19,7 @@ public class TipCalcActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    ((TipCalcApplication) getApplication())
-        .getComponent()
-        .inject(this);
+    AndroidInjection.inject(this);
 
     ActivityTipCalcBinding binding =
         DataBindingUtil.setContentView(this, R.layout.activity_tip_calc);
