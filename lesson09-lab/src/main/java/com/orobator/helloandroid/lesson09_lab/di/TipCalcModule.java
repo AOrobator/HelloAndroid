@@ -8,19 +8,13 @@ import dagger.Provides;
 
 @Module
 public class TipCalcModule {
-  private final Application app;
-
-  public TipCalcModule(Application application) {
-    this.app = application;
-  }
-
   @Provides
   public Calculator provideCalculator() {
     return new Calculator();
   }
 
   @Provides
-  public TipCalcViewModelFactory provideTipCalcViewModelFactory(Calculator calc) {
+  public TipCalcViewModelFactory provideTipCalcViewModelFactory(Application app, Calculator calc) {
     return new TipCalcViewModelFactory(app, calc);
   }
 }

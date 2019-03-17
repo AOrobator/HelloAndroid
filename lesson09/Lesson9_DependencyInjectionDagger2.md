@@ -595,3 +595,45 @@ After calling inject(), we now have an instance of `TipCalcViewModelFactory` to 
 
 Technically, we have now implemented dependency injection with Dagger, but we can still clean this 
 code up using some more features of Dagger.
+
+The first way we'll clean up our code is by eliminating the constructor of `TipCalcModule`. It'll be
+a bit cleaner if Dagger provides the `Application` dependency for us instead of passing it through 
+the constructor. After eliminating the constructor, we'll have to update our 
+provideTipCalcViewModelFactory method to take an `Application` as a method parameter.
+
+```java
+@Module
+public class TipCalcModule {
+  @Provides
+  public TipCalcViewModelFactory provideTipCalcViewModelFactory(Application app, Calculator calc) {
+    return new TipCalcViewModelFactory(app, calc);
+  }
+}
+```
+
+Next, we'll give `TipCalcComponent` an instance of `Application` to use by adding a method to our 
+Builder and annotating it with `@BindsInstance` so it is included in our object graph. 
+
+```java
+public interface TipCalcComponent {
+  
+  interface Builder {
+    @BindsInstance
+    Builder application(Application app);
+  }
+}
+```
+
+Then we'll modify the component initialization in `onCreate` of `TipCalcApplication` to use this 
+new builder method.
+
+```java
+component = DaggerTipCalcComponent
+    .builder()
+    .application(this)
+    .tipCalcModule(new TipCalcModule())
+    .build();
+```
+
+This way, all new modules will now have access to an `Application` object without explicitly 
+requiring one in the constructor.

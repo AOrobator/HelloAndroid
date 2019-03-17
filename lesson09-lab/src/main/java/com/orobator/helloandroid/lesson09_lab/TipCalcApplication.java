@@ -13,7 +13,8 @@ public class TipCalcApplication extends Application {
 
     component = DaggerTipCalcComponent
         .builder()
-        .tipCalcModule(new TipCalcModule(this))
+        .application(this)
+        .tipCalcModule(new TipCalcModule())
         .build();
   }
 
