@@ -438,3 +438,67 @@ TipCalcViewModelFactory factory =
   new TipCalcViewModelFactory(getApplication(), new Calculator());
 TipCalcViewModel vm = ViewModelProviders.of(this, factory).get(TipCalcViewModel.class);
 ```
+
+Now that we've refactored our ViewModel to have its dependencies injected, we'll start to use Dagger
+to inject all the dependencies into our Activity. The first thing we'll do is create a `Module`. A 
+`Module` in Dagger is responsible for actually creating the dependencies. Create `TipCalcModule` 
+using the following implementation:
+
+```java
+package com.orobator.helloandroid.lesson09_lab.di;
+
+import android.app.Application;
+import com.orobator.helloandroid.lesson09_lab.viewmodel.TipCalcViewModelFactory;
+import com.orobator.helloandroid.tipcalc.model.Calculator;
+import dagger.Module;
+import dagger.Provides;
+
+@Module
+public class TipCalcModule {
+  private final Application app;
+
+  public TipCalcModule(Application application) {
+    this.app = application;
+  }
+  
+  @Provides
+  public Calculator provideCalculator() {
+    return new Calculator();
+  }
+
+  @Provides
+  public TipCalcViewModelFactory provideTipCalcViewModelFactory(Calculator calc) {
+    return new TipCalcViewModelFactory(app, calc);
+  }
+}
+```
+
+After we've created the `Module`, we'll need to create a `Component`. A `Component` in Dagger will 
+do the actual injection. It will pass the required dependencies to `TipCalcActivity` after 
+`TipCalcModule` creates the dependencies. Create `TipCalcComponent` using the following 
+implementation:
+
+```java
+package com.orobator.helloandroid.lesson09_lab.di;
+
+import com.orobator.helloandroid.lesson09_lab.view.TipCalcActivity;
+import dagger.Component;
+
+@Component(modules = TipCalcModule.class)
+public interface TipCalcComponent {
+  void inject(TipCalcActivity target);
+  
+  @Component.Builder
+  interface Builder {
+    Builder tipCalcModule(TipCalcModule module);
+    TipCalcComponent build();
+  }
+}
+```
+
+When we build our application, Dagger will inspect our code for any Dagger annotations 
+(`@Component`, `@Module`, etc). For all components that it sees, it will generate a real 
+implementation that we can use. The name of the generated `Component` will be 
+`Dagger<YourComponentName>`. For this specific lab, `DaggerTipCalcComponent` will be generated. Go 
+ahead and build the app (using Command+Shift+A) in order to generate an implementation of 
+`TipCalcComponent`.
