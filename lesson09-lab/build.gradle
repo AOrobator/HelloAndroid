@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+apply from: rootProject.file("gradle/build-config.gradle")
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+
+  defaultConfig {
+    applicationId "com.orobator.helloandroid.lesson09_lab"
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.compileSdk
+    versionCode buildConfig.version.code
+    versionName buildConfig.version.name
+
+    testInstrumentationRunner deps.androidx.test.instrumentationRunner
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  dataBinding {
+    enabled = true
+  }
+}
+
+dependencies {
+  implementation project(':tipcalc-model'),
+      project(':observable-viewmodel')
+
+  implementation deps.androidx.appCompat
+  implementation deps.androidx.constraintLayout
+  implementation deps.androidx.material
+}

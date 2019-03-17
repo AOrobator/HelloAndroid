@@ -1,0 +1,9 @@
+<resources>
+  <string name="app_name">L9 Lab: Dependency Injection</string>
+  <string name="enter_check_amount">Enter Check Amount</string>
+  <string name="enter_tip_amount">Enter Tip %</string>
+  <string name="check_amount_label">Check Amount</string>
+  <string name="tip_amount_label">Tip Amount</string>
+  <string name="grand_total_label">Grand Total</string>
+  <string name="money_template">$%.02f</string>
+</resources>

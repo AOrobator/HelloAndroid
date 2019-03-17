@@ -370,4 +370,8 @@ public final class DaggerAppComponent implements AppComponent {
 As we can see, our component has an instance of AppModule, which makes sense. It also has several 
 Providers which provide the individual dependencies. If we dig into how a Provider is created, we'll
 see that it eventually calls the appropriate method on AppModule to instantiate it. In the `inject` 
-method of `DaggerAppComponent` we can see the dependency of dispatchingAndroidInjector being set.  
+method of `DaggerAppComponent` we can see the dependency of dispatchingAndroidInjector being set.
+
+## Dagger Lab
+
+In this lab, we'll refactor our TipCalculator app from lesson 5 to use dependency injection. 
