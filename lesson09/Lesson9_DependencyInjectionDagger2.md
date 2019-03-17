@@ -502,3 +502,96 @@ implementation that we can use. The name of the generated `Component` will be
 `Dagger<YourComponentName>`. For this specific lab, `DaggerTipCalcComponent` will be generated. Go 
 ahead and build the app (using Command+Shift+A) in order to generate an implementation of 
 `TipCalcComponent`.
+
+
+We now have the entity that will provide dependencies, as well as the entity that will inject the 
+dependencies, so we're ready to wire everything together. However, there's one question we need to 
+answer: Where will we store our component? For more complicated object graphs, it could be very 
+expensive to initialize, so we don't want to keep it in an Activity. Storing it in an Activity, 
+would mean that the object graph would get recreated every time we rotate the device, and we don't 
+want that. Instead, we'll store our object graph (a.k.a. Component) in our Application class which 
+will be around for the entire lifecycle of our app. To do this, we'll need to create a custom 
+Application class, instead of using the default implementation that Android provides. Create a new 
+class called `TipCalcApplication`.
+
+```java
+package com.orobator.helloandroid.lesson09_lab;
+
+import android.app.Application;
+
+public class TipCalcApplication extends Application {
+  @Override public void onCreate() {
+    super.onCreate();
+    
+  }
+}
+```
+
+In order for Android to recognize that we want to use this custom implementation, we have to declare
+it in the AndroidManifest.xml.
+
+```xml
+<application
+    android:name=".TipCalcApplication">
+  ...
+</application>
+```
+
+Back in TipCalcApplication, we'll create our object graph and store it in an instance variable.
+We'll also write a method to retrieve this component.
+
+```java
+package com.orobator.helloandroid.lesson09_lab;
+
+import android.app.Application;
+import com.orobator.helloandroid.lesson09_lab.di.DaggerTipCalcComponent;
+import com.orobator.helloandroid.lesson09_lab.di.TipCalcComponent;
+import com.orobator.helloandroid.lesson09_lab.di.TipCalcModule;
+
+public class TipCalcApplication extends Application {
+  private TipCalcComponent component;
+
+  @Override public void onCreate() {
+    super.onCreate();
+    
+    component = DaggerTipCalcComponent
+        .builder()
+        .tipCalcModule(new TipCalcModule(this))
+        .build();
+  }
+
+  public TipCalcComponent getComponent() {
+    return component;
+  }
+}
+```
+
+Now we're ready to inject our TipCalcActivity! The first thing we'll want to do is convert our 
+ViewModel Factory to an instance field, and annotate it with `@Inject` so Dagger knows this field 
+will be injected. We'll want to remove the initialization of the factory in onCreate as well, as it
+will be created and injected by Dagger.
+
+```java
+public class TipCalcActivity extends AppCompatActivity {
+  @Inject TipCalcViewModelFactory factory;
+}
+```
+
+When we finish refactoring our factory to an instance field, we'll grab the component from our 
+application and inject our dependencies into our activity.
+
+```java
+@Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    ((TipCalcApplication) getApplication())
+        .getComponent()
+        .inject(this);
+  }
+```
+
+After calling inject(), we now have an instance of `TipCalcViewModelFactory` to use.
+
+Technically, we have now implemented dependency injection with Dagger, but we can still clean this 
+code up using some more features of Dagger.
