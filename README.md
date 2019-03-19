@@ -29,3 +29,5 @@ An introductory overview to native Android development.
  * [Lesson 10: RecyclerView](lesson10/Lesson10_RecyclerView.md)
  
  * [Lesson 11: Menus & Fragments](lesson11/Lesson11_MenusAndFragments.md)
+ 
+ * Lesson 12: Notifications

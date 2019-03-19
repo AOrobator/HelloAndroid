@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">Notification Application</string>
+  <string name="main_channel_name">\"Main Notifications\"</string>
+  <string name="main_channel_description">Primary notification for this app</string>
+</resources>
