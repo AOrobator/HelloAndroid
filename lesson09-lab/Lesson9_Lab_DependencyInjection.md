@@ -312,7 +312,7 @@ Next we'll modify `TipCalcComponent` to include this `Module` as well as the
 `AndroidSupportInjectionModule` which will provide injectors for all Activities. We'll also inject 
 our Application instead of our Activity. You'll see why soon enough.  
 
-```
+```java
 @Component(modules = {
     TipCalcModule.class,
     ActivityBindingModule.class,
@@ -332,7 +332,7 @@ our `TipCalcComponent` and immediately inject ourselves so we can get an instanc
 `HasActivityInjector` interface, and when we implement the single method `activityInjector()`, we'll
 return the `DispatchingAndroidInjector` that was injected.  
 
-```
+```java
 public class TipCalcApplication extends Application implements HasActivityInjector {
   @Inject DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
