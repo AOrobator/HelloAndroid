@@ -51,7 +51,32 @@ other actions, in combination with a smaller screen, Android would put the Archi
 overflow menu. Whenever there isn't space for an item to go in the Toolbar, it will be placed in the 
 overflow menu.
 
+Now that our menu is created, it's time to show it in the Activity. In order to do this, we must 
+override `onCreateOptionsMenu(Menu)` and inflate our menu. Use the following implementation to 
+inflate the lab_menu resource:
+
+```java
+@Override public boolean onCreateOptionsMenu(Menu menu) {
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.lab_menu, menu);
+  return true;
+}
+```
+
+Now run the app. You should see that the menu is visible. If you tap on the 3 dots for the overflow 
+menu, a.k.a the shiskabob icon, you should see the Snooze Email option appear. Notice that clicking 
+on either of the menu options doesn't do anything because we haven't set that up yet. However, if 
+you long press on the "Archive" option, you'll see a Toast that pops up indicating the title of the 
+menu option.
+
+![menu_toast]
+
+This lets the user get an idea for what the icon will do, so always provide a title for your menu 
+items, even if it's just an icon. Also remember, that the icon may be pushed into the overflow menu, 
+so it may not always be represented as an icon.
+  
 
 [new_menu]: new_menu.png "New Menu"
 [create_vector_asset]: vector_asset_studio.png "Create Vector Asset"
 [lab_menu]: lab_menu.png "Menu Preview"
+[menu_toast]: menu_toast.png "Menu Label in a Toast"
