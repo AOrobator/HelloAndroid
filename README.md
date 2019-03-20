@@ -30,6 +30,8 @@ An introductory overview to native Android development.
  
  * [Lesson 11: Menus & Fragments](lesson11/Lesson11_MenusAndFragments.md)
  
+   * [Lesson 11: Menus Lab](lesson11-lab/Lesson11_Lab_Menus.md)
+ 
  * Lesson 12: Notifications
  
  * [Lesson 13: Services](lesson13/Lesson13_Services.md)
