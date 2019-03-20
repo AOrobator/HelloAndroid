@@ -63,6 +63,10 @@ inflate the lab_menu resource:
 }
 ```
 
+First we get the MenuInflater, then we inflate our menu resource into the Activity's Menu. 
+Afterwards, we return true so that the menu will be shown. If it was false, the menu would not be 
+shown.
+
 Now run the app. You should see that the menu is visible. If you tap on the 3 dots for the overflow 
 menu, a.k.a the shiskabob icon, you should see the Snooze Email option appear. Notice that clicking 
 on either of the menu options doesn't do anything because we haven't set that up yet. However, if 
@@ -74,6 +78,27 @@ menu option.
 This lets the user get an idea for what the icon will do, so always provide a title for your menu 
 items, even if it's just an icon. Also remember, that the icon may be pushed into the overflow menu, 
 so it may not always be represented as an icon.
+
+As a side note, if we wanted to modify icon state or the menu as a whole each time it is shown to 
+the user, we'd override `onPrepareOptionsMenu`. There is also `invalidateOptionsMenu` which will 
+force a call to `onCreateOptionsMenu` and `onPrepareOptionsMenu`.
+
+In order to respond to click events for our menu, we'll need to override `onOptionsItemSelected`. 
+We'll check which item was clicked by calling `MenuItem#getItemId` and comparing it to known ids. 
+Finally, we'll display a Toast describing which option was clicked and return true to indicate that 
+this click event was handled.
+
+```java
+@Override public boolean onOptionsItemSelected(MenuItem item) {
+  if (item.getItemId() == R.id.option_archive) {
+    Toast.makeText(this, "Archive clicked!", Toast.LENGTH_SHORT).show();
+  } else if (item.getItemId() == R.id.option_snooze) {
+    Toast.makeText(this, "Snooze clicked!", Toast.LENGTH_SHORT).show();
+  }
+
+  return true;
+}
+```
   
 
 [new_menu]: new_menu.png "New Menu"
