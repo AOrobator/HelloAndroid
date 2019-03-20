@@ -276,13 +276,13 @@ it (the Application class) and how it is done (via the `TipCalcComponent`).
 
 ```java
 @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    
-    ((TipCalcApplication) getApplication())
-        .getComponent()
-        .inject(this);
-  }
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  
+  ((TipCalcApplication) getApplication())
+      .getComponent()
+      .inject(this);
+}
 ```
 
 Such tight coupling would prevent us from using an alternate injection method via tests and 
