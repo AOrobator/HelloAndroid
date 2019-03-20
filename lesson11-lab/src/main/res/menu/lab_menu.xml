@@ -8,4 +8,9 @@
       android:title="Archive"
       app:showAsAction="ifRoom"/>
 
+  <item
+      android:id="@+id/option_snooze"
+      android:title="Snooze Email"
+      app:showAsAction="never"/>
+
 </menu>

@@ -32,7 +32,26 @@ you should see the following window:
 First click on the clip art to change the icon. You'll want to search for "Archive". Next change the 
 icon color to white. Then rename the icon to "ic_archive_24dp".
 
-After this we'll create a second menu item that will only be shown in the overflow menu.
+After this we'll create a second menu item that will only be shown in the overflow menu. Note that 
+the `app:showAsAction` attribute is set to never. 
+
+```xml
+<item
+  android:id="@+id/option_snooze"
+  android:title="Snooze Email"
+  app:showAsAction="never"/>
+```
+
+Your menu preview should look like this:
+
+![lab_menu]
+
+It's important to note that the archive option won't always show up as an action. If we had a lot of 
+other actions, in combination with a smaller screen, Android would put the Archive option into the 
+overflow menu. Whenever there isn't space for an item to go in the Toolbar, it will be placed in the 
+overflow menu.
+
 
 [new_menu]: new_menu.png "New Menu"
 [create_vector_asset]: vector_asset_studio.png "Create Vector Asset"
+[lab_menu]: lab_menu.png "Menu Preview"
