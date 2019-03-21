@@ -12,13 +12,19 @@ Uber use Buck.
 <details><summary>What is the AndroidManifest?</summary>
 <p>
 
-The AndroidManifest is a required file for all Android apps. All major components of your app must 
+AndroidManifest.xml is a required file for all Android apps. All major components of your app must 
 be listed here, including Activities, your custom Application class, Services, and 
-BroadcastReceivers.
+BroadcastReceivers. For more, see [Anatomy of an App][app_anatomy]. 
 </p>
 </details>
 
-What kind of things go in the res folder of your app?
+<details><summary>What kind of things go in the res folder of your app?</summary>
+<p>
+
+Most things that are not explicitly code go into the res folder. This includes images in the form of 
+drawables, XML layouts, strings, and menu resource files. For more, see [Anatomy of an App][app_anatomy].
+</p>
+</details>
 
 What is a resource qualifier?
 
@@ -53,3 +59,5 @@ need?
 What are the two most important methods for creating a menu on Android?
 
 What are some differences between a Fragment and an Activity?
+
+[app_anatomy]: lesson01/Lesson1_AnatomyOfAnApp.md

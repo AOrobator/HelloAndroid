@@ -8,7 +8,7 @@ An introductory overview to native Android development.
   * Emulator or physical device
   
 ## Table of Contents
- * [Lesson 1: Anatomy of an app](lesson01/Lesson1_AnatomyOfAnApp.md/)
+ * [Lesson 1: Anatomy of an app](lesson01/Lesson1_AnatomyOfAnApp.md)
  
  * [Lesson 2: Activity Lifecycle](lesson02/Lesson2_ActivityLifecycle.md)
   
