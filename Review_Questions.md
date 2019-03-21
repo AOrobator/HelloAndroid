@@ -27,13 +27,22 @@ drawables, XML layouts, strings, and menu resource files. For more, see
 </p>
 </details>
 
-What is a resource qualifier?
+<details><summary>What is a resource qualifier?</summary>
+<p>
+
+A resource qualifier is of the format “-<qualifier>” and goes on the end of a folder in `res/`. It 
+tells the Android system what resources to use for specific configurations. For more info see 
+[Anatomy of an App][app_anatomy_res_qualifier]
+</p>   
+</details>
 
 What is the keyboard shortcut for invoking an action?
 
 What is an Activity?
 
 What is the Activity lifecycle? What are some methods in the lifecycle?
+
+How are logging statements made in Android?
 
 Describe the difference between a UI test and a Unit test. Which one should you have more of?
 
@@ -63,3 +72,4 @@ What are some differences between a Fragment and an Activity?
 
 [app_anatomy_res_folder]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcres
 [app_anatomy_android_manifest]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcandroidmanifestxml
+[app_anatomy_res_qualifier]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcresres_type-resource_qualifier
