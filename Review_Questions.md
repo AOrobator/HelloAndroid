@@ -30,7 +30,7 @@ drawables, XML layouts, strings, and menu resource files. For more, see
 <details><summary>What is a resource qualifier?</summary>
 <p>
 
-A resource qualifier is of the format “-<qualifier>” and goes on the end of a folder in `res/`. It 
+A resource qualifier is of the format “-\<qualifier\>” and goes on the end of a folder in `res/`. It 
 tells the Android system what resources to use for specific configurations. For more info see 
 [Anatomy of an App][app_anatomy_res_qualifier]
 </p>   
