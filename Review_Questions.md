@@ -32,11 +32,18 @@ drawables, XML layouts, strings, and menu resource files. For more, see
 
 A resource qualifier is of the format “-\<qualifier\>” and goes on the end of a folder in `res/`. It 
 tells the Android system what resources to use for specific configurations. For more info see 
-[Anatomy of an App][app_anatomy_res_qualifier]
+[Anatomy of an App][app_anatomy_res_qualifier].
 </p>   
 </details>
 
-What is the keyboard shortcut for invoking an action?
+<details><summary>What is the keyboard shortcut for invoking an action?</summary>
+<p>
+
+This is arguably the most important shortcut you should know: <kbd>⌘ Command</kbd> + 
+<kbd>⇧ Shift</kbd> + <kbd>A</kbd>. For more useful shortcuts, see 
+[Handy Shortcuts][keyboard_shortcuts].
+</p>
+</details>
 
 What is an Activity?
 
@@ -73,3 +80,4 @@ What are some differences between a Fragment and an Activity?
 [app_anatomy_res_folder]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcres
 [app_anatomy_android_manifest]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcandroidmanifestxml
 [app_anatomy_res_qualifier]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcresres_type-resource_qualifier
+[keyboard_shortcuts]: lesson03/Lesson3_HandyShortcuts.md
