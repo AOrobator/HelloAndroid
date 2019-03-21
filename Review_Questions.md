@@ -45,7 +45,13 @@ This is arguably the most important shortcut you should know: <kbd>⌘ Command</
 </p>
 </details>
 
-What is an Activity?
+<details><summary>What is an Activity?</summary>
+<p>
+
+You can think of an Activity as one screen on Android. Activities must be declared in the 
+AndroidManifest.xml as they are a system component. They are usually associated with one xml layout.
+</p>
+</details>
 
 What is the Activity lifecycle? What are some methods in the lifecycle?
 
