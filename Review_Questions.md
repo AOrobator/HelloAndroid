@@ -14,7 +14,7 @@ Uber use Buck.
 
 AndroidManifest.xml is a required file for all Android apps. All major components of your app must 
 be listed here, including Activities, your custom Application class, Services, and 
-BroadcastReceivers. For more, see [Anatomy of an App][app_anatomy]. 
+BroadcastReceivers. For more, see [Anatomy of an App][app_anatomy_android_manifest]. 
 </p>
 </details>
 
@@ -61,3 +61,4 @@ What are the two most important methods for creating a menu on Android?
 What are some differences between a Fragment and an Activity?
 
 [app_anatomy]: lesson01/Lesson1_AnatomyOfAnApp.md
+[app_anatomy_android_manifest]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcandroidmanifestxml
