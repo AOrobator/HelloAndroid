@@ -22,7 +22,8 @@ BroadcastReceivers. For more, see [Anatomy of an App][app_anatomy_android_manife
 <p>
 
 Most things that are not explicitly code go into the res folder. This includes images in the form of 
-drawables, XML layouts, strings, and menu resource files. For more, see [Anatomy of an App][app_anatomy].
+drawables, XML layouts, strings, and menu resource files. For more, see 
+[Anatomy of an App][app_anatomy_res_folder].
 </p>
 </details>
 
@@ -60,5 +61,5 @@ What are the two most important methods for creating a menu on Android?
 
 What are some differences between a Fragment and an Activity?
 
-[app_anatomy]: lesson01/Lesson1_AnatomyOfAnApp.md
+[app_anatomy_res_folder]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcres
 [app_anatomy_android_manifest]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcandroidmanifestxml
