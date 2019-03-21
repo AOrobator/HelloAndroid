@@ -2,13 +2,21 @@
 
 <details><summary>What is the default build system for Android apps?</summary>
 <p>
+
 The default build system for Android is Gradle. It fetches dependencies for you and can build 
 multi-module applications. (Much) Older build systems include Maven and Ant, while companies like 
 Uber use Buck.
 </p>
 </details>
 
-What is the AndroidManifest?
+<details><summary>What is the AndroidManifest?</summary>
+<p>
+
+The AndroidManifest is a required file for all Android apps. All major components of your app must 
+be listed here, including Activities, your custom Application class, Services, and 
+BroadcastReceivers.
+</p>
+</details>
 
 What kind of things go in the res folder of your app?
 
