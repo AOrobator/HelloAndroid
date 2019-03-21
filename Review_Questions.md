@@ -1,6 +1,12 @@
 # Android Review Questions
 
-What is the default build system for Android apps?
+<details><summary>What is the default build system for Android apps?</summary>
+<p>
+The default build system for Android is Gradle. It fetches dependencies for you and can build 
+multi-module applications. (Much) Older build systems include Maven and Ant, while companies like 
+Uber use Buck.
+</p>
+</details>
 
 What is the AndroidManifest?
 
