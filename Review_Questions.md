@@ -53,7 +53,15 @@ AndroidManifest.xml as they are a system component. They are usually associated 
 </p>
 </details>
 
-What is the Activity lifecycle? What are some methods in the lifecycle?
+<details><summary>What is the Activity lifecycle? What are some methods in the lifecycle?</summary>
+<p>
+
+The Activity lifecycle is a series of methods called by the framework to let you know what stage of 
+life your Activity is in. You should only do certain work when your app is in certain stages of the 
+lifecycle. Some lifecycle methods include onCreate, onDestroy, onResume, and onPause. For more info,
+see [Activity Lifecycle][activity_lifecycle]. 
+</p>
+</details>
 
 How are logging statements made in Android?
 
@@ -87,3 +95,4 @@ What are some differences between a Fragment and an Activity?
 [app_anatomy_android_manifest]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcandroidmanifestxml
 [app_anatomy_res_qualifier]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcresres_type-resource_qualifier
 [keyboard_shortcuts]: lesson03/Lesson3_HandyShortcuts.md
+[activity_lifecycle]: lesson02/Lesson2_ActivityLifecycle.md
