@@ -72,7 +72,21 @@ various methods, such as Log.d(TAG, message) and Log.wtf(TAG, message, exception
 </p>
 </details>
 
-Describe the difference between a UI test and a Unit test. Which one should you have more of? Why?
+<details><summary>Describe the difference between a UI test and a Unit test. Which one should you have more 
+of? Why?</summary>
+<p>
+
+A unit test is a small targeted test that exercises one minute piece of functionality. It typically 
+lacks any references to the Android framework as it is just run on the JVM. As a result of not 
+having dependencies on Android or physical devices, unit tests tend to run very quickly. This is in 
+contrast to UI tests aka instrumentation tests. These tests tend to cover many pieces of 
+functionality and also exercise the UI of your app. Because UI tests require an Android device to 
+run, they are higher in fidelity (closer to what a user actually experiences), but are a lot slower 
+than unit tests. You typically want to have 70% unit tests and 30% UI tests. See the [testing] 
+lesson for more info. 
+
+</p>
+</details>
 
 What is the robot pattern?
 
@@ -106,3 +120,4 @@ What are some differences between a Fragment and an Activity?
 [keyboard_shortcuts]: lesson03/Lesson3_HandyShortcuts.md
 [activity_lifecycle]: lesson02/Lesson2_ActivityLifecycle.md
 [logging]: lesson02/src/main/java/com/orobator/helloandroid/lesson2/LifecycleActivity.java
+[testing]: lesson06/Lesson6_InstrumentationTests.md
