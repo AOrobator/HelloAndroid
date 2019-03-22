@@ -63,9 +63,16 @@ see [Activity Lifecycle][activity_lifecycle].
 </p>
 </details>
 
-How are logging statements made in Android?
+<details><summary>How are logging statements made in Android? Where can you find the logs?</summary>
+<p>
 
-Describe the difference between a UI test and a Unit test. Which one should you have more of?
+Android logging calls eventually end up in the Logcat. You can make logging statements through 
+various methods, such as Log.d(TAG, message) and Log.wtf(TAG, message, exception). See 
+[LifecycleActivity][logging]'s onCreate method for more info.
+</p>
+</details>
+
+Describe the difference between a UI test and a Unit test. Which one should you have more of? Why?
 
 Is it a good idea to hit your real web servers in tests?
 
@@ -96,3 +103,4 @@ What are some differences between a Fragment and an Activity?
 [app_anatomy_res_qualifier]: lesson01/Lesson1_AnatomyOfAnApp.md#module_namesrcresres_type-resource_qualifier
 [keyboard_shortcuts]: lesson03/Lesson3_HandyShortcuts.md
 [activity_lifecycle]: lesson02/Lesson2_ActivityLifecycle.md
+[logging]: lesson02/src/main/java/com/orobator/helloandroid/lesson2/LifecycleActivity.java
