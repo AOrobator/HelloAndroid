@@ -74,6 +74,8 @@ various methods, such as Log.d(TAG, message) and Log.wtf(TAG, message, exception
 
 Describe the difference between a UI test and a Unit test. Which one should you have more of? Why?
 
+What is the robot pattern?
+
 Is it a good idea to hit your real web servers in tests?
 
 Why would someone use Retrofit for networking vs just using OkHttp?
