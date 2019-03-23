@@ -8,9 +8,18 @@ and even perform interprocess communication (IPC). For example, a service can ha
 transactions, play music, perform file I/O, or interact with a content provider, all from the 
 background.
 
-Keep in mind that even though a Service doesn't have a UI, all code written in one runs on the 
-**main thread** by default! If you're doing long running operations, you'll still need a background 
+## Threads and Services
+
+Keep in mind that even though a Service doesn't have a UI, all code written in one **runs on the 
+main thread** by default! If you're doing long running operations, you'll still need a background 
 thread.
+
+This raises the question: When do you use a Service vs. just using a background thread? You can use 
+just a background thread if it makes sense to stop your work when the user leaves the 
+Activity/your Application. However, if the work should be continued even if the user leaves your 
+app, you should use a Service.
+
+## Types of Services
 
 There are three different types of Services:
 
