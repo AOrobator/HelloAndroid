@@ -34,7 +34,7 @@ An introductory overview to native Android development.
  
    * [Lesson 11: Menus Lab](lesson11-lab/Lesson11_Lab_Menus.md)
  
- * Lesson 12: Notifications
+ * [Lesson 12: Notifications](lesson12/src/main/java/com/orobator/helloandroid/lesson12/NotificationActivity.java)
  
  * [Android Review Questions](Review_Questions.md)
  
