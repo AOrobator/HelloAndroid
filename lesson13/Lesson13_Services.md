@@ -1,11 +1,12 @@
 # Lesson 13: Services
 
 A Service is an application component that can perform long-running operations in the background, 
-and it doesn't provide a user interface. Another application component (Activity, Application) can 
-start a service, and it continues to run in the background even if the user switches to another 
-application. Additionally, a component can bind to a service to interact with it and even perform 
-interprocess communication (IPC). For example, a service can handle network transactions, play 
-music, perform file I/O, or interact with a content provider, all from the background.
+and it doesn't provide a user interface. Another application component (Activity, Application, 
+Service, etc.) can start a service, and it continues to run in the background even if the user 
+switches to another application. Additionally, a component can bind to a service to interact with it 
+and even perform interprocess communication (IPC). For example, a service can handle network 
+transactions, play music, perform file I/O, or interact with a content provider, all from the 
+background.
 
 Keep in mind that even though a Service doesn't have a UI, all code written in one runs on the 
 **main thread** by default! If you're doing long running operations, you'll still need a background 
