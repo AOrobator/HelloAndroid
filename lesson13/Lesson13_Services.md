@@ -10,8 +10,8 @@ background.
 
 ## Threads and Services
 
-Keep in mind that even though a Service doesn't have a UI, all code written in one **runs on the 
-main thread** by default! If you're doing long running operations, you'll still need a background 
+Keep in mind that even though a Service doesn't have a UI, **all code written in a Service runs on 
+the main thread by default!** If you're doing long running operations, you'll still need a background 
 thread.
 
 This raises the question: When do you use a Service vs. just using a background thread? You can use 
