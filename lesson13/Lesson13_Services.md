@@ -59,6 +59,47 @@ First we'll set up our UI that will manage playback of the music.
 
 For our UI, we'll just have three buttons that can control the playback: play, pause, and stop. 
 For a real music app, you'd want to have something a little beefier, but this UI will do just fine 
-for our purposes.  
+for our purposes.
+
+Next we'll want to create the Service that plays the music. In order to create this Service, we'll 
+have to create the appropriate class, as well as register our Service in AndroidManifest.xml. Create
+a class called `MusicPlayerService` and have it extend `android.app.Service`. Android Studio will 
+then prompt you to implement the `onBind(Intent)` method. This method is used exclusively for bound 
+services. It returns an `IBinder` which represents the communication channel to this Service. Since 
+`MusicPlayerService` will not be bound, we can simply return null here. 
+
+```java
+public class MusicPlayerService extends Service {
+
+  @Nullable @Override public IBinder onBind(Intent intent) {
+    return null;
+  }
+}
+```
+
+After we create our Service class, we'll have to register it in the AndroidManifest because this is 
+an Android app component, just like an Activity. The simplest way of doing so is as follows:
+
+```xml
+<application>
+  <service android:name=".MusicPlayerService"/>
+</application>
+```   
+
+The `android:name` attribute is the only required attribute—it specifies the class name of the 
+service. After you publish your application, leave this name unchanged to avoid the risk of breaking 
+code due to dependence on explicit intents to start or bind the service (read the blog post, 
+[Things That Cannot Change]).
+
+There are other attributes that you can define for a Service in your manifest such as 
+`android:exported` and `android:permission`. `android:exported` is a boolean attribute that 
+specifies whether or not components from other applications can start this Service. For security 
+reasons, you'll want to set this to false if you don't plan on your other apps using this Service. 
+If you do want your other apps to be able to start this Service, but not any app, you would set 
+`android:exported="true"` and set a value for `android:permission`, so that only your apps with a 
+particular permission can start your Service. For a full list of Service attributes, see 
+[here][service_attributes].
 
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
+[Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
+[service_attributes]: https://developer.android.com/guide/topics/manifest/service-element.html
