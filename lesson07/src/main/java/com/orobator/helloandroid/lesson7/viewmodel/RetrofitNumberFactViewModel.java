@@ -44,8 +44,8 @@ public class RetrofitNumberFactViewModel extends ObservableViewModel {
 
       if (number != null) {
         disposable = numbersRepo.getTriviaFact(number)
-            .subscribeOn(schedulers.io)
-            .observeOn(schedulers.main)
+            .subscribeOn(schedulers.io) // Do this work in the background
+            .observeOn(schedulers.main) // Receive result on main thread
             .subscribe(this::onGetFactSuccess, this::onGetFactError);
       }
     } else {

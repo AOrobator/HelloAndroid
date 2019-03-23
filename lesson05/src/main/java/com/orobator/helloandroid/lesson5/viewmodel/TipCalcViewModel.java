@@ -25,6 +25,8 @@ public class TipCalcViewModel extends AndroidObservableViewModel {
   public TipCalcViewModel(Application app, Calculator calculator) {
     super(app);
     this.calculator = calculator;
+
+    // Resetting all outputs to 0's
     updateOutputs(new TipCalculation());
   }
 

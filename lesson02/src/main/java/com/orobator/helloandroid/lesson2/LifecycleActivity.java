@@ -44,7 +44,7 @@ public class LifecycleActivity extends AppCompatActivity {
   private static final String TAG = LifecycleActivity.class.getSimpleName();
 
   /**
-   * onCreate() is the first lifecyle method. It signals that system has first created the Activity.
+   * onCreate() is the first lifecycle method. It signals that system has first created the Activity.
    * Now the Activity is in the Created state. In the onCreate() method, you perform basic
    * application startup logic that should happen only once for the entire life of the activity.
    * For example, your implementation of onCreate() might bind data to lists, associate the activity
