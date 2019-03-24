@@ -39,3 +39,5 @@ An introductory overview to native Android development.
  * [Android Review Questions](Review_Questions.md)
  
  * [Lesson 13: Services](lesson13/Lesson13_Services.md)
+ 
+   * [Lesson 13: Services Lab](lesson13-lab/Lesson13_Lab_Services.md)

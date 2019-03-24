@@ -216,9 +216,16 @@ Notice that when we process the `ACTION_STOP` command, after stopping the music,
 would run indefinitely. This call stops the service and the `onDestroy()` method of 
 `MusicPlayerService` will be called.
 
-## Click here for Services lab 
+## [Click here for Services lab][services_lab]
+
+- start and stop service & log lifecycle methods. then have students take a break
+
+- Android O background limitations.
+
+- Start foreground service
 
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
 [Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
 [service_attributes]: https://developer.android.com/guide/topics/manifest/service-element.html
 [service_lifecycle]: service_lifecycle.png "Service Lifecycle"
+[services_lab]: ../lesson13-lab/Lesson13_Lab_Services.md
