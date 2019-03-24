@@ -218,9 +218,7 @@ would run indefinitely. This call stops the service and the `onDestroy()` method
 
 ## [Click here for Services lab][services_lab]
 
-- start and stop service & log lifecycle methods. then have students take a break
-
-- Android O background limitations.
+## Android Oreo (API 26) Background Limitations
 
 - Start foreground service
 
