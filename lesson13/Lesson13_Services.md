@@ -229,11 +229,8 @@ result in a poor user experience; for example, the music app might be suddenly s
 To lower the chance of these problems, Android 8.0 places limitations on what apps can do while 
 users aren't directly interacting with them.
 
-The system distinguishes between foreground and background apps. (The definition of background for 
-purposes of service limitations is distinct from the definition used by memory management; an app 
-might be in the background as pertains to memory management, but in the foreground as pertains to 
-its ability to launch services.) An app is considered to be in the foreground if any of the 
-following is true:
+The system distinguishes between foreground and background apps. An app is considered to be in the 
+foreground if any of the following is true:
 
  * It has a visible activity, whether the activity is started or paused.
  * It has a foreground service.
