@@ -220,6 +220,33 @@ would run indefinitely. This call stops the service and the `onDestroy()` method
 
 ## Android Oreo (API 26) Background Limitations
 
+Many Android apps and services can be running simultaneously. For example, a user could be playing a 
+game in one window while browsing the web in another window, and using a third app to play music. 
+The more apps are running at once, the more load is placed on the system. If additional apps or 
+services are running in the background, this places additional loads on the system, which could 
+result in a poor user experience; for example, the music app might be suddenly shut down.
+
+To lower the chance of these problems, Android 8.0 places limitations on what apps can do while 
+users aren't directly interacting with them.
+
+The system distinguishes between foreground and background apps. (The definition of background for 
+purposes of service limitations is distinct from the definition used by memory management; an app 
+might be in the background as pertains to memory management, but in the foreground as pertains to 
+its ability to launch services.) An app is considered to be in the foreground if any of the 
+following is true:
+
+ * It has a visible activity, whether the activity is started or paused.
+ * It has a foreground service.
+ * Another foreground app is connected to the app, either by binding to one of its services or by 
+   making use of one of its content providers. For example, the app is in the foreground if another 
+   app binds to its:
+   * IME
+   * Wallpaper service
+   * Notification listener
+   * Voice or text service
+   
+If none of those conditions is true, the app is considered to be in the background.
+
 - Start foreground service
 
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
