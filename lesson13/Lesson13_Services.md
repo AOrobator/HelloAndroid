@@ -61,6 +61,8 @@ For our UI, we'll just have three buttons that can control the playback: play, p
 For a real music app, you'd want to have something a little beefier, but this UI will do just fine 
 for our purposes.
 
+### Creating a Service
+
 Next we'll want to create the Service that plays the music. In order to create this Service, we'll 
 have to create the appropriate class, as well as register our Service in AndroidManifest.xml. Create
 a class called `MusicPlayerService` and have it extend `android.app.Service`. Android Studio will 
@@ -100,6 +102,31 @@ If you do want your other apps to be able to start this Service, but not any app
 particular permission can start your Service. For a full list of Service attributes, see 
 [here][service_attributes].
 
+### Service Lifecycle
+
+Just like an Activity, a Service also has a lifecycle.
+
+![service_lifecycle]
+
+The first method in a Service's lifecycle is `onCreate()`. The system invokes this method to perform 
+one-time setup procedures when the service is initially created (before it calls either 
+`onStartCommand()` or `onBind()`). If the service is already running, this method is not called.
+
+For `MusicPlayerService`, the next method in its lifecycle is `onStartCommand()`. The system invokes
+this method by calling `startService()` when another component (such as an activity) requests that 
+the service be started. When this method executes, the service is started and can run in the 
+background indefinitely. If you implement this, it is your responsibility to stop the service when 
+its work is complete by calling `stopSelf()` or `stopService()`. If you only want to provide 
+binding, you don't need to implement this method.
+
+Next, we have the previously mentioned `onBind()` method, which is used for bound services.
+
+And finally, the last lifecycle method for Services is `onDestroy()`. The system invokes this method
+when the service is no longer used and is being destroyed. Your service should implement this to 
+clean up any resources such as threads, registered listeners, or receivers. This is the last call 
+that the service receives.
+
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
 [Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
 [service_attributes]: https://developer.android.com/guide/topics/manifest/service-element.html
+[service_lifecycle]: service_lifecycle.png "Service Lifecycle"
