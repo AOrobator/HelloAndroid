@@ -214,7 +214,9 @@ behaviors after process death.
 Notice that when we process the `ACTION_STOP` command, after stopping the music, we call 
 `MusicPlayerService#stopSelf()`. It's important that we call `stopSelf()`, otherwise, our service 
 would run indefinitely. This call stops the service and the `onDestroy()` method of 
-`MusicPlayerService` will be called.     
+`MusicPlayerService` will be called.
+
+## Click here for Services lab 
 
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
 [Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
