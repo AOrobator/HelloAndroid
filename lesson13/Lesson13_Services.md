@@ -126,6 +126,96 @@ when the service is no longer used and is being destroyed. Your service should i
 clean up any resources such as threads, registered listeners, or receivers. This is the last call 
 that the service receives.
 
+### Sending Service Commands
+
+In order to send commands to our Service, we'll have to call `startService(Intent)`. The `Intent`s 
+that we pass to `startService(...)` will have to have specific actions on them that we'll check in
+`MusicPlayerService#onStartCommand(...)`. According the Single Responsibility Principle, our objects 
+should be well encapsulated, so we'll have static methods in `MusicPlayerService` that can generate 
+the appropriate Intents.
+
+```java
+public class MusicPlayerService extends Service {
+  private static final String TAG = "MusicPlayerService";
+  private static final String ACTION_PLAY = "play";
+  private static final String ACTION_PAUSE = "pause";
+  private static final String ACTION_STOP = "stop";
+  
+  public static Intent getPlayIntent(Context context) {
+    Intent intent = new Intent(context, MusicPlayerService.class);
+    intent.setAction(ACTION_PLAY);
+    return intent;
+  }
+
+  public static Intent getPauseIntent(Context context) {
+    Intent intent = new Intent(context, MusicPlayerService.class);
+    intent.setAction(ACTION_PAUSE);
+    return intent;
+  }
+
+  public static Intent getStopIntent(Context context) {
+    Intent intent = new Intent(context, MusicPlayerService.class);
+    intent.setAction(ACTION_STOP);
+    return intent;
+  }
+}
+```
+
+Once we can generate the right `Intent`s to send to our service, we'll hook up the OnClickListeners 
+in our Activity to send these commands to the service.
+
+```java
+Button playButton = findViewById(R.id.play_button);
+playButton.setOnClickListener((v) -> {
+    Intent intent = MusicPlayerService.getPlayIntent(MainActivity.this);
+    startService(intent);
+  });
+```
+
+When `startService()` gets called for the first time, `MusicPlayerService#onCreate` gets called 
+before `MusicPlayerService#onStartCommand`. Subsequent calls to `startService` after the service has 
+been started will skip the call to `onCreate()` and go straight to `onStartCommand()`. In 
+`onStartCommand()`, we first get the `Intent` used to start this service, then get its action to 
+determine what command to perform.
+
+```java
+@Override public int onStartCommand(Intent intent, int flags, int startId) {
+  String action = intent.getAction();
+
+  Log.d(TAG, "onStartCommand(" + action + ")");
+
+  switch (action) {
+    case ACTION_PLAY:
+      playMusic();
+      break;
+    case ACTION_PAUSE:
+      pauseMusic();
+      break;
+    case ACTION_STOP:
+      stopMusic();
+      stopSelf();
+      break;
+    default:
+      throw new IllegalArgumentException("Received unknown action: " + action);
+  }
+
+  return START_NOT_STICKY;
+}
+``` 
+
+Note the `break;` statements after every case. In Java, if we don't use a break statement, our code 
+execution will "fall through" to the next case. 
+
+`onStartCommand` is supposed to return an int, so here we return `START_NOT_STICKY` to indicate that
+we don't want our service automatically recreated if Android kills our process. Other constants that 
+can be returned here include `START_STICKY` and `START_REDELIVER_INTENT` which give different 
+behaviors after process death.
+
+Notice that when we process the `ACTION_STOP` command, after stopping the music, we call 
+`MusicPlayerService#stopSelf()`. It's important that we call `stopSelf()`, otherwise, our service 
+would run indefinitely. This call stops the service and the `onDestroy()` method of 
+`MusicPlayerService` will be called.     
+
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
 [Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
 [service_attributes]: https://developer.android.com/guide/topics/manifest/service-element.html
