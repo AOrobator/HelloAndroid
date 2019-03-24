@@ -130,7 +130,7 @@ that the service receives.
 
 In order to send commands to our Service, we'll have to call `startService(Intent)`. The `Intent`s 
 that we pass to `startService(...)` will have to have specific actions on them that we'll check in
-`MusicPlayerService#onStartCommand(...)`. According the Single Responsibility Principle, our objects 
+`MusicPlayerService#onStartCommand(...)`. According to the Single Responsibility Principle, our objects 
 should be well encapsulated, so we'll have static methods in `MusicPlayerService` that can generate 
 the appropriate Intents.
 
