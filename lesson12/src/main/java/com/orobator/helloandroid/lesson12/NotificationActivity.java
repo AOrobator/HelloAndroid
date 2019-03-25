@@ -84,7 +84,7 @@ public class NotificationActivity extends AppCompatActivity {
   }
 
   private void createNotificationChannel() {
-    // that's an Oh as in Oreo no a zero
+    // that's an Oh as in Oreo not a zero
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       CharSequence name = getString(R.string.main_channel_name);
       String description = getString(R.string.main_channel_description);

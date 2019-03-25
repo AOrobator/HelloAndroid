@@ -1,5 +1,8 @@
 package com.orobator.helloandroid.lesson13;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +40,24 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     return intent;
   }
 
+  private static PendingIntent getPlayPendingIntent(Context context) {
+    Intent intent = getPlayIntent(context);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+    return pendingIntent;
+  }
+
+  private static PendingIntent getPausePendingIntent(Context context) {
+    Intent intent = getPauseIntent(context);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+    return pendingIntent;
+  }
+
+  private static PendingIntent getStopPendingIntent(Context context) {
+    Intent intent = getStopIntent(context);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+    return pendingIntent;
+  }
+
   @Override public void onCreate() {
     super.onCreate();
 
@@ -51,16 +72,35 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnPrepare
     String action = intent.getAction();
 
     Log.d(TAG, "onStartCommand(" + action + ")");
+    NotificationManager nm =
+        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    int id = NotificationFactory.NOTIFICATION_ID_PLAYBACK;
 
     switch (action) {
       case ACTION_PLAY:
         playMusic();
+        Notification notification =
+            NotificationFactory.getPlaybackNotification(
+                this,
+                getPlayPendingIntent(this),
+                getPausePendingIntent(this),
+                getStopPendingIntent(this));
+        nm.notify(id, notification);
+        startForeground(id, notification);
         break;
       case ACTION_PAUSE:
         pauseMusic();
+        notification =
+            NotificationFactory.getPlaybackNotification(
+                this,
+                getPlayPendingIntent(this),
+                getPausePendingIntent(this),
+                getStopPendingIntent(this));
+        startForeground(id, notification);
         break;
       case ACTION_STOP:
         stopMusic();
+        stopForeground(true);
         stopSelf();
         break;
       default:

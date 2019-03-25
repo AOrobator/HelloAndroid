@@ -277,7 +277,45 @@ call the service's `startForeground()` method to show the new service's user-vis
 If the app does not call `startForeground()` within the time limit, the system stops the service and
 declares the app to be ANR (App Not Responding).
 
-TODO: Make MusicPlayerService a foreground service.
+## Creating a foreground service
+
+In order to create a foreground service, you'll need to add the following permission to your 
+AndroidManifest: 
+
+```xml
+<manifest>
+
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+</manifest>
+```
+
+Then call `startForeground` and provide a notification.
+
+```java
+case ACTION_PLAY:
+  playMusic();
+  Notification notification =
+      NotificationFactory.getPlaybackNotification(
+          this,
+          getPlayPendingIntent(this),
+          getPausePendingIntent(this),
+          getStopPendingIntent(this));
+  Log.d(TAG, "Created notification");
+  notificationManager.notify(id, notification);
+  startForeground(id, notification);
+  break;
+```
+To stop a Service from being in the foreground, call stopForeground, and specify whether to remove 
+the notification.
+
+```java
+case ACTION_STOP:
+  stopMusic();
+  stopForeground(true);
+  stopSelf();
+  break;
+``` 
 
 [music_player_ui]: music_player_ui.png "Simple Music Player UI"
 [Things That Cannot Change]: https://android-developers.googleblog.com/2011/06/things-that-cannot-change.html
