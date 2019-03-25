@@ -301,7 +301,6 @@ case ACTION_PLAY:
           getPlayPendingIntent(this),
           getPausePendingIntent(this),
           getStopPendingIntent(this));
-  Log.d(TAG, "Created notification");
   notificationManager.notify(id, notification);
   startForeground(id, notification);
   break;
