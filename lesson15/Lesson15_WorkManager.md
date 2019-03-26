@@ -66,38 +66,55 @@ In your case, you'll define a new `BlurWorker` which will contain the code to bl
 Go button is clicked, a `WorkRequest` is created and then enqueued by `WorkManager`.
 
 ### Step 1 - Make BlurWorker
-In the package workers, create a new class called BlurWorker.
+In the package workers, create a new class called `BlurWorker`.
 
 It should extend Worker.
 
-Step 2 - Add a constructor
+### Step 2 - Add a constructor
 Add a constructor to the BlurWorker class:
 
+```java
 public BlurWorker(
         @NonNull Context appContext,
         @NonNull WorkerParameters workerParams) {
     super(appContext, workerParams);
 }
-Step 3 - Override and implement doWork()
-Your Worker will blur the res/test.jpg image.
+```
 
-Override the doWork() method and then implement the following:
+### Step 3 - Override and implement doWork()
+Your `Worker` will blur the `res/test.jpg` image.
 
-Get a Context by calling getApplicationContext(). You'll need this for various bitmap manipulations you're about to do.
-Create a Bitmap from the test image:
+Override the `doWork()` method and then implement the following:
+
+1. Get a `Context` by calling `getApplicationContext()`. You'll need this for various bitmap 
+   manipulations you're about to do.
+2. Create a Bitmap from the test image:
+
+```java
 Bitmap picture = BitmapFactory.decodeResource(
     applicationContext.getResources(),
     R.drawable.test);
-Get a blurred version of the bitmap by calling the static blurBitmap method from WorkerUtils.
-Write that bitmap to a temporary file by calling the static writeBitmapToFile method from WorkerUtils. Make sure to save the returned URI to a local variable.
-Make a Notification displaying the URI by calling the static makeStatusNotification method from WorkerUtils.
-Return Result.success();
-Wrap the code from steps 2-6 in a try/catch statement. Catch a generic Throwable.
-In the catch statement, emit an error Log statement: Log.e(TAG, "Error applying blur", throwable);
-In the catch statement then return Result.failure();
+```
+3. Get a blurred version of the bitmap by calling the static `blurBitmap` method from `WorkerUtils`.
+
+4. Write that bitmap to a temporary file by calling the static `writeBitmapToFile` method from 
+   `WorkerUtils`. Make sure to save the returned URI to a local variable.
+   
+5. Make a Notification displaying the URI by calling the static `makeStatusNotification` method from
+   `WorkerUtils`.
+   
+6. Return `Result.success();`
+
+7. Wrap the code from steps 2-6 in a try/catch statement. Catch a generic `Throwable`.
+
+8. In the catch statement, emit an error Log statement: `Log.e(TAG, "Error applying blur", throwable);`
+
+9. In the catch statement then return `Result.failure();`
+
 The completed code for this step is below.
 
-BlurWorker.java
+[BlurWorker.java]
+```java
 public class BlurWorker extends Worker {
     public BlurWorker(
             @NonNull Context appContext,
@@ -140,6 +157,8 @@ public class BlurWorker extends Worker {
         }
     }
 }
+```
+
 Step 4 - Get WorkManager in the ViewModel
 Create a variable for a WorkManager instance in your ViewModel and instantiate it in the ViewModel's constructor:
 
@@ -183,3 +202,4 @@ Then navigate to data>data>com.example.background>files>blur_filter_outputs><URI
 [WorkRequest]: https://developer.android.com/reference/androidx/work/WorkRequest.html
 [WorkManager]: https://developer.android.com/reference/androidx/work/WorkManager.html
 [Constraints]: https://developer.android.com/reference/androidx/work/Constraints.html
+[BlurWorker.java]: src/main/java/com/example/background/workers/BlurWorker.java
