@@ -1,4 +1,4 @@
-# Broadcast Receivers
+# Lesson 14: Broadcast Receivers
 
 ![BroadcastReceiver][broadcast_receiver]
 
