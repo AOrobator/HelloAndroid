@@ -19,12 +19,15 @@ package com.example.background;
 import android.net.Uri;
 import android.text.TextUtils;
 import androidx.lifecycle.ViewModel;
+import androidx.work.WorkManager;
 
 public class BlurViewModel extends ViewModel {
+  private WorkManager workManager;
 
   private Uri mImageUri;
 
   public BlurViewModel() {
+    workManager = WorkManager.getInstance();
   }
 
   /**

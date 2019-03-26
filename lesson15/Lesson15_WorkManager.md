@@ -159,10 +159,12 @@ public class BlurWorker extends Worker {
 }
 ```
 
-Step 4 - Get WorkManager in the ViewModel
-Create a variable for a WorkManager instance in your ViewModel and instantiate it in the ViewModel's constructor:
+### Step 4 - Get WorkManager in the ViewModel
+Create a variable for a `WorkManager` instance in your `ViewModel` and instantiate it in the 
+`ViewModel`'s constructor:
 
-BlurViewModel.java
+[BlurViewModel.java]
+```java
 private WorkManager mWorkManager;
 
 // BlurViewModel constructor
@@ -170,6 +172,8 @@ public BlurViewModel() {
   mWorkManager = WorkManager.getInstance();
   //...rest of the constructor
 }
+```
+
 Step 5 - Enqueue the WorkRequest in WorkManager
 Alright, time to make a WorkRequest and tell WorkManager to run it. There are two types of WorkRequests:
 
@@ -203,3 +207,4 @@ Then navigate to data>data>com.example.background>files>blur_filter_outputs><URI
 [WorkManager]: https://developer.android.com/reference/androidx/work/WorkManager.html
 [Constraints]: https://developer.android.com/reference/androidx/work/Constraints.html
 [BlurWorker.java]: src/main/java/com/example/background/workers/BlurWorker.java
+[BlurViewModel.java]: src/main/java/com/example/background/BlurViewModel.java
