@@ -34,4 +34,17 @@ process goes away or for tasks that require immediate execution.
 To learn more about WorkManager, we'll work through Google's provided 
 [WorkManager code lab][codelab] together.
 
-[codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0 
+## What you will build
+
+These days, smartphones are almost too good at taking pictures. Gone are the days a photographer 
+could take a reliably blurry picture of something mysterious.
+
+In this codelab you'll be working on Blur-O-Matic, an app that blurs photos and images and saves the
+result to a file. Was that the Loch Ness monster or evelopera toy submarine? With Blur-O-Matic, 
+no-one will ever know.
+
+![blur-o-matic_1] ![blur-o-matic_2]
+
+[codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
+[blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
+[blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager" 
