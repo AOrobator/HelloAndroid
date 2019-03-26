@@ -174,30 +174,40 @@ public BlurViewModel() {
 }
 ```
 
-Step 5 - Enqueue the WorkRequest in WorkManager
-Alright, time to make a WorkRequest and tell WorkManager to run it. There are two types of WorkRequests:
+### Step 5 - Enqueue the WorkRequest in WorkManager
+Alright, time to make a `WorkRequest` and tell `WorkManager` to run it. There are two types of 
+`WorkRequests`:
 
-OneTimeWorkRequest: A WorkRequest that will only execute once.
-PeriodicWorkRequest: A WorkRequest that will repeat on a cycle.
-We only want the image to be blurred once when the Go button is clicked. The applyBlur method is called when the Go button is clicked, so create a OneTimeWorkRequest from BlurWorker there. Then, using your WorkManager instance enqueue your WorkRequest.
+ * `OneTimeWorkRequest`: A `WorkRequest` that will only execute once.
+ * `PeriodicWorkRequest`: A `WorkRequest` that will repeat on a cycle.
+
+We only want the image to be blurred once when the **Go** button is clicked. The `applyBlur` method 
+is called when the **Go** button is clicked, so create a `OneTimeWorkRequest` from `BlurWorker` 
+there. Then, using your `WorkManager` instance enqueue your `WorkRequest`.
 
 Add the following line of code into BlurViewModel's applyBlur() method:
 
-BlurViewModel.java
+[BlurViewModel.java]
+```java
 void applyBlur(int blurLevel) {
    mWorkManager.enqueue(OneTimeWorkRequest.from(BlurWorker.class));
 }
-Step 6 - Run your code!
+```
+
+### Step 6 - Run your code!
 Run your code. It should compile and you should see the Notification when you press the Go button.
 
+![first_request_step6]
 
+Optionally you can open the **Device File Explorer** in Android Studio. Using Command+Shift+A will 
+be fastest, but if your prefer your mouse:
 
+![device_file_explorer1]
 
-Optionally you can open the Device File Explorer in Android Studio:
+Then navigate to **data>data>com.example.background>files>blur_filter_outputs><URI>** and confirm 
+that the fish was in fact blurred:
 
-
-
-Then navigate to data>data>com.example.background>files>blur_filter_outputs><URI> and confirm that the fish was in fact blurred:
+![device_file_explorer2]
 
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
@@ -208,3 +218,6 @@ Then navigate to data>data>com.example.background>files>blur_filter_outputs><URI
 [Constraints]: https://developer.android.com/reference/androidx/work/Constraints.html
 [BlurWorker.java]: src/main/java/com/example/background/workers/BlurWorker.java
 [BlurViewModel.java]: src/main/java/com/example/background/BlurViewModel.java
+[first_request_step6]: first_request_step6.png "Step 6 Result"
+[device_file_explorer1]: device_file_explorer1.png "Locating Device File Explorer"
+[device_file_explorer2]: device_file_explorer2.png "Confirm blurred fish"

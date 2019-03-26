@@ -19,7 +19,9 @@ package com.example.background;
 import android.net.Uri;
 import android.text.TextUtils;
 import androidx.lifecycle.ViewModel;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import com.example.background.workers.BlurWorker;
 
 public class BlurViewModel extends ViewModel {
   private WorkManager workManager;
@@ -36,7 +38,7 @@ public class BlurViewModel extends ViewModel {
    * @param blurLevel The amount to blur the image
    */
   void applyBlur(int blurLevel) {
-
+    workManager.enqueue(OneTimeWorkRequest.from(BlurWorker.class));
   }
 
   private Uri uriOrNull(String uriString) {
