@@ -1,4 +1,4 @@
-package com.matrangola.broadcastreceiver;
+package com.orobator.helloandroid.lesson14;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
