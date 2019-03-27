@@ -353,6 +353,260 @@ Note that you might need to **Synchronize** to see your images:
 
 Great work! You've blurred an input image using WorkManager!
 
+## Chain your Work
+Right now you're doing a single work task: blurring the image. This is a great first step, but is 
+missing some core functionality:
+
+ * It doesn't clean up temporary files.
+ * It doesn't actually save the image to a permanent file.
+ * It always blurs the picture the same amount.
+ 
+We'll use a `WorkManager` chain of work to add this functionality.
+
+`WorkManager` allows you to create separate `WorkerRequest`s that run in order or parallel. In this 
+step you'll create a chain of work that looks like this:
+
+![work_request_chain]
+
+The `WorkRequests` are represented as boxes.
+
+Another really neat feature of chaining is that the output of one `WorkRequest` becomes the input of
+the next `WorkRequest` in the chain. The input and output that is passed between each `WorkRequest` 
+is shown as blue text.
+
+### Step 1 - Create Cleanup and Save Workers
+First, you'll define all the `Worker` classes you need. You already have a `Worker` for blurring an 
+image, but you also need a `Worker` which cleans up temp files and a `Worker` which saves the image 
+permanently.
+
+Create two new classes in the `worker` package which extend `Worker`.
+
+The first should be called `CleanupWorker`, the second should be called `SaveImageToFileWorker`.
+
+### Step 2 - Add a constructor
+Add a constructor to the `CleanupWorker` class:
+
+```java
+public CleanupWorker(
+        @NonNull Context appContext,
+        @NonNull WorkerParameters workerParams) {
+    super(appContext, workerParams);
+}
+```
+
+### Step 3 - Override and implement doWork() for CleanupWorker
+`CleanupWorker` doesn't need to take any input or pass any output. It always deletes the temporary 
+files if they exist. Because this is not a codelab about file manipulation, you can copy the code 
+for the `CleanupWorker` below:
+
+[CleanupWorker.java]
+```java
+public class CleanupWorker extends Worker {
+    public CleanupWorker(
+            @NonNull Context appContext,
+            @NonNull WorkerParameters workerParams) {
+        super(appContext, workerParams);
+    }
+
+    private static final String TAG = CleanupWorker.class.getSimpleName();
+
+    @NonNull
+    @Override
+    public Worker.Result doWork() {
+        Context applicationContext = getApplicationContext();
+        
+        try {
+            File outputDirectory = new File(applicationContext.getFilesDir(),
+                    Constants.OUTPUT_PATH);
+            if (outputDirectory.exists()) {
+                File[] entries = outputDirectory.listFiles();
+                if (entries != null && entries.length > 0) {
+                    for (File entry : entries) {
+                        String name = entry.getName();
+                        if (!TextUtils.isEmpty(name) && name.endsWith(".png")) {
+                            boolean deleted = entry.delete();
+                            Log.i(TAG, String.format("Deleted %s - %s",
+                                    name, deleted));
+                        }
+                    }
+                }
+            }
+
+            return Worker.Result.success();
+        } catch (Exception exception) {
+            Log.e(TAG, "Error cleaning up", exception);
+            return Worker.Result.failure();
+        }
+    }
+}
+```
+
+### Step 4 - Override and implement doWork() for SaveImageToFileWorker
+`SaveImageToFileWorker` will take input and output. The input is a String stored with the key 
+`KEY_IMAGE_URI`. And the output will also be a String stored with the key KEY_IMAGE_URI.
+
+![save_image_to_file_worker]
+
+Since this is still not a codelab about file manipulations, the code is below, with two TODOs for 
+you to fill in the appropriate code for input and output. This is very similar to the code you wrote
+in the last step for input and output (it uses all the same keys).
+
+[SaveImageToFileWorker.java]
+```java
+public class SaveImageToFileWorker extends Worker {
+    public SaveImageToFileWorker(
+            @NonNull Context appContext,
+            @NonNull WorkerParameters workerParams) {
+        super(appContext, workerParams);
+    }
+
+    private static final String TAG = SaveImageToFileWorker.class.getSimpleName();
+
+    private static final String TITLE = "Blurred Image";
+    private static final SimpleDateFormat DATE_FORMATTER =
+            new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss z", Locale.getDefault());
+
+    @NonNull
+    @Override
+    public Worker.Result doWork() {
+        Context applicationContext = getApplicationContext();
+
+        ContentResolver resolver = applicationContext.getContentResolver();
+        try {
+            String resourceUri = ;// TODO get the input Uri from the Data object
+            Bitmap bitmap = BitmapFactory.decodeStream(
+                   resolver.openInputStream(Uri.parse(resourceUri)));
+            String outputUri = MediaStore.Images.Media.insertImage(
+                    resolver, bitmap, TITLE, DATE_FORMATTER.format(new Date()));
+            if (TextUtils.isEmpty(outputUri)) {
+                Log.e(TAG, "Writing to MediaStore failed");
+                return Result.failure();
+            }
+            // TODO create and set the output Data object with the imageUri.
+            return Worker.Result.success();
+        } catch (Exception exception) {
+            Log.e(TAG, "Unable to save image to Gallery", exception);
+            return Worker.Result.failure();
+        }
+    }
+}
+```
+
+### Step 5 - Create a WorkRequest Chain
+You need to modify the `BlurViewModel`'s `applyBlur` method to execute a chain of `WorkRequests` 
+instead of just one. Currently the code looks like this:
+
+[BlurViewModel.java]
+```java
+OneTimeWorkRequest blurRequest =
+     new OneTimeWorkRequest.Builder(BlurWorker.class)
+             .setInputData(createInputDataForUri())
+             .build();
+
+mWorkManager.enqueue(blurRequest);
+```
+
+Instead of calling `WorkManager.enqueue()`, call `WorkManager.beginWith()`. This returns a 
+[WorkContinuation], which defines a chain of WorkRequests. You can add to this chain of work 
+requests by calling `then()` method, for example, if you have three `WorkRequest` objects, `workA`, 
+`workB`, and `workC`, you could do the following:
+
+```java
+WorkContinuation continuation = mWorkManager.beginWith(workA);
+
+continuation.then(workB) // FYI, then() returns a new WorkContinuation instance
+        .then(workC)
+        .enqueue(); // Enqueues the WorkContinuation which is a chain of work
+```
+      
+This would produce and run the following chain of `WorkRequest`s:
+
+![work_requests_chain]
+
+Create a chain of a `CleanupWorker` `WorkRequest`, a `BlurImage` `WorkRequest` and a 
+`SaveImageToFile` `WorkRequest` in `applyBlur`. Pass input into the `BlurImage` `WorkRequest`.
+
+The code for this is below:
+
+[BlurViewModel.java]
+```java
+void applyBlur(int blurLevel) {
+
+    // Add WorkRequest to Cleanup temporary images
+    WorkContinuation continuation =
+        mWorkManager.beginWith(OneTimeWorkRequest.from(CleanupWorker.class));
+
+    // Add WorkRequest to blur the image
+    OneTimeWorkRequest blurRequest = new OneTimeWorkRequest.Builder(BlurWorker.class)
+                    .setInputData(createInputDataForUri())
+                    .build();
+    continuation = continuation.then(blurRequest);
+
+
+    // Add WorkRequest to save the image to the filesystem
+    OneTimeWorkRequest save =
+        new OneTimeWorkRequest.Builder(SaveImageToFileWorker.class)
+            .build();
+    continuation = continuation.then(save);
+
+    // Actually start the work
+    continuation.enqueue();
+}
+```
+
+This should **compile** and **run**. You should be able to see whatever image you choose to blur now
+saved in your **Pictures** folder:
+
+![saved_blurred_image]
+
+### Step 6 - Repeat the BlurWorker
+Time to add the ability to blur the image different amounts. Take the `blurLevel` parameter passed 
+into `applyBlur` and add that many blur `WorkRequest` operations to the chain. Only the first 
+`WorkRequest` needs and should take in the uri input.
+
+
+Note that this is a bit contrived for learning purposes. Calling our blur code three times is less 
+efficient than having `BlurWorker` take in an input that controls the "level" of blur. But it's good
+practice and shows the flexibility of `WorkManager` chaining.
+
+Try it yourself and then compare with the code below:
+
+[BlurViewModel.java]
+```java
+void applyBlur(int blurLevel) {
+
+    // Add WorkRequest to Cleanup temporary images
+    WorkContinuation continuation = mWorkManager.beginWith(OneTimeWorkRequest.from(CleanupWorker.class));
+
+    // Add WorkRequests to blur the image the number of times requested
+    for (int i = 0; i < blurLevel; i++) {
+        OneTimeWorkRequest.Builder blurBuilder =
+                new OneTimeWorkRequest.Builder(BlurWorker.class);
+
+        // Input the Uri if this is the first blur operation
+        // After the first blur operation the input will be the output of previous
+        // blur operations.
+        if ( i == 0 ) {
+            blurBuilder.setInputData(createInputDataForUri());
+        }
+
+        continuation = continuation.then(blurBuilder.build());
+    }
+
+    // Add WorkRequest to save the image to the filesystem
+    OneTimeWorkRequest save = new OneTimeWorkRequest.Builder(SaveImageToFileWorker.class)
+            .build();
+    continuation = continuation.then(save);
+
+    // Actually start the work
+    continuation.enqueue();
+}
+```
+
+Superb "work"! Now you can blur an image as much or as little as you want! How mysterious!
+
+![very_blurry]
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -367,3 +621,11 @@ Great work! You've blurred an input image using WorkManager!
 [device_file_explorer2]: device_file_explorer2.png "Confirm blurred fish"
 [Data]: https://developer.android.com/reference/androidx/work/Data
 [device_file_explorer_sync]: device_file_explorer_sync.png "Synchronize Device File Explorer"
+[work_request_chain]: work_request_chain.png "Work request chain"
+[CleanupWorker.java]: src/main/java/com/example/background/workers/CleanupWorker.java
+[save_image_to_file_worker]: save_image_to_file_worker.png "SaveImageToFileWorker will take input and output"
+[SaveImageToFileWorker.java]: src/main/java/com/example/background/workers/SaveImageToFileWorker.java
+[WorkContinuation]: https://developer.android.com/reference/androidx/work/WorkContinuation
+[work_requests_chain]: work_requests_chain.png "WorkRequests Chain"
+[saved_blurred_image]: saved_blurred_image.png "Blurred images are now saved"
+[very_blurry]: very_blurry.png "Mysterious!"
