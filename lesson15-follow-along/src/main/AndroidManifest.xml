@@ -16,7 +16,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.background">
+    package="com.example.background.followalong">
 
   <application
       android:allowBackup="true"

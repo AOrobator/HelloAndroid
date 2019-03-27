@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.background;
+package com.example.background.followalong;
 
 import android.net.Uri;
 import android.text.TextUtils;

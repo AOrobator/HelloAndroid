@@ -20,7 +20,7 @@ apply from: rootProject.file("gradle/build-config.gradle")
 android {
   compileSdkVersion buildConfig.compileSdk
   defaultConfig {
-    applicationId "com.example.background"
+    applicationId "com.example.background.followalong"
     renderscriptTargetApi 11
     renderscriptSupportModeEnabled true
     vectorDrawables {

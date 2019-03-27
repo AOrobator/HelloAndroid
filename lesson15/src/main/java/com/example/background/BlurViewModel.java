@@ -39,6 +39,7 @@ public class BlurViewModel extends ViewModel {
   private WorkManager workManager;
   private LiveData<List<WorkInfo>> savedWorkInfo;
   private Uri mImageUri;
+  private Uri mOutputUri;
 
   public BlurViewModel() {
     workManager = WorkManager.getInstance();
@@ -102,11 +103,19 @@ public class BlurViewModel extends ViewModel {
     return mImageUri;
   }
 
+  Uri getOutputUri() {
+    return mOutputUri;
+  }
+
   /**
    * Setters
    */
   void setImageUri(String uri) {
     mImageUri = uriOrNull(uri);
+  }
+
+  void setOutputUri(String outputImageUri) {
+    mOutputUri = uriOrNull(outputImageUri);
   }
 
   /**

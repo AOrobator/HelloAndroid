@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.background.workers;
+package com.example.background.followalong.workers;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,16 +31,16 @@ import androidx.renderscript.Allocation;
 import androidx.renderscript.Element;
 import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
-import com.example.background.Constants;
-import com.example.background.R;
+import com.example.background.followalong.Constants;
+import com.example.background.followalong.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.example.background.Constants.CHANNEL_ID;
-import static com.example.background.Constants.DELAY_TIME_MILLIS;
+import static com.example.background.followalong.Constants.CHANNEL_ID;
+import static com.example.background.followalong.Constants.DELAY_TIME_MILLIS;
 
 final class WorkerUtils {
   private static final String TAG = WorkerUtils.class.getSimpleName();

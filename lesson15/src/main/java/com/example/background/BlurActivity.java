@@ -17,19 +17,27 @@
 package com.example.background;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.work.Data;
 import androidx.work.WorkInfo;
 import com.bumptech.glide.Glide;
 
+import static com.example.background.Constants.KEY_IMAGE_URI;
+
 public class BlurActivity extends AppCompatActivity {
+  private static final String TAG = BlurActivity.class.getSimpleName();
 
   private BlurViewModel mViewModel;
   private ImageView mImageView;
@@ -53,7 +61,7 @@ public class BlurActivity extends AppCompatActivity {
 
     // Image uri should be stored in the ViewModel; put it there then display
     Intent intent = getIntent();
-    String imageUriExtra = intent.getStringExtra(Constants.KEY_IMAGE_URI);
+    String imageUriExtra = intent.getStringExtra(KEY_IMAGE_URI);
     mViewModel.setImageUri(imageUriExtra);
     if (mViewModel.getImageUri() != null) {
       Glide.with(this).load(mViewModel.getImageUri()).into(mImageView);
@@ -77,6 +85,34 @@ public class BlurActivity extends AppCompatActivity {
         showWorkInProgress();
       } else {
         showWorkFinished();
+        Data outputData = workInfo.getOutputData();
+
+        String outputImageUri = outputData.getString(KEY_IMAGE_URI);
+        Log.d(TAG, "outputImageUri = " + outputImageUri);
+
+        // If there is an output file show "See File" button
+        if (!TextUtils.isEmpty(outputImageUri)) {
+          Log.d(TAG, "Setting uri on viewmodel");
+          mViewModel.setOutputUri(outputImageUri);
+          mOutputButton.setVisibility(View.VISIBLE);
+        } else {
+          Log.d(TAG, "Got empty uri");
+          Toast.makeText(this, "Got empty Uri", Toast.LENGTH_SHORT).show();
+        }
+      }
+    });
+
+    mOutputButton.setOnClickListener(view -> {
+      Uri currentUri = mViewModel.getOutputUri();
+      if (currentUri != null) {
+        Intent actionView = new Intent(Intent.ACTION_VIEW, currentUri);
+        if (actionView.resolveActivity(getPackageManager()) != null) {
+          startActivity(actionView);
+        } else {
+          Toast.makeText(this, "Failed to resolve Activity", Toast.LENGTH_SHORT).show();
+        }
+      } else {
+        Toast.makeText(this, "Current Uri is null", Toast.LENGTH_SHORT).show();
       }
     });
   }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.background;
+package com.example.background.followalong;
 
 import android.Manifest;
 import android.app.Activity;

@@ -757,6 +757,101 @@ the cancel button:
 
 ![display_work_status]
 
+## Show Final Output
+Each `WorkInfo` also has a [getOutputData] method which allows you to get the output `Data` object 
+with the final saved image. Let's display a button that says **See File** whenever there's a blurred 
+image ready to show.
+
+### Step 1 - Create mOutputUri
+Create a variable in `BlurViewModel` for the final URI and provide getters and setters for it. To 
+turn a `String` into a `Uri`, you can use the `uriOrNull` method.
+
+You can use the code below:
+
+[BlurViewModel.java]
+```java
+// New instance variable for the WorkInfo
+private Uri mOutputUri;
+
+// Add a getter and setter for mOutputUri
+void setOutputUri(String outputImageUri) {
+    mOutputUri = uriOrNull(outputImageUri);
+}
+
+Uri getOutputUri() { return mOutputUri; }
+```
+
+### Step 2 - Create the See File button
+There's already a button in the `activity_blur.xml` layout that is hidden. It's in `BlurActivity` 
+and called `mOutputButton`.
+
+Setup the click listener for that button. It should get the URI and then open up an activity to view
+that URI. You can use the code below:
+
+[BlurActivity.java]
+```java
+// Inside onCreate()
+mOutputButton.setOnClickListener(view -> {
+    Uri currentUri = mViewModel.getOutputUri();
+    if (currentUri != null) {
+        Intent actionView = new Intent(Intent.ACTION_VIEW, currentUri);
+        if (actionView.resolveActivity(getPackageManager()) != null) { 
+            startActivity(actionView);
+        }
+    }
+});
+```
+
+### Step 3 - Set the URI and show the button
+There are a few final tweaks you need to apply to the `WorkInfo` observer to get this to work (no 
+pun intended):
+
+1. If the `WorkInfo` is finished, get the output data, using `workInfo.getOutputData()`.
+
+2. Then get the output URI, remember that it's stored with the `Constants.KEY_IMAGE_URI` key.
+
+3. Then if the URI isn't empty, it saved properly; show the `mOutputButton` and call `setOutputUri` 
+   on the view model with the uri.
+
+[BlurActivity.java]
+```java
+// Show work info, goes inside onCreate()
+mViewModel.getOutputWorkInfo().observe(this, listOfWorkInfo -> {
+
+    // If there are no matching work info, do nothing
+    if (listOfWorkInfo == null || listOfWorkInfo.isEmpty()) {
+        return;
+    }
+
+    // We only care about the first output status.
+    // Every continuation has only one worker tagged TAG_OUTPUT
+    WorkInfo workInfo = listOfWorkInfo.get(0);
+
+    boolean finished = workInfo.getState().isFinished();
+    if (!finished) {
+        showWorkInProgress();
+    } else {
+        showWorkFinished();
+        Data outputData = ;// TODO get the output Data from the workInfo
+
+        String outputImageUri = ;// TODO get the Uri from the Data using the 
+        // Constants.KEY_IMAGE_URI key
+
+        // If there is an output file show "See File" button
+        if (!TextUtils.isEmpty(outputImageUri)) {
+            // TODO set the output Uri in the ViewModel
+            // TODO show mOutputButton
+        }
+    }
+});
+``` 
+
+### Step 4 - Run your code
+Run your code. You should see your new, clickable **See File** button which takes you to the 
+outputted file:
+
+![see_file_button]
+
 
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
@@ -786,3 +881,5 @@ the cancel button:
 [Android Lifecycle-aware components Codelab]: https://codelabs.developers.google.com/codelabs/android-lifecycles/#0
 [WorkInfo]: https://developer.android.com/reference/androidx/work/WorkInfo
 [display_work_status]: display_work_status.png "Display work status"
+[getOutputData]: https://developer.android.com/reference/androidx/work/WorkInfo.html#getOutputData()
+[see_file_button]: see_file_button.png "See File Button"
