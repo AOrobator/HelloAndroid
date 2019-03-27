@@ -209,6 +209,150 @@ that the fish was in fact blurred:
 
 ![device_file_explorer2]
 
+## Add Input and Output
+Blurring that test image is all well and good, but for Blur-O-Matic to really be the revolutionary 
+image editing app it's destined to be, you'll need to let users blur their own images.
+
+To do this, we'll provide the URI of the user's selected image as input to our `WorkRequest`.
+
+### Step 1 - Create Data input object
+Input and output is passed in and out via [Data] objects. `Data` objects are lightweight containers 
+for key/value pairs. They are meant to store a small amount of data that might pass into and out from 
+`WorkRequest`s.
+
+You're going to pass in the URI for the user's image into a bundle. That URI is stored in a variable 
+called mImageUri.
+
+Create a private method called `createInputDataForUri`. This method should:
+
+1. Create a `Data.Builder` object.
+
+2. If `mImageUri` is a non-null URI, then add it to the `Data` object using the `putString` method. 
+   This method takes a key and a value. You can use the String constant `KEY_IMAGE_URI` from the 
+   `Constants` class.
+   
+3. Call `build()` on the `Data.Builder` object to make your `Data` object, and return it.
+
+Below is the completed `createInputDataForUri` method:
+
+[BlurViewModel.java]
+```java
+/**
+ * Creates the input data bundle which includes the Uri to operate on
+ * @return Data which contains the Image Uri as a String
+ */
+private Data createInputDataForUri() {
+    Data.Builder builder = new Data.Builder();
+    if (mImageUri != null) {
+        builder.putString(KEY_IMAGE_URI, mImageUri.toString());
+    }
+    return builder.build();
+}
+```
+### Step 2 - Pass the Data object to WorkRequest
+You're going to want to change the `applyBlur` method so that it:
+
+1. Creates a new `OneTimeWorkRequest.Builder`.
+
+2. Calls `setInputData`, passing in the result from `createInputDataForUri`.
+
+3. Builds the `OneTimeWorkRequest`.
+
+4. Enqueues that request using `WorkManager`.
+
+Below is the completed `applyBlur` method:
+
+[BlurViewModel.java]
+```java
+void applyBlur(int blurLevel) {
+   OneTimeWorkRequest blurRequest =
+                new OneTimeWorkRequest.Builder(BlurWorker.class)
+                        .setInputData(createInputDataForUri())
+                        .build();
+
+   mWorkManager.enqueue(blurRequest);
+}
+```
+
+### Step 3 - Update BlurWorker's doWork() to get the input
+Now let's update `BlurWorker`'s `doWork()` method to get the URI we passed in from the `Data` 
+object:
+
+[BlurWorker.java]
+```java
+public Worker.Result doWork() {
+     
+  Context applicationContext = getApplicationContext();
+   
+   // ADD THIS LINE
+  String resourceUri = getInputData().getString(Constants.KEY_IMAGE_URI);
+    
+   //... rest of doWork()
+}
+```
+
+### Step 4 - Blur the given URI
+With the URI, you can blur the image the user selected:
+
+[BlurWorker.java]
+```java
+public Worker.Result doWork() {
+       Context applicationContext = getApplicationContext();
+        
+       String resourceUri = getInputData().getString(Constants.KEY_IMAGE_URI);
+
+    try {
+
+        // REPLACE THIS CODE:
+        // Bitmap picture = BitmapFactory.decodeResource(
+        //        applicationContext.getResources(),
+        //        R.drawable.test);
+        // WITH
+        if (TextUtils.isEmpty(resourceUri)) {
+            Log.e(TAG, "Invalid input uri");
+            throw new IllegalArgumentException("Invalid input uri");
+        }
+
+        ContentResolver resolver = applicationContext.getContentResolver();
+        // Create a bitmap
+        Bitmap picture = BitmapFactory.decodeStream(
+                resolver.openInputStream(Uri.parse(resourceUri)));
+        //...rest of doWork
+```
+
+### Step 5 - Output temporary URI
+You won't be using this yet, but let's go ahead and provide an **output Data** for the temporary URI
+of our blurred photo. To do this:
+
+1. Create a new `Data`, just as you did with the input, and store `outputUri` as a String. Use the 
+   same key, `KEY_IMAGE_URI`.
+   
+2. Pass this to `Worker`'s `Result.success()` method.
+
+#### [BlurWorker.java]
+
+This line should follow the `Uri outputUri` line and replace `Result.success(outputData)` in 
+`doWork()`:
+
+```java
+Data outputData = new Data.Builder()
+    .putString(Constants.KEY_IMAGE_URI, outputUri.toString())
+    .build();
+return Result.success(outputData);
+```
+
+### Step 6 - Run your app
+At this point you should run your app. It should compile and have the same behavior.
+
+Optionally, you can open the **Device File Explorer** in Android Studio and navigate to 
+**data>data>com.example.background>files>blur_filter_outputs><URI>** as you did in the last step.
+
+Note that you might need to **Synchronize** to see your images:
+
+![device_file_explorer_sync]
+
+Great work! You've blurred an input image using WorkManager!
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -221,3 +365,5 @@ that the fish was in fact blurred:
 [first_request_step6]: first_request_step6.png "Step 6 Result"
 [device_file_explorer1]: device_file_explorer1.png "Locating Device File Explorer"
 [device_file_explorer2]: device_file_explorer2.png "Confirm blurred fish"
+[Data]: https://developer.android.com/reference/androidx/work/Data
+[device_file_explorer_sync]: device_file_explorer_sync.png "Synchronize Device File Explorer"
