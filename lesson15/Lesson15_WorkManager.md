@@ -618,7 +618,7 @@ finish before starting a new one. To do this, you would use `beginUniqueWork` in
 that you can refer to and query them together.
 
 Ensure that your chain of work to blur your file is unique by using `beginUniqueWork`. Pass in 
-`Constants.IMAGE_MANIPULATION_WORK_NAME` as the key. You'll also need to pass in a 
+`Constants.IMAGE_MANIPULATION_WORK_NAME` as the key. You'll also need to pass in an 
 [ExistingWorkPolicy]. Your options are `REPLACE`, `KEEP` or `APPEND`.
 
 You'll use `REPLACE` because if the user decides to blur another image before the current one is 
