@@ -221,7 +221,7 @@ for key/value pairs. They are meant to store a small amount of data that might p
 `WorkRequest`s.
 
 You're going to pass in the URI for the user's image into a bundle. That URI is stored in a variable 
-called mImageUri.
+called `mImageUri`.
 
 Create a private method called `createInputDataForUri`. This method should:
 
