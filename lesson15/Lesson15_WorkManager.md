@@ -607,6 +607,40 @@ Superb "work"! Now you can blur an image as much or as little as you want! How m
 
 ![very_blurry]
 
+## Ensure Unique Work
+Now that you've used chains, it's time to tackle another powerful feature of WorkManager - unique 
+work chains.
+
+Sometimes you only want one chain of work to run at a time. For example, perhaps you have a work 
+chain that syncs your local data with the server - you probably want to let the first data sync 
+finish before starting a new one. To do this, you would use `beginUniqueWork` instead of 
+`beginWith`; and you provide a unique `String` name. This names the entire chain of work requests so 
+that you can refer to and query them together.
+
+Ensure that your chain of work to blur your file is unique by using `beginUniqueWork`. Pass in 
+`Constants.IMAGE_MANIPULATION_WORK_NAME` as the key. You'll also need to pass in a 
+[ExistingWorkPolicy]. Your options are `REPLACE`, `KEEP` or `APPEND`.
+
+You'll use `REPLACE` because if the user decides to blur another image before the current one is 
+finished, we want to stop the current one and start blurring the new image.
+
+The code for starting your unique work continuation is below:
+
+[BlurViewModel.java]
+```java
+// REPLACE THIS CODE:
+// WorkContinuation continuation = 
+// mWorkManager.beginWith(OneTimeWorkRequest.from(CleanupWorker.class));
+// WITH
+WorkContinuation continuation = 
+  mWorkManager
+    .beginUniqueWork(IMAGE_MANIPULATION_WORK_NAME,
+           ExistingWorkPolicy.REPLACE,
+           OneTimeWorkRequest.from(CleanupWorker.class));
+```
+
+Blur-O-Matic will now only ever blur one picture at a time.
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -629,3 +663,4 @@ Superb "work"! Now you can blur an image as much or as little as you want! How m
 [work_requests_chain]: work_requests_chain.png "WorkRequests Chain"
 [saved_blurred_image]: saved_blurred_image.png "Blurred images are now saved"
 [very_blurry]: very_blurry.png "Mysterious!"
+[ExistingWorkPolicy]: https://developer.android.com/reference/androidx/work/ExistingWorkPolicy
