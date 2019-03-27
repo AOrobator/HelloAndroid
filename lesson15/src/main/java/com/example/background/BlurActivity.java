@@ -26,6 +26,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.work.WorkInfo;
 import com.bumptech.glide.Glide;
 
 public class BlurActivity extends AppCompatActivity {
@@ -60,6 +61,24 @@ public class BlurActivity extends AppCompatActivity {
 
     // Setup blur image file button
     mGoButton.setOnClickListener(view -> mViewModel.applyBlur(getBlurLevel()));
+
+    mViewModel.getSavedWorkInfo().observe(this, listOfWorkInfos -> {
+      // If there are no matching work info, do nothing
+      if (listOfWorkInfos == null || listOfWorkInfos.isEmpty()) {
+        return;
+      }
+
+      // We only care about the first output status.
+      // Every continuation has only one worker tagged TAG_OUTPUT
+      WorkInfo workInfo = listOfWorkInfos.get(0);
+
+      boolean finished = workInfo.getState().isFinished();
+      if (!finished) {
+        showWorkInProgress();
+      } else {
+        showWorkFinished();
+      }
+    });
   }
 
   /**

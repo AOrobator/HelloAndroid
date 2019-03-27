@@ -18,26 +18,35 @@ package com.example.background;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import com.example.background.workers.BlurWorker;
 import com.example.background.workers.CleanupWorker;
 import com.example.background.workers.SaveImageToFileWorker;
+import java.util.List;
 
 import static com.example.background.Constants.IMAGE_MANIPULATION_WORK_NAME;
 import static com.example.background.Constants.KEY_IMAGE_URI;
+import static com.example.background.Constants.TAG_OUTPUT;
 
 public class BlurViewModel extends ViewModel {
   private WorkManager workManager;
-
+  private LiveData<List<WorkInfo>> savedWorkInfo;
   private Uri mImageUri;
 
   public BlurViewModel() {
     workManager = WorkManager.getInstance();
+    savedWorkInfo = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT);
+  }
+
+  public LiveData<List<WorkInfo>> getSavedWorkInfo() {
+    return savedWorkInfo;
   }
 
   /**
@@ -71,6 +80,7 @@ public class BlurViewModel extends ViewModel {
 
     // Add WorkRequest to save the image to the filesystem
     OneTimeWorkRequest save = new OneTimeWorkRequest.Builder(SaveImageToFileWorker.class)
+        .addTag(TAG_OUTPUT) // This adds the tag
         .build();
     continuation = continuation.then(save);
 
