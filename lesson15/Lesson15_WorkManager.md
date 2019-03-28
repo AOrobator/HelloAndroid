@@ -1012,12 +1012,15 @@ fun testWithConstraints() {
 
     val workManager = WorkManager.getInstance()
     val testDriver = WorkManagerTestInitHelper.getTestDriver()
+    
     // Enqueue and wait for result.
     workManager.enqueue(request).result.get()
     testDriver.setAllConstraintsMet(request.id)
+    
     // Get WorkInfo and outputData
     val workInfo = workManager.getWorkInfoById(request.id).get()
     val outputData = workInfo.outputData
+    
     // Assert
     assertThat(workInfo.state, `is`(WorkInfo.State.SUCCEEDED))
     assertThat(outputData, `is`(input))
