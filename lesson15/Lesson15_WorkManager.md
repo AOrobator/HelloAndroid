@@ -3,8 +3,8 @@
 So far, we've talked about background tasks with Services and BroadcastReceivers. These are both
 good tools to have up your sleeve as an Android developer, but they both have their limitations. For
 BroadcastReceivers, they can only be registered and called while your app is running on API 26+. For
-Services, you might not want to implement all the logic needed to run certain code when certain 
-conditions are met. 
+Services, you might not want to implement all the logic needed to run code when certain conditions 
+are met. 
 
 ## WorkManager to the rescue!
 
