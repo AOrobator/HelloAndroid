@@ -942,6 +942,88 @@ When the device is not charging, it should hang out in the loading state until y
 Another good constraint to add to Blur-O-Matic would be a `setRequiresStorageNotLow` constraint when
 saving. To see a full list of constraint options, check out the [Constraints.Builder] reference.
 
+## Testing WorkManager
+
+`WorkManager` provides a `work-testing` artifact which helps with unit testing of your workers for 
+Android Instrumentation tests.
+
+To get started, include the following dependency:
+
+```groovy
+dependencies {
+  androidTestImplementation "androidx.work:work-testing:$work_version"
+}
+```
+
+You can get the latest version of `WorkManager` [here][work_manager_dependencies]
+
+`work-testing` provides a special implementation of `WorkManager` for test mode, which is 
+initialized using `WorkManagerTestInitHelper`.
+
+The `work-testing` artifact also provides a `SynchronousExecutor` which makes it easier to write 
+tests in a synchronous manner, without having to deal with multiple threads, locks or latches.
+
+### Test Setup
+
+In your test setup method, you'll want to make sure that WorkManager is initialized for testing:
+
+```kotlin
+@RunWith(AndroidJUnit4::class)
+class BasicInstrumentationTest {
+    @Before
+    fun setup() {
+        val context = InstrumentationRegistry.getTargetContext()
+        val config = Configuration.Builder()
+            // Set log level to Log.DEBUG to make it easier to debug
+            .setMinimumLoggingLevel(Log.DEBUG)
+            // Use a SynchronousExecutor here to make it easier to write tests
+            .setExecutor(SynchronousExecutor())
+            .build()
+
+        // Initialize WorkManager for instrumentation tests.
+        WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
+    }
+}
+```
+
+### Writing a Test
+
+In your tests, you will use `WorkManager` similar to how you use it in production code. The main 
+difference is that you'll use an instance of [TestDriver] to fake out things like conditions being 
+met or time delays.
+
+```kotlin
+@Test
+@Throws(Exception::class)
+fun testWithConstraints() {
+    // Define input data
+    val input = workDataOf(KEY_1 to 1, KEY_2 to 2) // uses KTX syntax, work-runtime-ktx needed
+
+    // Define constraint(s)
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+
+    // Create request
+    val request = OneTimeWorkRequestBuilder<EchoWorker>()
+        .setInputData(input)
+        .setConstraints(constraints)
+        .build()
+
+    val workManager = WorkManager.getInstance()
+    val testDriver = WorkManagerTestInitHelper.getTestDriver()
+    // Enqueue and wait for result.
+    workManager.enqueue(request).result.get()
+    testDriver.setAllConstraintsMet(request.id)
+    // Get WorkInfo and outputData
+    val workInfo = workManager.getWorkInfoById(request.id).get()
+    val outputData = workInfo.outputData
+    // Assert
+    assertThat(workInfo.state, `is`(WorkInfo.State.SUCCEEDED))
+    assertThat(outputData, `is`(input))
+}
+```
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -977,3 +1059,5 @@ saving. To see a full list of constraint options, check out the [Constraints.Bui
 [Constraints.Builder]: https://developer.android.com/reference/androidx/work/Constraints.Builder.html
 [extended_controls_window]: extended_controls_window.png "The emulator's extended controls window"
 [constrained_and_loading]: constrained_and_loading.png "Waiting to be plugged in"
+[work_manager_dependencies]: https://developer.android.com/jetpack/androidx/releases/work#declaring_dependencies
+[TestDriver]: https://developer.android.com/reference/androidx/work/testing/TestDriver.html
