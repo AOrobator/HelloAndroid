@@ -21,9 +21,11 @@ ext.deps = [
             core: 'androidx.arch.core:core-testing:2.0.0',
             espresso: 'androidx.test.espresso:espresso-core:3.1.0',
             instrumentationRunner: 'androidx.test.runner.AndroidJUnitRunner',
+            junit: "androidx.test.ext:junit:${versions.androidxTest}",
             orchestrator: "androidx.test:orchestrator:${versions.androidxTest}",
             runner: "androidx.test:runner:${versions.androidxTest}",
-            rules: "androidx.test:rules:${versions.androidxTest}"
+            rules: "androidx.test:rules:${versions.androidxTest}",
+            workManager: "androidx.work:work-testing:${versions.workMan}",
         ],
     ],
     dagger: [
