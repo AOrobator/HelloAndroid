@@ -2,6 +2,7 @@ ext.versions = [
     androidxTest: '1.1.0',
     dagger: '2.21',
     glide: '4.9.0',
+    kluent: '1.49',
     kotlin: '1.3.21',
     leakCanary: '1.6.3',
     okhttp: '3.13.1',
@@ -61,5 +62,6 @@ ext.deps = [
         java: 'io.reactivex.rxjava2:rxjava:2.2.7'
     ],
     junit: 'junit:junit:4.12',
-    kluent: 'org.amshove.kluent:kluent:1.48',
+    kluent: "org.amshove.kluent:kluent:${versions.kluent}",
+    kluentAndroid: "org.amshove.kluent:kluent-android:${versions.kluent}",
 ]

@@ -1027,6 +1027,8 @@ fun testWithConstraints() {
 }
 ```
 
+## [Click here for the WorkManager Lab][WorkManager Lab]
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -1064,3 +1066,4 @@ fun testWithConstraints() {
 [constrained_and_loading]: constrained_and_loading.png "Waiting to be plugged in"
 [work_manager_dependencies]: https://developer.android.com/jetpack/androidx/releases/work#declaring_dependencies
 [TestDriver]: https://developer.android.com/reference/androidx/work/testing/TestDriver.html
+[WorkManager Lab]: ../lesson15-lab/Lesson15_Lab_WorkManager.md
