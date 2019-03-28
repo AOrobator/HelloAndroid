@@ -97,6 +97,13 @@ public class BlurViewModel extends ViewModel {
   }
 
   /**
+   * Cancel work using the work's unique name
+   */
+  void cancelWork() {
+    workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME);
+  }
+
+  /**
    * Getters
    */
   Uri getImageUri() {

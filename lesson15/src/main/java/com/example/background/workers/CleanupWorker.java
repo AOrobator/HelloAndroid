@@ -21,6 +21,9 @@ public class CleanupWorker extends Worker {
   @NonNull
   @Override
   public Worker.Result doWork() {
+    WorkerUtils.makeStatusNotification("Doing Cleanup", getApplicationContext());
+    WorkerUtils.sleep();
+
     Context applicationContext = getApplicationContext();
 
     try {

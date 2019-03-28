@@ -23,6 +23,8 @@ public class BlurWorker extends Worker {
   @NonNull
   @Override
   public Worker.Result doWork() {
+    WorkerUtils.makeStatusNotification("Doing Blur", getApplicationContext());
+    WorkerUtils.sleep();
 
     Context applicationContext = getApplicationContext();
 

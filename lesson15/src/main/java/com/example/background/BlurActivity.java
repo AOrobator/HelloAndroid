@@ -115,6 +115,9 @@ public class BlurActivity extends AppCompatActivity {
         Toast.makeText(this, "Current Uri is null", Toast.LENGTH_SHORT).show();
       }
     });
+
+    // Hookup the Cancel button
+    mCancelButton.setOnClickListener(view -> mViewModel.cancelWork());
   }
 
   /**

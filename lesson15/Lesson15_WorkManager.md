@@ -852,6 +852,56 @@ outputted file:
 
 ![see_file_button]
 
+## Cancel work
+
+You added the **Cancel Work** button, so let's add the code to make it do something. With 
+`WorkManager`, you can cancel work using the id, by tag and by unique chain name.
+
+In this case, you'll want to cancel work by unique chain name, because you want to cancel all work 
+in the chain, not just a particular step.
+
+### Step 1 - Cancel the work by name
+In the view model, write the method to cancel the work:
+
+[BlurViewModel.java]
+```java
+/**
+ * Cancel work using the work's unique name
+ */
+void cancelWork() {
+    mWorkManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME);
+}
+```
+
+### Step 2 - Call cancel method
+Then, hook up the button mCancelButton to call cancelWork:
+
+[BlurActivity.java]
+```java
+// In onCreate()
+        
+// Hookup the Cancel button
+mCancelButton.setOnClickListener(view -> mViewModel.cancelWork());
+```
+### Step 3 - [OPTIONAL] Slow down work and show notifications
+Optionally, there are two static methods in the `WorkerUtils` class which you can call to show a 
+notification when the work starts, and to artificially slow down the speed of the work. This is 
+helpful to see the work actually get cancelled and to slow things down on emulated devices which run
+`WorkRequest`s very quickly.
+
+Place at the start of onWork for All Workers
+
+```java
+WorkerUtils.makeStatusNotification("Doing <WORK_NAME>", applicationContext);
+WorkerUtils.sleep();
+```
+
+### Step 4 - Run and cancel your work
+Run your app. It should compile just fine. Start blurring a picture and then click the cancel 
+button. The whole chain is cancelled!
+
+![cancelled_work]
+
 
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
@@ -883,3 +933,4 @@ outputted file:
 [display_work_status]: display_work_status.png "Display work status"
 [getOutputData]: https://developer.android.com/reference/androidx/work/WorkInfo.html#getOutputData()
 [see_file_button]: see_file_button.png "See File Button"
+[cancelled_work]: cancelled_work.png "Cancelled Work"
