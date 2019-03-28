@@ -903,6 +903,45 @@ button. The whole chain is cancelled!
 ![cancelled_work]
 
 
+## Work constraints
+Last but not least, `WorkManager` support [Constraints]. For Blur-O-Matic, you'll use the constraint
+that the device must be charging when it's saving.
+
+### Step 1 - Create and add charging constraint
+To create a `Constraints` object, you use a `Constraints.Builder`. Then you set the constraints you 
+want and add it to the `WorkRequest`, as shown below:
+
+[BlurViewModel.java]
+```java
+// In the applyBlur method
+
+// Create charging constraint
+Constraints constraints = new Constraints.Builder()
+        .setRequiresCharging(true)
+        .build();
+
+// Add WorkRequest to save the image to the filesystem
+OneTimeWorkRequest save = new OneTimeWorkRequest.Builder(SaveImageToFileWorker.class)
+        .setConstraints(constraints) // This adds the Constraints
+        .addTag(TAG_OUTPUT)
+        .build();
+
+continuation = continuation.then(save);
+``` 
+
+### Step 2 - Test with emulator or device
+Now you can run Blur-O-Matic. If you're on a device, you can remove or plug in your device. On an 
+emulator, you can change the charging status in the **Extended controls window**:
+
+![extended_controls_window]
+
+When the device is not charging, it should hang out in the loading state until you plug it in.
+
+![constrained_and_loading]
+
+Another good constraint to add to Blur-O-Matic would be a `setRequiresStorageNotLow` constraint when
+saving. To see a full list of constraint options, check out the [Constraints.Builder] reference.
+
 [codelab]: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
 [blur-o-matic_1]: blur-o-matic_1.png "Background Work with WorkManager" 
 [blur-o-matic_2]: blur-o-matic_2.png "Background Work with WorkManager"
@@ -934,3 +973,7 @@ button. The whole chain is cancelled!
 [getOutputData]: https://developer.android.com/reference/androidx/work/WorkInfo.html#getOutputData()
 [see_file_button]: see_file_button.png "See File Button"
 [cancelled_work]: cancelled_work.png "Cancelled Work"
+[Constraints]: https://developer.android.com/reference/androidx/work/Constraints.html
+[Constraints.Builder]: https://developer.android.com/reference/androidx/work/Constraints.Builder.html
+[extended_controls_window]: extended_controls_window.png "The emulator's extended controls window"
+[constrained_and_loading]: constrained_and_loading.png "Waiting to be plugged in"
