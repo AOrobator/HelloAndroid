@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity
         this,
         mediaStoreUri,
         PROJECTION,
-        null,
-        null,
+        null, // MediaStore.Audio.AudioColumns.TITLE + "LIKE ?"
+        null, // new String[] { "%Love%" }
         null);
   }
 
