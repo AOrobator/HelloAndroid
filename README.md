@@ -49,3 +49,5 @@ An introductory overview to native Android development.
    * [Lesson 15: WorkManager Lab](lesson15-lab/Lesson15_Lab_WorkManager.md)
    
  * [Lesson 16: ContentProviders](lesson16/Lesson16_ContentProviders.md)
+ 
+   * [Lesson 16: ContentProviders Lab](lesson16-lab/Lesson16_Lab_ContentProviders.md)
