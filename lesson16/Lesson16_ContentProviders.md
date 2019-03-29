@@ -1,4 +1,4 @@
-# ContentProviders
+# Lesson 16: ContentProviders
 
 - Content providers are a means for IPC (Interprocess communication) on Android.
 - The system has several content providers for built-in apps. App authors can also provide their own
@@ -8,6 +8,14 @@
   providers produces runtime dependencies that most users down't want to deal with.
 
 ## Using ContentProviders
+
+The MediaStore is one example of a built-in ContentProvider on Android. You can think of it as a SQL
+database that provides access to the music, video, and pictures on the device. The MediaStore is not
+without its problems though. It is unable to access many formats of audio such as WMA and APE. The 
+following steps show how to query the MediaStore:
+
+Note: The following code won't work on Android Q as the READ/WRITE external storage permissions are 
+going away in favor of scoped storage access.
 
 1. Set the proper permission in the AndroidManifest.xml and request the permission using 
    `ContextCompat.checkSelfPermission` see: <https://developer.android.com/reference/android/Manifest.permission> and <https://developer.android.com/training/permissions/requesting>
@@ -30,7 +38,7 @@
                        new String[]{PERMISSION},
                        MY_PERMISSIONS_REQUEST_ACCESS_MEDIA);
    
-                   // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                   // MY_PERMISSIONS_REQUEST_ACCESS_MEDIA is an
                    // app-defined int constant. The callback method gets the
                    // result of the request.
                }
@@ -53,7 +61,7 @@
                if (grantResults.length > 0
                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                    // permission was granted, yay! Do the
-                   // contacts-related task you need to do.
+                   // media-related task you need to do.
                    readMedia();
                } else {
                    // permission denied, boo! Disable the
@@ -75,7 +83,10 @@
 
 3. Get a `Cursor` object using `getContentResolver().query` with the proper URL and Projection.
 
-4. Iterate over the cursor using `moveToNext()` etc. or use a CursorAdapter in a RecyclerView
+4. Iterate over the cursor using `moveToNext()` etc. or use a `CursorAdapter` in a RecyclerView. To 
+   get data from an individual column in a `Cursor`, you need the column's index within the Cursor. 
+   You can either create a constant as the index will be the same order as your projection, or you 
+   can query the `Cursor` directly.
 
    ```java
    private void readMedia() {
