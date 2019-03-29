@@ -3,14 +3,21 @@ package com.matrangola.contentprovider;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+    implements LoaderManager.LoaderCallbacks<Cursor> {
   public static final String TAG = "MainActivity";
   public static final String PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
   private static String[] PROJECTION = new String[] {
@@ -23,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+  }
+
+  @Override protected void onStart() {
+    super.onStart();
 
     if (ContextCompat.checkSelfPermission(this, PERMISSION)
         != PackageManager.PERMISSION_GRANTED) {
@@ -40,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             new String[] { PERMISSION },
             MY_PERMISSIONS_REQUEST_ACCESS_MEDIA);
 
-        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+        // MY_PERMISSIONS_REQUEST_ACCESS_MEDIA is an
         // app-defined int constant. The callback method gets the
         // result of the request.
       }
@@ -51,20 +62,9 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void readMedia() {
-    Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-        PROJECTION, null, null, null);
-
-    int idxAlbum = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
-    int idxTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-
-    Log.i(TAG, "Media Rows: " + cursor.getCount());
-    while (cursor.moveToNext()) {
-      String album = cursor.getString(idxAlbum);
-      String title = cursor.getString(idxTitle);
-      Log.i(TAG, "Album: " + album + " Title: " + title);
-    }
-
-    cursor.close();
+    LoaderManager
+        .getInstance(this)
+        .initLoader(5, null, this);
   }
 
   @Override
@@ -85,5 +85,34 @@ public class MainActivity extends AppCompatActivity {
         return;
       }
     }
+  }
+
+  @NonNull @Override public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+    Uri mediaStoreUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+    return new CursorLoader(
+        this,
+        mediaStoreUri,
+        PROJECTION,
+        null,
+        null,
+        null);
+  }
+
+  @Override public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+    int idxAlbum = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
+    int idxTitle = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+
+    Log.i(TAG, "Media Rows: " + cursor.getCount());
+    while (cursor.moveToNext()) {
+      String album = cursor.getString(idxAlbum);
+      String title = cursor.getString(idxTitle);
+      Log.i(TAG, "Album: " + album + " Title: " + title);
+    }
+
+    cursor.close();
+  }
+
+  @Override public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    // Release reference to cursor data, by closing or nulling out reference.
   }
 }
