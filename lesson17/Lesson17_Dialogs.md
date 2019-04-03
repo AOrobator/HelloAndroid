@@ -170,6 +170,25 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
 }
 ```
 
+## Showing a Dialog
+
+When you want to show your dialog, create an instance of your `DialogFragment` and call `show()`, 
+passing the [FragmentManager] and a tag name for the dialog fragment.
+
+You can get the `FragmentManager` by calling `getSupportFragmentManager()` from the 
+`FragmentActivity`. For example:
+
+```java
+public void confirmFireMissiles() {
+    DialogFragment newFragment = new FireMissilesDialogFragment();
+    newFragment.show(getSupportFragmentManager(), "missiles");
+}
+```
+
+The second argument, "missiles", is a unique tag name that the system uses to save and restore the 
+fragment state when necessary. The tag also allows you to get a handle to the fragment by calling 
+`findFragmentByTag()`.
+
 [dialog_example]: img/dialog_example.png "Example Dialog"
 [alert_dialog]: img/alert_dialog.png "Alert Dialog"
 [simple_dialog]: img/simple_dialog.png "Simple Dialog"
@@ -183,3 +202,4 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
 [dialog_list]: img/dialog_list.png
 [ListAdapter]: https://developer.android.com/reference/android/widget/ListAdapter.html
 [dialog_custom]: img/dialog_custom.png "Dialog with custom layout"
+[FragmentManager]: https://developer.android.com/reference/androidx/fragment/app/FragmentManager?hl=en
