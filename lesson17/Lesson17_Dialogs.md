@@ -189,6 +189,52 @@ The second argument, "missiles", is a unique tag name that the system uses to sa
 fragment state when necessary. The tag also allows you to get a handle to the fragment by calling 
 `findFragmentByTag()`.
 
+## Passing Events Back to the Dialog's Host
+
+When the user touches one of the dialog's action buttons or selects an item from its list, your 
+`DialogFragment` might perform the necessary action itself, but often you'll want to deliver the 
+event to the activity or fragment that opened the dialog. To do this, define an interface with a 
+method for each type of click event. Then implement that interface in the host component that will 
+receive the action events from the dialog.
+
+For example, here's a `DialogFragment` that defines an interface through which it delivers the 
+events back to the host activity:
+
+```java
+public class NoticeDialogFragment extends DialogFragment {
+
+    /* The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
+    public interface NoticeDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
+
+    // Use this instance of the interface to deliver action events
+    NoticeDialogListener listener;
+
+    // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            listener = (NoticeDialogListener) context;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
+}
+```
+
+It's also possible to send events back to the host activity through the `ViewModel`. In that case, you
+would get the appropriate `ViewModel` and call `viewModel.onNegativeButtonClicked()` and 
+`viewModel.onPositiveButtonClicked()`.
+
 [dialog_example]: img/dialog_example.png "Example Dialog"
 [alert_dialog]: img/alert_dialog.png "Alert Dialog"
 [simple_dialog]: img/simple_dialog.png "Simple Dialog"
