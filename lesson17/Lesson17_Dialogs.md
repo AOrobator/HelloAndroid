@@ -109,7 +109,7 @@ To create a list dialog, first create an array in `res/values/strings.xml`
 </resources>
 ```
 
-Then call `setItems` on the `AlertDialog.Builder` with the array. Alternatively, you can call 
+Then call `setItems()` on the `AlertDialog.Builder` with the array. Alternatively, you can call 
 `setAdapter` and provide a [ListAdapter] to have dynamic items. 
 
 ```java
