@@ -92,6 +92,83 @@ public class FireMissilesDialogFragment extends DialogFragment {
     }
 }
 ```
+The FireMissilesDialogFragment produces the following dialog:
+
+![fire_missiles_dialog]
+
+### List Dialog
+To create a list dialog, first create an array in `res/values/strings.xml`
+
+```xml
+<resources>
+  <array name="colors_array">
+    <item>Red</item>
+    <item>Green</item>
+    <item>Blue</item>
+  </array>
+</resources>
+```
+
+Then call `setItems` on the `AlertDialog.Builder` with the array. Alternatively, you can call 
+`setAdapter` and provide a [ListAdapter] to have dynamic items. 
+
+```java
+@Override
+public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setTitle(R.string.pick_color)
+           .setItems(R.array.colors_array, new DialogInterface.OnClickListener() {
+               public void onClick(DialogInterface dialog, int which) {
+               // The 'which' argument contains the index position
+               // of the selected item
+           }
+    });
+    return builder.create();
+}
+```
+The above code would create the following Dialog:
+
+![dialog_list]
+
+### Custom View Dialog
+
+![dialog_custom]
+
+If you want a custom layout in a dialog, create a layout and add it to an `AlertDialog` by calling 
+`setView()` on your `AlertDialog.Builder` object.
+
+By default, the custom layout fills the dialog window, but you can still use `AlertDialog.Builder` 
+methods to add buttons and a title.
+
+To inflate the layout in your `DialogFragment`, get a `LayoutInflater` with `getLayoutInflater()` 
+and call `inflate()`, where the first parameter is the layout resource ID and the second parameter 
+is a parent view for the layout. You can then call `setView()` to place the layout in the dialog.
+
+```java
+@Override
+public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    // Get the layout inflater
+    LayoutInflater inflater = requireActivity().getLayoutInflater();
+
+    // Inflate and set the layout for the dialog
+    // Pass null as the parent view because it's going in the dialog layout
+    builder.setView(inflater.inflate(R.layout.dialog_signin, null))
+    // Add action buttons
+           .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int id) {
+                   // sign in the user ...
+               }
+           })
+           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+               public void onClick(DialogInterface dialog, int id) {
+                   LoginDialogFragment.this.getDialog().cancel();
+               }
+           });
+    return builder.create();
+}
+```
 
 [dialog_example]: img/dialog_example.png "Example Dialog"
 [alert_dialog]: img/alert_dialog.png "Alert Dialog"
@@ -102,3 +179,7 @@ public class FireMissilesDialogFragment extends DialogFragment {
 [AlertDialog]: https://developer.android.com/reference/android/app/AlertDialog.html
 [dialogs_regions]: img/dialogs_regions.png "Anatomy of a Dialog"
 [AlertDialog.Builder]: https://developer.android.com/reference/android/app/AlertDialog.Builder.html
+[fire_missiles_dialog]: img/fire_missiles_dialog.png "FireMissilesDialog"
+[dialog_list]: img/dialog_list.png
+[ListAdapter]: https://developer.android.com/reference/android/widget/ListAdapter.html
+[dialog_custom]: img/dialog_custom.png "Dialog with custom layout"
