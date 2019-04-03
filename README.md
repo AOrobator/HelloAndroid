@@ -51,3 +51,5 @@ An introductory overview to native Android development.
  * [Lesson 16: ContentProviders](lesson16/Lesson16_ContentProviders.md)
  
    * [Lesson 16: ContentProviders Lab](lesson16-lab/Lesson16_Lab_ContentProviders.md)
+   
+ * [Lesson 17: Dialogs](lesson17/Lesson17_Dialogs.md)
