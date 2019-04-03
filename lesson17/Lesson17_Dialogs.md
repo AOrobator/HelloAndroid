@@ -235,6 +235,16 @@ It's also possible to send events back to the host activity through the `ViewMod
 would get the appropriate `ViewModel` and call `viewModel.onNegativeButtonClicked()` and 
 `viewModel.onPositiveButtonClicked()`.
 
+## Dialog Lab
+
+Create an Activity with a single button with the text "Show Dialog". When this button is clicked, 
+show a `DialogFragment` named `NameDialogFragment`. Create a dialog with a custom view. This view 
+should have an `EditText` with a hint of "Name". The `Dialog` should have a title of "Enter Name". 
+Use an interface to forward events back to the host Activity.
+
+When the positive button is clicked, show a `Toast` displaying the input name. When the negative 
+button is clicked, show a Toast saying the negative button was clicked. 
+
 [dialog_example]: img/dialog_example.png "Example Dialog"
 [alert_dialog]: img/alert_dialog.png "Alert Dialog"
 [simple_dialog]: img/simple_dialog.png "Simple Dialog"
