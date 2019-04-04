@@ -20,9 +20,25 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 dependencies {
   implementation deps.androidx.appCompat
   implementation deps.androidx.constraintLayout
+  implementation deps.androidx.lifecycleExtensions
+  implementation deps.androidx.material
+  implementation deps.androidx.recyclerView
+
+  implementation deps.okhttp.loggingInterceptor
+
+  implementation deps.retrofit.core
+  implementation deps.retrofit.gson
+
+  implementation deps.androidx.room.runtime
+  annotationProcessor deps.androidx.room.compiler
 }

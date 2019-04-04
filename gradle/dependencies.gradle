@@ -6,6 +6,7 @@ ext.versions = [
     kotlin: '1.3.21',
     leakCanary: '1.6.3',
     okhttp: '3.13.1',
+    room: '2.0.0',
     retrofit: '2.5.0',
     workMan: '2.0.0'
 ]
@@ -17,6 +18,10 @@ ext.deps = [
         material: 'com.google.android.material:material:1.0.0',
         lifecycleExtensions: 'androidx.lifecycle:lifecycle-extensions:2.0.0',
         recyclerView: 'androidx.recyclerview:recyclerview:1.0.0',
+        room: [
+            runtime: "androidx.room:room-runtime:${versions.room}",
+            compiler: "androidx.room:room-compiler:${versions.room}"
+        ],
         workManager: "androidx.work:work-runtime:${versions.workMan}",
         test: [
             core: 'androidx.arch.core:core-testing:2.0.0',
