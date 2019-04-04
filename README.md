@@ -54,4 +54,6 @@ An introductory overview to native Android development.
    
  * [Lesson 17: Dialogs](lesson17/Lesson17_Dialogs.md)
  
+ * [Lesson 18: Paging](lesson18/Lesson18_Paging.md)
+ 
  * [Keeping Up With Android](Keeping_Up_With_Android.md)
