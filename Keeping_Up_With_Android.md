@@ -20,6 +20,7 @@ Subscribe to Newsletters
  * https://hackernoon.com/5-newsletters-every-android-dev-should-subscribe-to-4f7057de8c6c?gi=c967faaa27ed
  * https://medium.com/@AndroidDev
  * https://medium.com/androiddevelopers
+ * https://android-developers.googleblog.com
  * https://proandroiddev.com/
  * https://reddit.com/r/androiddev
  * https://reddit.com/r/programming
