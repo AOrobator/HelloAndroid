@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orobator.helloandroid.lesson18.Injection;
 import com.orobator.helloandroid.lesson18.R;
@@ -46,7 +44,6 @@ public class SearchRepositoriesActivity extends AppCompatActivity {
         new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
     list.addItemDecoration(decoration);
-    setupScrollListener();
 
     initAdapter();
     String query = DEFAULT_QUERY;
@@ -123,20 +120,5 @@ public class SearchRepositoriesActivity extends AppCompatActivity {
     }
   }
 
-  private void setupScrollListener() {
-    LinearLayoutManager layoutManager = (LinearLayoutManager) list.getLayoutManager();
-    list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-        if (layoutManager != null) {
-          int totalItemCount = 0;
-          totalItemCount = layoutManager.getItemCount();
-          int visibleItemCount = layoutManager.getChildCount();
-          int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
-          viewModel.listScrolled(visibleItemCount, lastVisibleItem, totalItemCount);
-        }
-      }
-    });
-  }
 }

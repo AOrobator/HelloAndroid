@@ -214,6 +214,132 @@ notified whenever the `PagedList` content is loaded and then signals the `Recycl
    ```
 Our app finally compiles! Run it, and check out how it works.
 
+## 8. Trigger network updates
+Currently, we use an `OnScrollListener` attached to the `RecyclerView` to know when to trigger more 
+data. We can let the Paging library handle list scrolling for us, though.
+
+**Remove the custom scroll handling:**
+
+ * `SearchRepositoriesActivity`: remove the `setupScrollListener()` method and all references to it
+ * `SearchRepositoriesViewModel`: remove the `listScrolled()` method and the `VISIBLE_THRESHOLD` 
+   constant
+   
+After removing the custom scroll handling, our app has the following behavior:
+
+ * Whenever we scroll, the `PagedListAdapter` will try to get the item from a specific position.
+ * If the item at that index isn't loaded in the `PagedList` yet, the Paging library tries to get 
+   the data from the data source.
+   
+A problem appears when the data source doesn't have any more data to give us, either because zero 
+items were returned from the initial loading of the data or because we've reached the end of the 
+data from the `DataSource`. To resolve this issue, implement a [BoundaryCallback]. This class 
+notifies us when either situation occurs, so we know when to request more data. Because our 
+`DataSource` is a Room database, backed by network data, the callbacks let us know that we should 
+request more data from the API.
+
+**Handle data loading with `BoundaryCallback`:**
+
+ * In the `data` package, create a new class called `RepoBoundaryCallback` that implements 
+   `PagedList.BoundaryCallback<Repo>`. Because this class handles the network requests and database 
+   data saving for a specific query, add the following parameters to the constructor: a query 
+   `String`, the `GithubService`, and the `GithubLocalCache`.
+ * In `RepoBoundaryCallback`, override `onZeroItemsLoaded()` and `onItemAtEndLoaded()`.
+   ```java
+   public class RepoBoundaryCallback extends PagedList.BoundaryCallback {
+     private final String query;
+     private final GithubService service;
+     private final GithubLocalCache cache;
+   
+     public RepoBoundaryCallback(String query, GithubService service, GithubLocalCache cache) {
+       this.query = query;
+       this.service = service;
+       this.cache = cache;
+     }
+   
+     @Override public void onZeroItemsLoaded() {
+   
+     }
+   
+     @Override public void onItemAtEndLoaded(@NonNull Object itemAtEnd) {
+   
+     }
+   }
+   ```
+
+ * Move the following fields from `GithubRepository` to `RepoBoundaryCallback`: 
+   `isRequestInProgress`, `lastRequestedPage`, and `networkErrors`.
+ * Create a getter for `networkErrors`, where the return type is `LiveData<String>`. We need to make
+   this change because, internally, in the `RepoBoundaryCallback` class, we can work with a 
+   `MutableLiveData`, but outside the class, we only expose a `LiveData` object, whose values can't 
+   be modified.
+   ```java
+   // Keep the last requested page. When the request is successful, increment
+   // the page number.
+   private int lastRequestedPage = 1;
+   
+   // Avoid triggering multiple requests in the same time
+   private boolean isRequestInProgress = false;
+   
+   // LiveData of network errors.
+   private MutableLiveData<String> networkErrors = new MutableLiveData<>();
+   
+   public LiveData<String> getNetworkErrors() {
+     return networkErrors;
+   }
+   ```
+
+ * Move the `NETWORK_PAGE_SIZE` constant from `GithubRepository` to `RepoBoundaryCallback`.
+ * Move `GithubRepository.requestAndSaveData()` method to `RepoBoundaryCallback`.
+ * We should request data from network and save it in the cache whenever the Paging data source 
+   notifies us that there are no items in the source (when 
+   `RepoBoundaryCallback.onZeroItemsLoaded()` is called) or that the last item from the data source 
+   has been loaded (when `RepoBoundaryCallback.onItemAtEndLoaded()` is called). So, call the 
+   `requestAndSaveData()` method from `onZeroItemsLoaded()` and `onItemAtEndLoaded()`:
+   ```java
+   @Override 
+     public void onZeroItemsLoaded() {
+       requestAndSaveData(query);
+     }
+   
+     @Override 
+     public void onItemAtEndLoaded(@NonNull Object itemAtEnd) {
+       requestAndSaveData(query);
+     }
+   ```
+**Update `GithubRepository` to use the `BoundaryCallback` when creating the `PagedList`:**
+
+ * In the `search()` method, construct the `RepoBoundaryCallback` using the query, service, and cache.
+ * Create a value in the `search()` method that maintains a reference to the network errors that 
+   `RepoBoundaryCallback` discovers. Also change the type of `networkErrors` in `RepoSearchResult` 
+   to `LiveData` instead of `MutableLiveData`. 
+ * Set the boundary callback to `LivePagedListBuilder`.
+   ```java
+   public RepoSearchResult search(String query) {
+       Log.d("GithubRepository", "New query: " + query);
+   
+       // Get data source factory from the local cache
+       DataSource.Factory<Integer, Repo> dataSourceFactory = cache.reposByName(query);
+       
+       // Construct the boundary callback
+       RepoBoundaryCallback boundaryCallback = new RepoBoundaryCallback(query, service, cache);
+       LiveData<String> networkErrors = boundaryCallback.getNetworkErrors();
+   
+       // Get the paged list
+       LiveData<PagedList<Repo>> data =
+           new LivePagedListBuilder<>(dataSourceFactory, DATABASE_PAGE_SIZE)
+               .setBoundaryCallback(boundaryCallback)
+               .build();
+       
+       // Get the network errors exposed by the boundary callback
+       return new RepoSearchResult(data, networkErrors);
+     }
+   ```
+ * Remove the `requestMore()` function from `GithubRepository`
+ 
+That's it! With the current setup, the Paging library components are the ones triggering the API 
+requests at the right time, saving data in the database, and displaying the data. So, run the app 
+and search for repositories.
+
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
 [Guide to App Architecture]: https://developer.android.com/jetpack/docs/guide

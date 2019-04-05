@@ -1,15 +1,14 @@
 package com.orobator.helloandroid.lesson18.model;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 public class RepoSearchResult {
   private final LiveData<PagedList<Repo>> data;
-  private final MutableLiveData<String> networkErrors;
+  private final LiveData<String> networkErrors;
 
   public RepoSearchResult(
-      LiveData<PagedList<Repo>> data, MutableLiveData<String> networkErrors) {
+      LiveData<PagedList<Repo>> data, LiveData<String> networkErrors) {
     this.data = data;
     this.networkErrors = networkErrors;
   }
@@ -18,7 +17,7 @@ public class RepoSearchResult {
     return data;
   }
 
-  public MutableLiveData<String> getNetworkErrors() {
+  public LiveData<String> getNetworkErrors() {
     return networkErrors;
   }
 }

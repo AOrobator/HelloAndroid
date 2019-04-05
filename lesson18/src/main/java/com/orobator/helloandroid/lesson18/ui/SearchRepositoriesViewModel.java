@@ -15,7 +15,6 @@ import com.orobator.helloandroid.lesson18.model.RepoSearchResult;
  * The ViewModel works with the {@link GithubRepository} to get the data.
  */
 class SearchRepositoriesViewModel extends ViewModel {
-  private static final int VISIBLE_THRESHOLD = 5;
   private GithubRepository repository;
   private MutableLiveData<String> queryLiveData = new MutableLiveData<>();
   private LiveData<RepoSearchResult> repoResult = Transformations.map(queryLiveData,
@@ -36,15 +35,6 @@ class SearchRepositoriesViewModel extends ViewModel {
    */
   public void searchRepo(String queryString) {
     queryLiveData.postValue(queryString);
-  }
-
-  public void listScrolled(int visibleItemCount, int lastVisiblePosition, int totalItemCount) {
-    if (visibleItemCount + lastVisiblePosition + VISIBLE_THRESHOLD >= totalItemCount) {
-      String immutableQuery = lastQueryValue();
-      if (immutableQuery != null) {
-        repository.requestMore(immutableQuery);
-      }
-    }
   }
 
   @Nullable
