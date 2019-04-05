@@ -86,6 +86,45 @@ __Caution: The `GithubRepository` and `Repo` classes have similar names but serv
 purposes.The repository class, `GithubRepository`, works with `Repo` data objects that represent 
 GitHub code repositories.__
 
+## 4. Load data in chunks with the PagedList
+
+In our current implementation, we use a `LiveData<List<Repo>>` to get the data from the database and
+pass it to the UI. Whenever the data from the local database is modified, the `LiveData` emits an 
+updated list. The alternative to `List<Repo>` is a `PagedList<Repo>`. A [PagedList] is a version of 
+a List that loads content in chunks. Similar to the List, the `PagedList` holds a snapshot of 
+content, so updates occur when new instances of `PagedList` are delivered via `LiveData`.
+
+When a `PagedList` is created, it immediately loads the first chunk of data and expands over time as 
+content is loaded in future passes. The size of the `PagedList` is the number of items loaded during
+each pass. The class supports both infinite lists and very large lists with a fixed number of 
+elements.
+
+**Replace occurrences of `List<Repo>` with `PagedList<Repo>`:**
+
+ * `RepoSearchResult` is the data model that's used by the UI to display data. Since the data is no 
+   longer a `LiveData<List<Repo>>` but is paginated, it needs to be replaced with 
+   `LiveData<PagedList<Repo>>`. Make this change in the `RepoSearchResult` class.
+
+ * `SearchRepositoriesViewModel` works with the data from the `GithubRepository`. Change the type of 
+   the repos val exposed by the `ViewModel`, from `LiveData<List<Repo>>` to 
+   `LiveData<PagedList<Repo>>`. 
+   
+ * `SearchRepositoriesActivity` observes the repos from the `ViewModel`.
+  
+Change the type of the observer from `List<Repo>` to `PagedList<Repo>`.
+
+```java
+viewModel.repos.observe(this, (PagedList<Repo> repos) -> {
+      int size = 0;
+      if (repos != null) {
+        size = repos.size();
+      }
+      Log.d("Activity", "list: " + size + "");
+      showEmptyList(size == 0);
+      adapter.submitList(repos);
+    });
+```
+
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
 [Guide to App Architecture]: https://developer.android.com/jetpack/docs/guide

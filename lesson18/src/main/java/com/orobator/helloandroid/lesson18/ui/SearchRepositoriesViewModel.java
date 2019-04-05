@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.PagedList;
 import com.orobator.helloandroid.lesson18.data.GithubRepository;
 import com.orobator.helloandroid.lesson18.model.Repo;
 import com.orobator.helloandroid.lesson18.model.RepoSearchResult;
-import java.util.List;
 
 /**
  * ViewModel for the {@link SearchRepositoriesActivity} screen.
@@ -21,7 +21,7 @@ class SearchRepositoriesViewModel extends ViewModel {
   private LiveData<RepoSearchResult> repoResult = Transformations.map(queryLiveData,
       (String input) -> repository.search(input));
 
-  public LiveData<List<Repo>> repos =
+  public LiveData<PagedList<Repo>> repos =
       Transformations.switchMap(repoResult, RepoSearchResult::getData);
 
   public LiveData<String> networkErrors =

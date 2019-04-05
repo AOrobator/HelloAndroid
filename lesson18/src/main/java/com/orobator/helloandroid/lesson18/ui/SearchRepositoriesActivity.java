@@ -11,11 +11,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orobator.helloandroid.lesson18.Injection;
 import com.orobator.helloandroid.lesson18.R;
+import com.orobator.helloandroid.lesson18.model.Repo;
 
 public class SearchRepositoriesActivity extends AppCompatActivity {
   private static final String LAST_SEARCH_QUERY = "last_search_query";
@@ -63,7 +65,7 @@ public class SearchRepositoriesActivity extends AppCompatActivity {
 
   private void initAdapter() {
     list.setAdapter(adapter);
-    viewModel.repos.observe(this, repos -> {
+    viewModel.repos.observe(this, (PagedList<Repo> repos) -> {
       int size = 0;
       if (repos != null) {
         size = repos.size();
