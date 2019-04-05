@@ -3,17 +3,20 @@ package com.orobator.helloandroid.lesson18.data;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import com.orobator.helloandroid.lesson18.api.GithubService;
 import com.orobator.helloandroid.lesson18.db.GithubLocalCache;
 import com.orobator.helloandroid.lesson18.model.Repo;
 import com.orobator.helloandroid.lesson18.model.RepoSearchResult;
-import java.util.List;
 
 /**
  * Repository class that works with local and remote data sources.
  */
 public class GithubRepository {
   private static final int NETWORK_PAGE_SIZE = 50;
+  private static final int DATABASE_PAGE_SIZE = 20;
 
   private final GithubService service;
   private final GithubLocalCache cache;
@@ -38,12 +41,15 @@ public class GithubRepository {
    */
   public RepoSearchResult search(String query) {
     Log.d("GithubRepository", "New query: " + query);
-    lastRequestedPage = 1;
-    requestAndSaveData(query);
 
-    // Get data from the local cache
-    LiveData<List<Repo>> data = cache.reposByName(query);
+    // Get data source factory from the local cache
+    DataSource.Factory<Integer, Repo> dataSourceFactory = cache.reposByName(query);
 
+    // Get the paged list
+    LiveData<PagedList<Repo>> data =
+        new LivePagedListBuilder<>(dataSourceFactory, DATABASE_PAGE_SIZE).build();
+
+    // Get the network errors exposed by the boundary callback
     return new RepoSearchResult(data, networkErrors);
   }
 

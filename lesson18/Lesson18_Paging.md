@@ -149,6 +149,58 @@ handles the implementation of the `DataSource` for you.
    ```
  * `GithubLocalCache` uses this function. Change the return type of `reposByName` function to be
    `DataSource.Factory<Integer, Repo>`.
+   
+## 6. Build and configure a paged list
+To build and configure a `LiveData<PagedList>`, use a [LivePagedListBuilder]. Besides the 
+`DataSource.Factory`, you need to provide a `PagedList` configuration, which can include the 
+following options:
+
+ * the size of a page loaded by a `PagedList`
+ * how far ahead to load
+ * how many items to load when the first load occurs
+ * whether null items are to be added to the `PagedList`, to represent data that hasn't been loaded 
+   yet.
+ 
+**Update `GithubRepository` to build and configure a paged list:**
+
+ * Define the number of items per page, to be retrieved by the paging library. Add another private 
+   `static final String` called `DATABASE_PAGE_SIZE`, and set it to 20. Our `PagedList` will then 
+   page data from the `DataSource` in chunks of 20 items.
+   ```java
+   public class GithubRepository {
+     private static final int NETWORK_PAGE_SIZE = 50;
+     private static final int DATABASE_PAGE_SIZE = 20;
+   }
+   ```
+
+_Note: The `DataSource` page size should be several screens worth of items. If the page is too 
+small, your list might flicker as pages content doesn't cover the full screen. Larger page sizes are
+good for loading efficiency, but can increase latency to show updates._
+
+In `GithubRepository.search()` method, make the following changes:
+
+ * Remove the `lastRequestedPage` initialization and the call to `requestAndSaveData()`, but don't 
+   completely remove this function for now.
+ * Create a new variable to hold the `DataSource.Factory` from `cache.reposByName()`:
+   ```java
+   // Get data source factory from the local cache
+   DataSource.Factory<Integer, Repo> dataSourceFactory = cache.reposByName(query);
+   ``` 
+ * In the `search()` function, construct the data value from a `LivePagedListBuilder`. The 
+   `LivePagedListBuilder` is constructed using the `dataSourceFactory` and the database page size 
+   that you each defined earlier.
+   ```java
+   public RepoSearchResult search(String query) {
+       // Get data source factory from the local cache
+       DataSource.Factory<Integer, Repo> dataSourceFactory = cache.reposByName(query);
+   
+       // Get the paged list
+       LiveData<PagedList<Repo>> data = new LivePagedListBuilder<>(dataSourceFactory, DATABASE_PAGE_SIZE).build();
+   
+       // Get the network errors exposed by the boundary callback
+       return new RepoSearchResult(data, networkErrors);
+   }
+   ```
 
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
