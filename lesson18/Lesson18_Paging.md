@@ -125,6 +125,31 @@ viewModel.repos.observe(this, (PagedList<Repo> repos) -> {
     });
 ```
 
+## 5. Define the source of data for the paged list
+
+The `PagedList` loads content dynamically from a source. In our case, because the database is the 
+main source of truth for the UI, it also represents the source for the `PagedList`. If your app gets
+data directly from the network and displays it without caching, then the class that makes network 
+requests would be your data source.
+
+A source is defined by a [DataSource] class. To page in data from a source that can change—such as a
+source that allows inserting, deleting or updating data—you will also need to implement a 
+`DataSource.Factory` that knows how to create the `DataSource`. Whenever the data set is updated,
+the `DataSource` is invalidated and re-created automatically through the `DataSource.Factory`.
+
+The Room persistence library provides native support for data sources associated with the `Paging`
+library. For a given query, Room allows you to return a `DataSource.Factory` from the DAO and 
+handles the implementation of the `DataSource` for you.
+
+**Update the code to get a `DataSource.Factory` from Room:**
+
+ * `RepoDao`: update the `reposByName()` function to return a `DataSource.Factory<Int, Repo>`.
+   ```java
+   DataSource.Factory<Integer, Repo> reposByName(String queryString)
+   ```
+ * `GithubLocalCache` uses this function. Change the return type of `reposByName` function to be
+   `DataSource.Factory<Integer, Repo>`.
+
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
 [Guide to App Architecture]: https://developer.android.com/jetpack/docs/guide

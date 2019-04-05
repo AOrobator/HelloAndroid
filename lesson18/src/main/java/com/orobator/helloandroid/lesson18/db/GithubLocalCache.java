@@ -1,7 +1,7 @@
 package com.orobator.helloandroid.lesson18.db;
 
 import android.util.Log;
-import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import com.orobator.helloandroid.lesson18.model.Repo;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -37,7 +37,7 @@ public class GithubLocalCache {
    *
    * @param name repository name
    */
-  public LiveData<List<Repo>> reposByName(String name) {
+  public DataSource.Factory<Integer, Repo> reposByName(String name) {
     // appending '%' so we can allow other characters to be before and after
     // the query string
     String query = "%" + name.replace(' ', '%') + "%";
