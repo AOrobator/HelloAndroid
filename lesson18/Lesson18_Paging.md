@@ -340,6 +340,40 @@ That's it! With the current setup, the Paging library components are the ones tr
 requests at the right time, saving data in the database, and displaying the data. So, run the app 
 and search for repositories.
 
+## 9. Wrap up
+Now that we added all the components, let's take a step back and see how everything works together.
+
+The `DataSource.Factory` (implemented by Room) creates the `DataSource`. Then, 
+`LivePagedListBuilder` builds the `LiveData<PagedList>`, using the passed-in `DataSource.Factory`, 
+`BoundaryCallback`, and `PagedList` configuration. This `LivePagedListBuilder` object is responsible 
+for creating `PagedList` objects. When a `PagedList` is created, two things happen at the same time:
+
+ * The `LiveData` emits the new `PagedList` to the `ViewModel`, which in turn passes it to the UI. 
+   The UI observes the changed `PagedList` and uses its `PagedListAdapter` to update the 
+   `RecyclerView` that presents the `PagedList` data. (represented in the following animation by an 
+   empty square).
+ * The `PagedList` tries to get the first chunk of data from the `DataSource`. When the 
+   `DataSource` is empty, for example when the app is started for the first time and the database is 
+   empty, it calls `BoundaryCallback.onZeroItemsLoaded()`. In this method, the `BoundaryCallback` 
+   requests more data from the network and inserts the response data in the database.
+
+![page_list_loading]
+
+After the data is inserted in the `DataSource`, a new `PagedList` object is created (represented in 
+the following animation by a filled-in square). This new data object is then passed to the 
+`ViewModel` and UI using `LiveData` and displayed with the help of the `PagedListAdapter`.
+
+![updating_adapter]
+
+When the user scrolls, the `PagedList` requests that the `DataSource` load more data, querying the 
+database for the next chunk of data. When the `PagedList` paged all the available data from the 
+`DataSource`, `BoundaryCallback.onItemAtEndLoaded()` is called. The `BoundaryCallback` requests data 
+from the network and inserts the response data in the database. The UI then gets re-populated based 
+on the newly-loaded data.
+
+![updating_adapter]      
+
+
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
 [Guide to App Architecture]: https://developer.android.com/jetpack/docs/guide
@@ -353,3 +387,6 @@ and search for repositories.
 [PagedListAdapter]: https://developer.android.com/reference/androidx/paging/PagedListAdapter
 [DiffUtil]: https://developer.android.com/reference/androidx/recyclerview/widget/DiffUtil
 [github_app]: img/github_app.png "Github app you'll be building"
+[page_list_loading]: img/page_list_loading.png "Initial PagedList loading"
+[updating_adapter]: img/updating_adapter.png "Updating the adapter"
+[updating_adapter]: img/fetching_more_data.png "Fetching more data on scroll"
