@@ -55,6 +55,37 @@ In this codelab, you implement examples of each of the components described abov
 
 ## 3. Project overview
 
+![github_app]
+
+The app allows you to search GitHub for repositories whose name or description contains a specific 
+word. The list of repositories is displayed, in descending order based on the number of stars, then 
+by the name. The database is the source of truth for data that is displayed by the UI, and it's 
+backed by network requests.
+
+The list of repositories, by name, is retrieved via a `LiveData` object in `RepoDao.reposByName`. 
+Whenever new data from the network is inserted into the database, the `LiveData` will emit again with 
+the entire result of the query.
+
+The current implementation has two memory/performance issues:
+
+ * The entire **repo** table of the database is loaded at once.
+ * The entire list of results from the database is kept in memory.
+ 
+The app follows the architecture recommended in the "Guide to App Architecture", using Room as local
+data storage. Here's what you will find in each package:
+
+ * **api** - contains Github API calls, using Retrofit
+ * **db** - database cache for network data
+ * **data** - contains the repository class, responsible for triggering API requests and saving the 
+   response in the database
+ * **ui** - contains classes related to displaying an `Activity` with a `RecyclerView`
+ * **model** - contains the `Repo` data model, which is also a table in the Room database; and 
+   `RepoSearchResult`, a class that is used by the UI to observe both search results data and network errors
+
+__Caution: The `GithubRepository` and `Repo` classes have similar names but serve very different 
+purposes.The repository class, `GithubRepository`, works with `Repo` data objects that represent 
+GitHub code repositories.__
+
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html
 [Guide to App Architecture]: https://developer.android.com/jetpack/docs/guide
@@ -67,3 +98,4 @@ In this codelab, you implement examples of each of the components described abov
 [BoundaryCallback]: https://developer.android.com/reference/androidx/paging/PagedList.BoundaryCallback
 [PagedListAdapter]: https://developer.android.com/reference/androidx/paging/PagedListAdapter
 [DiffUtil]: https://developer.android.com/reference/androidx/recyclerview/widget/DiffUtil
+[github_app]: img/github_app.png "Github app you'll be building"
