@@ -2,15 +2,15 @@ package com.orobator.helloandroid.lesson18.ui;
 
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orobator.helloandroid.lesson18.model.Repo;
 
 /**
  * Adapter for the list of repositories
  */
-class ReposAdapter extends ListAdapter<Repo, RecyclerView.ViewHolder> {
+class ReposAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder> {
   private static final DiffUtil.ItemCallback<Repo> REPO_COMPARATOR =
       new DiffUtil.ItemCallback<Repo>() {
         @Override public boolean areItemsTheSame(@NonNull Repo oldItem, @NonNull Repo newItem) {

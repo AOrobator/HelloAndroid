@@ -201,6 +201,18 @@ In `GithubRepository.search()` method, make the following changes:
        return new RepoSearchResult(data, networkErrors);
    }
    ```
+   
+## 7. Make the RecyclerView Adapter work with a PagedList
+To bind a `PagedList` to a `RecycleView`, use a [PagedListAdapter]. The `PagedListAdapter` gets 
+notified whenever the `PagedList` content is loaded and then signals the `RecyclerView` to update.
+
+**Update the `ReposAdapter` to work with a `PagedList`:**
+
+ * Right now, `ReposAdapter` is a `ListAdapter`. Make it a `PagedListAdapter`:
+   ```java
+   class ReposAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
+   ```
+Our app finally compiles! Run it, and check out how it works.
 
 [Paging library]: https://developer.android.com/topic/libraries/architecture/paging
 [Paging Codelab]: https://codelabs.developers.google.com/codelabs/android-paging/index.html

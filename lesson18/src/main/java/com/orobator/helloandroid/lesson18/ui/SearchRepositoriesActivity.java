@@ -70,7 +70,7 @@ public class SearchRepositoriesActivity extends AppCompatActivity {
       if (repos != null) {
         size = repos.size();
       }
-      Log.d("Activity", "list: " + size + "");
+      Log.d(SearchRepositoriesActivity.class.getSimpleName(), "list: " + size + "");
       showEmptyList(size == 0);
       adapter.submitList(repos);
     });
@@ -106,6 +106,7 @@ public class SearchRepositoriesActivity extends AppCompatActivity {
   private void updateRepoListFromInput() {
     String input = searchRepoEditText.getText().toString().trim();
     if (!TextUtils.isEmpty(input)) {
+      Log.d(SearchRepositoriesActivity.class.getSimpleName(), "Got input: " + input);
       list.scrollToPosition(0);
       viewModel.searchRepo(input);
       adapter.submitList(null);
