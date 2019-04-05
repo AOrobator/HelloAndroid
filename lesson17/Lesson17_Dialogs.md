@@ -231,8 +231,8 @@ public class NoticeDialogFragment extends DialogFragment {
 }
 ```
 
-It's also possible to send events back to the host activity through the `ViewModel`. In that case, you
-would get the appropriate `ViewModel` and call `viewModel.onNegativeButtonClicked()` and 
+It's also possible to send events back to the host activity through the `ViewModel`. In that case, 
+you would get the appropriate `ViewModel` and call `viewModel.onNegativeButtonClicked()` and 
 `viewModel.onPositiveButtonClicked()`.
 
 ## Dialog Lab
